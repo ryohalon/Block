@@ -13,7 +13,7 @@ public:
 	SceneManager();
 	~SceneManager();
 
-	static SceneManager Get()
+	static SceneManager& Get()
 	{
 		static SceneManager scene_manager;
 
