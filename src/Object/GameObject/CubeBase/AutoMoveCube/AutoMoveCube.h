@@ -1,9 +1,9 @@
 #pragma once
-#include "../GameObject.h"
+#include "../CubeBase.h"
 
 
 
-class AutoMoveCube : public GameObject
+class AutoMoveCube : public CubeBase
 {
 public:
 
@@ -36,6 +36,6 @@ private:
 	ci::Quatf now_quat, prev_quat;
 	float rotate_angle;
 	float time, take_time;
-	bool is_moving;
+	bool is_move, is_moving;
 	MoveDirection move_direction;
 };

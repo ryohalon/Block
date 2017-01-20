@@ -1,9 +1,9 @@
 #pragma once
 #include "cinder/Camera.h"
 #include "cinder/MayaCamUI.h"
-#include "../GameObject.h"
-#include "../../../Utillity/Input/Mouse/Mouse.h"
-#include "../../../Utillity/Input/Key/Key.h"
+#include "../../Object/GameObject/GameObject.h"
+#include "../../Utillity/Input/Mouse/Mouse.h"
+#include "../../Utillity/Input/Key/Key.h"
 
 
 class MainCamera : public GameObject

@@ -88,6 +88,18 @@
     <Filter Include="Source Files\Scene\Category\Option">
       <UniqueIdentifier>{655d5ad9-6d2c-4bbf-9404-b92dbc110a06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Object\GameObject\CubeBase">
+      <UniqueIdentifier>{7668a490-f1f1-43c0-931e-c80270a0f97d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\GameObject\CubeBase\AutoMoveCube">
+      <UniqueIdentifier>{d961ef67-9816-4d61-a987-de5b83cf6442}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\GameObject\CubeBase\ShrinkCube">
+      <UniqueIdentifier>{aa9c820c-fb8c-4e83-b65a-bf7162b092a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\GameObject\CubeBase\VanishCube">
+      <UniqueIdentifier>{db30165d-e518-484f-9064-ae8941d50a4a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -123,9 +135,6 @@
     <ClInclude Include="..\src\Object\Component\Transform\Transform.h">
       <Filter>Source Files\Component\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Object\GameObject\GameObject.h">
-      <Filter>Source Files\Object\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Object\GameObject\SkyDome\SkyDome.h">
       <Filter>Source Files\Object\GameObject\SkyDome</Filter>
     </ClInclude>
@@ -152,6 +161,24 @@
     </ClInclude>
     <ClInclude Include="..\src\Scene\SceneBase.h">
       <Filter>Source Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\NotUse\MainCamera\MainCamera.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Object\GameObject\GameObject.h">
+      <Filter>Source Files\Object\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Object\GameObject\CubeBase\CubeBase.h">
+      <Filter>Source Files\Object\GameObject\CubeBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Object\GameObject\CubeBase\AutoMoveCube\AutoMoveCube.h">
+      <Filter>Source Files\Object\GameObject\CubeBase\AutoMoveCube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Object\GameObject\CubeBase\ShrinkCube\ShrinkCube.h">
+      <Filter>Source Files\Object\GameObject\CubeBase\ShrinkCube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Object\GameObject\CubeBase\VanishCube\VanishCube.h">
+      <Filter>Source Files\Object\GameObject\CubeBase\VanishCube</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +233,18 @@
     </ClCompile>
     <ClCompile Include="..\src\MainProject.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\NotUse\MainCamera\MainCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Object\GameObject\CubeBase\AutoMoveCube\AutoMoveCube.cpp">
+      <Filter>Source Files\Object\GameObject\CubeBase\AutoMoveCube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Object\GameObject\CubeBase\ShrinkCube\ShrinkCube.cpp">
+      <Filter>Source Files\Object\GameObject\CubeBase\ShrinkCube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Object\GameObject\CubeBase\VanishCube\VanishCube.cpp">
+      <Filter>Source Files\Object\GameObject\CubeBase\VanishCube</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

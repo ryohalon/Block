@@ -1,7 +1,7 @@
 #include "AutoMoveCube.h"
-#include "../../../Utillity/Manager/EasingManager/Easing/Easing.h"
-#include "../../../Utillity/Manager/TimeManager/TimeManager.h"
-#include "../../../Utillity/Input/Mouse/Mouse.h"
+#include "../../../../Utillity/Manager/EasingManager/Easing/Easing.h"
+#include "../../../../Utillity/Manager/TimeManager/TimeManager.h"
+#include "../../../../Utillity/Input/Mouse/Mouse.h"
 
 AutoMoveCube::AutoMoveCube() :
 	start_pos(ci::Vec3f::zero()),
@@ -10,7 +10,8 @@ AutoMoveCube::AutoMoveCube() :
 	prev_quat(ci::Quatf::identity()),
 	rotate_angle(0.0f),
 	time(0.0f),
-	take_time(50.0f),
+	take_time(1.0f),
+	is_move(false),
 	is_moving(false),
 	move_direction(MoveDirection::FRONT)
 {
@@ -29,8 +30,10 @@ void AutoMoveCube::Update()
 	MoveStart();
 	Moving();
 
-	if (Mouse::Get().IsPullButton(ci::app::MouseEvent::LEFT_DOWN))
+	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::LEFT_DOWN))
 		ChangeMoveDirection();
+	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::RIGHT_DOWN))
+		is_move != is_move;
 }
 
 void AutoMoveCube::Draw()
@@ -42,6 +45,8 @@ void AutoMoveCube::Draw()
 	ci::Matrix44f mscale = ci::Matrix44f::createScale(transform.scale);
 	matrix = mtranstale * mrotate * mscale;
 	glMultMatrixf(matrix);
+
+	ci::gl::color(color);
 
 	ci::gl::drawCube(ci::Vec3f::zero(), ci::Vec3f::one());
 

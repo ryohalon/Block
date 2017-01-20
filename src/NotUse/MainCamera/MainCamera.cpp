@@ -8,8 +8,8 @@ void MainCamera::ChangeMode()
 	operation_mode = (operation_mode == OperationMode::KEY_MODE) ?
 		OperationMode::MOUSE_MODE : OperationMode::KEY_MODE;
 
-	transform.position = maya_camera.getCamera().getEyePoint();
-	ci::Vec3f center_of_interest_point = maya_camera.getCamera().getCenterOfInterestPoint() - transform.position;
+	transform.pos = maya_camera.getCamera().getEyePoint();
+	ci::Vec3f center_of_interest_point = maya_camera.getCamera().getCenterOfInterestPoint() - transform.pos;
 
 	theta.x = asin(center_of_interest_point.y);
 	theta.y;
@@ -27,21 +27,21 @@ void MainCamera::KeyMove()
 	// sin,cos‚ðŽg‚Á‚½ˆÚ“®‚ÌŒvŽZ•û–@
 	if (Key::Get().IsPressKey(ci::app::KeyEvent::KEY_a))
 	{
-		transform.position += move_speed * ci::Vec3f(
+		transform.pos += move_speed * ci::Vec3f(
 			cos(theta.y) * cos(theta.x),
 			0.0f,
 			-sin(theta.y) * cos(theta.x));
 	}
 	if (Key::Get().IsPressKey(ci::app::KeyEvent::KEY_d))
 	{
-		transform.position -= move_speed * ci::Vec3f(
+		transform.pos -= move_speed * ci::Vec3f(
 			cos(theta.y) * cos(theta.x),
 			0.0f,
 			-sin(theta.y) * cos(theta.x));
 	}
 	if (Key::Get().IsPressKey(ci::app::KeyEvent::KEY_w))
 	{
-		transform.position += move_speed * ci::Vec3f(
+		transform.pos += move_speed * ci::Vec3f(
 			sin(theta.y) * cos(theta.x),
 			sin(theta.x),
 			cos(theta.y) * cos(theta.x)
@@ -49,7 +49,7 @@ void MainCamera::KeyMove()
 	}
 	if (Key::Get().IsPressKey(ci::app::KeyEvent::KEY_s))
 	{
-		transform.position -= move_speed * ci::Vec3f(
+		transform.pos -= move_speed * ci::Vec3f(
 			sin(theta.y) * cos(theta.x),
 			sin(theta.x),
 			cos(theta.y) * cos(theta.x)
@@ -58,7 +58,7 @@ void MainCamera::KeyMove()
 	//////////////////////////////////////////////////////////////////////
 
 	ci::CameraPersp camera_persp = maya_camera.getCamera();
-	camera_persp.setEyePoint(transform.position);
+	camera_persp.setEyePoint(transform.pos);
 	maya_camera.setCurrentCam(camera_persp);
 }
 
@@ -110,18 +110,18 @@ void MainCamera::MouseMoveAndRotate()
 	if (operation_mode != OperationMode::MOUSE_MODE)
 		return;
 
-	if (MOUSE.IsPushButton())
-		maya_camera.mouseDown(MOUSE.GetMousePosition());
+	if (Mouse::Get().IsPushButton())
+		maya_camera.mouseDown(Mouse::Get().GetMousePosition());
 
-	maya_camera.mouseDrag(MOUSE.GetMousePosition(),
-		MOUSE.IsPressButton(ci::app::MouseEvent::RIGHT_DOWN),
-		MOUSE.IsPressButton(ci::app::MouseEvent::MIDDLE_DOWN),
+	maya_camera.mouseDrag(Mouse::Get().GetMousePosition(),
+		Mouse::Get().IsPressButton(ci::app::MouseEvent::RIGHT_DOWN),
+		Mouse::Get().IsPressButton(ci::app::MouseEvent::MIDDLE_DOWN),
 		false);
 
 	ci::CameraPersp camera_persp = maya_camera.getCamera();
 	camera_persp.setEyePoint(camera_persp.getEyePoint() +
 		camera_persp.getViewDirection() *
-		MOUSE.GetMouseWheelValue());
+		Mouse::Get().GetMouseWheelValue());
 	maya_camera.setCurrentCam(camera_persp);
 }
 
@@ -154,9 +154,9 @@ MainCamera::~MainCamera()
 
 void MainCamera::Setup()
 {
-	transform.position = ci::Vec3f(0.0f, 0.0f, -10.0f);
+	transform.pos = ci::Vec3f(0.0f, 0.0f, -10.0f);
 	ci::CameraPersp camera_persp;
-	camera_persp.setEyePoint(transform.position);
+	camera_persp.setEyePoint(transform.pos);
 	camera_persp.setCenterOfInterestPoint(camera_persp.getEyePoint()
 		+ eye_direction);
 	camera_persp.setPerspective(45.0f,
@@ -173,9 +173,9 @@ void MainCamera::Setup(const ci::Vec3f &pos,
 	const float &near_plane,
 	const float &far_plane)
 {
-	transform.position = pos;
+	transform.pos = pos;
 	ci::CameraPersp camera_persp;
-	camera_persp.setEyePoint(transform.position);
+	camera_persp.setEyePoint(transform.pos);
 
 	this->eye_direction = eye_direction;
 	camera_persp.setCenterOfInterestPoint(camera_persp.getEyePoint()
