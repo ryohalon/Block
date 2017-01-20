@@ -1,6 +1,9 @@
 #include "cinder/app/AppNative.h"
 #include "Scene/SceneManager/SceneManager.h"
-
+#include <ctime>
+#include <random>
+#include "NotUse/MainCamera/MainCamera.h"
+#include "Object/GameObject/AutoMoveCube/AutoMoveCube.h"
 
 
 class MainProject : public ci::app::AppNative
@@ -12,6 +15,9 @@ private:
 		WIDTH = 1024,
 		HEIGHT = 786
 	};
+
+	AutoMoveCube auto_move_cube;
+	MainCamera camera;
 
 public:
 	void prepareSettings(Settings *settings) override;
@@ -38,8 +44,12 @@ void MainProject::setup()
 {
 	//SoundManager::Get().Setup();
 	TextureManager::Get().Setup();
-
+	
 	SceneManager::Get().Setup();
+
+	srand((unsigned)time(nullptr));
+	auto_move_cube.Setup();
+	camera.Setup();
 
 	ci::gl::enableAlphaBlending();
 	ci::gl::enableDepthRead();
@@ -54,7 +64,12 @@ void MainProject::resize()
 
 void MainProject::update()
 {
-	SceneManager::Get().Update();
+	TimeManager::Get().Update(getElapsedFrames(), getElapsedSeconds());
+
+	//SceneManager::Get().Update();
+
+	camera.Update();
+	auto_move_cube.Update();
 
 	Mouse::Get().FlushInput();
 	Key::Get().FlushInput();
@@ -62,7 +77,15 @@ void MainProject::update()
 
 void MainProject::draw()
 {
-	SceneManager::Get().Draw();
+	//SceneManager::Get().Draw();
+
+	ci::gl::clear();
+	ci::gl::pushModelView();
+	camera.Draw();
+
+	auto_move_cube.Draw();
+
+	ci::gl::popModelView();
 }
 
 void MainProject::mouseMove(ci::app::MouseEvent event)
