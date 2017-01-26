@@ -100,6 +100,9 @@
     <Filter Include="Source Files\Object\GameObject\CubeBase\VanishCube">
       <UniqueIdentifier>{db30165d-e518-484f-9064-ae8941d50a4a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Object\MapManager">
+      <UniqueIdentifier>{057c5d5c-2844-4639-859a-1c15826c352a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -180,6 +183,9 @@
     <ClInclude Include="..\src\Object\GameObject\CubeBase\VanishCube\VanishCube.h">
       <Filter>Source Files\Object\GameObject\CubeBase\VanishCube</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Object\MapManager\MapManager.h">
+      <Filter>Source Files\Object\MapManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -245,6 +251,9 @@
     </ClCompile>
     <ClCompile Include="..\src\Object\GameObject\CubeBase\VanishCube\VanishCube.cpp">
       <Filter>Source Files\Object\GameObject\CubeBase\VanishCube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Object\MapManager\MapManager.cpp">
+      <Filter>Source Files\Object\MapManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

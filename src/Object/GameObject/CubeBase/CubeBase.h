@@ -8,11 +8,19 @@ class CubeBase : public GameObject
 public:
 
 	CubeBase() :
-		color(ci::ColorA::white())
+		material(ci::gl::Material(ci::ColorA(0, 0, 0, 1)))
+	{}
+	CubeBase(const ci::Vec3f &pos,
+		const ci::Vec3f &angle,
+		const ci::Vec3f &scale,
+		const ci::gl::Material &material):
+		GameObject(Transform(pos, angle, scale)),
+		material(material)
 	{}
 	virtual ~CubeBase() {}
 
-	void SetColor(const ci::ColorA &color_) { color = color_; }
+	ci::gl::Material GetMaterial() const { return material; }
+	void SetMaterial(const ci::gl::Material &material_) { material = material_; }
 
 	virtual void Setup() override
 	{
@@ -25,7 +33,7 @@ public:
 
 		glMultMatrixf(matrix);
 
-		ci::gl::color(color);
+		material.apply();
 		ci::gl::drawCube(ci::Vec3f::zero(), ci::Vec3f::one());
 
 		ci::gl::popModelView();
@@ -33,5 +41,5 @@ public:
 
 protected:
 
-	ci::ColorA color;
+	ci::gl::Material material;
 };

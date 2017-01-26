@@ -28,7 +28,8 @@ void VanishCube::Draw()
 	ci::gl::pushModelView();
 
 	glMultMatrixf(matrix);
-	ci::gl::color(color);
+
+	material.apply();
 
 	if (is_vanish)
 		ci::gl::drawStrokedCube(ci::Vec3f::zero(), ci::Vec3f::one());

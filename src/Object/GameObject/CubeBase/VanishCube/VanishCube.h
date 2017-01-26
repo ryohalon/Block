@@ -11,6 +11,7 @@ public:
 
 	bool GetIsVanish() const { return is_vanish; }
 	void SetIsVanish(const bool &is_vanish_) { is_vanish = is_vanish_; }
+	void ChangeVanish() { is_vanish = !is_vanish; }
 
 	void Setup() override;
 	void Update() override;

@@ -17,9 +17,16 @@ public:
 	};
 
 	AutoMoveCube();
+	AutoMoveCube(const ci::Vec3f &pos,
+		const ci::Vec3f &angle,
+		const ci::Vec3f &scale,
+		const ci::gl::Material &material,
+		const float &take_time,
+		const MoveDirection &move_direction);
 	~AutoMoveCube();
 
 	void Setup() override;
+	void Setup(const ci::JsonTree &json);
 	void Update() override;
 	void Draw() override;
 

@@ -2,6 +2,7 @@
 #include "cinder/Matrix.h"
 #include "cinder/gl/gl.h"
 #include "cinder/gl/Material.h"
+#include "cinder/Json.h"
 #include "../Object.h"
 #include "../Component/Transform/Transform.h"
 #include "../../Utillity/Manager/SoundManager/SoundManager.h"
@@ -14,11 +15,12 @@ class GameObject : public Object
 public:
 
 	GameObject() :
-		matrix(ci::Matrix44f::identity()),
-		transform(Transform())
+		transform(Transform()),
+		matrix(ci::Matrix44f::identity())
 	{}
 	GameObject(const Transform &transform) :
-		transform(transform)
+		transform(transform),
+		matrix(ci::Matrix44f::identity())
 	{
 
 	}
@@ -26,14 +28,12 @@ public:
 
 	Transform GetTransform() const { return transform; }
 	ci::Matrix44f GetMatrix() const { return matrix; }
-	ci::gl::Material GetMaterial() const { return material; }
 	bool GetIsStop() const { return is_stop; }
 
 	void SetPos(const ci::Vec3f &pos_) { transform.pos = pos_; }
 	void SetAngle(const ci::Vec3f &angle_) { transform.angle = angle_; }
 	void SetScale(const ci::Vec3f &scale_) { transform.scale = scale_; }
 	void SetMatrix(const ci::Matrix44f &matrix_) { matrix = matrix_; }
-	void SetMaterial(const ci::gl::Material &material_) { material = material_; }
 	void SetIsStop(const bool &is_stop_) { is_stop = is_stop_; }
 
 	void UpdateMatrix()
@@ -46,6 +46,7 @@ public:
 	}
 
 	virtual void Setup() {};
+	virtual void Setup(const ci::JsonTree &json) {}
 	virtual void Update() {};
 	virtual void Draw() {};
 
@@ -53,7 +54,6 @@ protected:
 
 	Transform transform;
 	ci::Matrix44f matrix;
-	ci::gl::Material material;
 	bool is_stop;
 
 };

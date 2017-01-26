@@ -8,12 +8,20 @@ class ShrinkCube : public CubeBase
 public:
 
 	ShrinkCube();
+	ShrinkCube(const ci::Vec3f &pos,
+		const ci::Vec3f &angle,
+		const ci::Vec3f &scale,
+		const ci::gl::Material &material,
+		const bool &is_shrink,
+		const ci::Vec3f &shrink_value,
+		const float &take_time);
 	~ShrinkCube();
 
 	bool GetIsShrink() const { return is_shrink; }
 	bool GetIsShrinking() const { return is_shrinking; }
 	void SetIsShrink(const bool &is_shrink_) { is_shrink = is_shrink_; }
 	void SetShrinkValue(const ci::Vec3f &shrink_value_) { shrink_value = shrink_value_; }
+	void SetOriginPos(const ci::Vec3f &origin_pos_) { origin_pos = origin_pos_; }
 	void SetOriginScale(const ci::Vec3f &origin_scale_) { origin_scale = origin_scale_; }
 
 	void AlreadyShrink();
