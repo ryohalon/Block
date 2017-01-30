@@ -4,6 +4,7 @@
 #include "Object/GameObject/SkyDome/SkyDome.h"
 #include "Object/GameObject/CubeBase/AutoMoveCube/AutoMoveCube.h"
 #include "Object/GameObject/CubeBase/ShrinkCube/ShrinkCube.h"
+#include "Object/MapManager/MapManager.h"
 
 
 
@@ -21,7 +22,7 @@ private:
 	MainCamera camera;
 	std::vector<CubeBase*> cubes;
 	SkyDome sky_dome;
-	
+	MapManager mapmanager;
 
 public:
 	void prepareSettings(Settings *settings) override;
@@ -65,6 +66,8 @@ void MainProject::setup()
 			cubes.push_back(cube);
 		}
 	}
+
+	mapmanager.Setup(1, 1);
 
 	ShrinkCube *shrink_cube = new ShrinkCube();
 	shrink_cube->SetPos(ci::Vec3f(30.0f, -1.0f, 30.0f));

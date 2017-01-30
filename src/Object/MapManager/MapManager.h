@@ -11,6 +11,7 @@ public:
 
 	enum class CubeType
 	{
+		NONE = -1,
 		NORMAL,
 		SHRINK,
 		VANISH
@@ -26,6 +27,7 @@ public:
 
 private:
 
-	std::vector<CubeBase*> map;
+	std::vector<CubeBase*> cubes;
+	std::vector<std::vector<std::vector<int>>> cube_types;
 	
 };
