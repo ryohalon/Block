@@ -8,14 +8,17 @@ class CubeBase : public GameObject
 public:
 
 	CubeBase() :
-		material(ci::gl::Material(ci::ColorA(0, 0, 0, 1)))
+		material(ci::gl::Material(ci::ColorA(0, 0, 0, 1))),
+		map_pos(ci::Vec3i::zero())
 	{}
 	CubeBase(const ci::Vec3f &pos,
 		const ci::Vec3f &angle,
 		const ci::Vec3f &scale,
-		const ci::gl::Material &material):
+		const ci::gl::Material &material,
+		const ci::Vec3i &map_pos):
 		GameObject(Transform(pos, angle, scale)),
-		material(material)
+		material(material),
+		map_pos(map_pos)
 	{}
 	virtual ~CubeBase() {}
 
@@ -42,4 +45,6 @@ public:
 protected:
 
 	ci::gl::Material material;
+
+	ci::Vec3i map_pos;
 };

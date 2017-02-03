@@ -21,6 +21,7 @@ public:
 		const ci::Vec3f &angle,
 		const ci::Vec3f &scale,
 		const ci::gl::Material &material,
+		const ci::Vec3i &map_pos,
 		const float &take_time,
 		const MoveDirection &move_direction);
 	~AutoMoveCube();

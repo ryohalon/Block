@@ -2,8 +2,8 @@
 #include "cinder/Camera.h"
 #include "cinder/MayaCamUI.h"
 #include "../../Object/GameObject/GameObject.h"
-#include "../../Utillity/Input/Mouse/Mouse.h"
-#include "../../Utillity/Input/Key/Key.h"
+#include "../../Utility/Input/Mouse/Mouse.h"
+#include "../../Utility/Input/Key/Key.h"
 
 
 class MainCamera : public GameObject

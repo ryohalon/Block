@@ -1,7 +1,7 @@
 #include "ShrinkCube.h"
-#include "../../../../Utillity/Manager/TimeManager/TimeManager.h"
-#include "../../../../Utillity/Manager/EasingManager/Easing/Easing.h"
-#include "../../../../Utillity/Input/Key/Key.h"
+#include "../../../../Utility/Manager/TimeManager/TimeManager.h"
+#include "../../../../Utility/Manager/EasingManager/Easing/Easing.h"
+#include "../../../../Utility/Input/Key/Key.h"
 
 ShrinkCube::ShrinkCube() :
 	is_shrink(false),
@@ -21,10 +21,11 @@ ShrinkCube::ShrinkCube(const ci::Vec3f & pos,
 	const ci::Vec3f & angle,
 	const ci::Vec3f & scale,
 	const ci::gl::Material & material,
+	const ci::Vec3i & map_pos,
 	const bool & is_shrink,
 	const ci::Vec3f & shrink_value,
 	const float & take_time) :
-	CubeBase(pos, angle, scale, material),
+	CubeBase(pos, angle, scale, material, map_pos),
 	is_shrink(is_shrink),
 	is_shrinking(false),
 	shrink_value(shrink_value),

@@ -5,8 +5,8 @@
 #include "cinder/Json.h"
 #include "../Object.h"
 #include "../Component/Transform/Transform.h"
-#include "../../Utillity/Manager/SoundManager/SoundManager.h"
-#include "../../Utillity/Manager/TextureManager/TextureManager.h"
+#include "../../Utility/Manager/SoundManager/SoundManager.h"
+#include "../../Utility/Manager/TextureManager/TextureManager.h"
 
 
 

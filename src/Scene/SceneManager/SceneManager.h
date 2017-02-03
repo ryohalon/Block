@@ -5,7 +5,6 @@
 #include "../Category/Option/Option.h"
 
 
-
 class SceneManager
 {
 public:
@@ -30,4 +29,6 @@ private:
 	void ChangeScene();
 
 	std::shared_ptr<SceneBase> now_scene;
+
+	ci::CameraOrtho ui_camera;
 };

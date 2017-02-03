@@ -17,7 +17,7 @@ void SceneManager::Resize()
 
 void SceneManager::Setup()
 {
-	now_scene = std::make_shared<Title>();
+	now_scene = std::make_shared<GameMain>();
 	now_scene->Setup();
 }
 

@@ -12,6 +12,7 @@ public:
 		const ci::Vec3f &angle,
 		const ci::Vec3f &scale,
 		const ci::gl::Material &material,
+		const ci::Vec3i &map_pos,
 		const bool &is_shrink,
 		const ci::Vec3f &shrink_value,
 		const float &take_time);

@@ -1,5 +1,6 @@
 #pragma once
 #include "../../SceneBase.h"
+#include "../../../Object/MapManager/MapManager.h"
 
 
 
@@ -17,5 +18,5 @@ public:
 
 private:
 
-
+	MapManager map_manager;
 };

@@ -1,10 +1,10 @@
 #pragma once
 #include "cinder/Camera.h"
-#include "../Utillity/Input/Key/Key.h"
-#include "../Utillity/Input/Mouse/Mouse.h"
-#include "../Utillity/Manager/TimeManager/TimeManager.h"
-#include "../Utillity/Manager/TextureManager/TextureManager.h"
-#include "../Utillity/Manager/SoundManager/SoundManager.h"
+#include "../Utility/Input/Key/Key.h"
+#include "../Utility/Input/Mouse/Mouse.h"
+#include "../Utility/Manager/TimeManager/TimeManager.h"
+#include "../Utility/Manager/TextureManager/TextureManager.h"
+#include "../Utility/Manager/SoundManager/SoundManager.h"
 
 enum class SceneType
 {
