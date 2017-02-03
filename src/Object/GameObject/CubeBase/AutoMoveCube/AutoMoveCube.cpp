@@ -2,6 +2,7 @@
 #include "../../../../Utility/Manager/EasingManager/Easing/Easing.h"
 #include "../../../../Utility/Manager/TimeManager/TimeManager.h"
 #include "../../../../Utility/Input/Mouse/Mouse.h"
+#include "../../../../Utility/Utility.h"
 
 AutoMoveCube::AutoMoveCube() :
 	start_pos(ci::Vec3f::zero()),
@@ -50,9 +51,12 @@ void AutoMoveCube::Setup()
 
 }
 
-void AutoMoveCube::Setup(const ci::JsonTree & json)
+void AutoMoveCube::Setup(const ci::JsonTree & params)
 {
-	
+	transform.pos = GetVec3f(params["start_pos"]);
+	transform.scale = GetVec3f(params["scale"]);
+	map_pos = GetVec3i(params["map_pos"]);
+	move_direction = static_cast<MoveDirection>(params.getValueForKey<int>("start_move_direction"));
 }
 
 void AutoMoveCube::Update()
@@ -63,17 +67,38 @@ void AutoMoveCube::Update()
 	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::LEFT_DOWN))
 		ChangeMoveDirection();
 	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::RIGHT_DOWN))
-		is_move != is_move;
+		is_move = !is_move;
 }
 
 void AutoMoveCube::Draw()
 {
 	ci::gl::pushModelView();
 
+	ci::Matrix44f mrotate_axis;
+	switch (move_direction)
+	{
+	case MoveDirection::FRONT:
+		mrotate_axis = ci::Matrix44f::createTranslation(
+			transform.scale * ci::Vec3f(0.0f, -0.5f, 0.5f));
+		break;
+	case MoveDirection::RIGHT:
+		mrotate_axis = ci::Matrix44f::createTranslation(
+			transform.scale * ci::Vec3f(-0.5f, -0.5f, 0.0f));
+		break;
+	case MoveDirection::BACK:
+		mrotate_axis = ci::Matrix44f::createTranslation(
+			transform.scale * ci::Vec3f(0.0f, -0.5f, -0.5f));
+		break;
+	case MoveDirection::LEFT:
+		mrotate_axis = ci::Matrix44f::createTranslation(
+			transform.scale * ci::Vec3f(0.5f, -0.5f, 0.0f));
+		break;
+	}
+
 	ci::Matrix44f mtranstale = ci::Matrix44f::createTranslation(transform.pos);
 	ci::Matrix44f mrotate = now_quat.toMatrix44();
 	ci::Matrix44f mscale = ci::Matrix44f::createScale(transform.scale);
-	matrix = mtranstale * mrotate * mscale;
+	matrix = mtranstale * mrotate_axis * mrotate * mrotate_axis * mscale;
 	glMultMatrixf(matrix);
 
 	material.apply();

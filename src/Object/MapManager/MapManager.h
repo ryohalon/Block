@@ -22,6 +22,7 @@ public:
 
 	void Setup(const int &world,
 		const int &stage);
+	void Setup(const ci::JsonTree &params);
 	void Update();
 	void Draw();
 

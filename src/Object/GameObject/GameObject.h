@@ -46,7 +46,7 @@ public:
 	}
 
 	virtual void Setup() {};
-	virtual void Setup(const ci::JsonTree &json) {}
+	virtual void Setup(const ci::JsonTree &params) {}
 	virtual void Update() {};
 	virtual void Draw() {};
 

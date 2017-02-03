@@ -29,6 +29,7 @@ public:
 	{
 		UpdateMatrix();
 	}
+	virtual void Setup(const ci::JsonTree &params) override {}
 	virtual void Update() override {}
 	virtual void Draw() override
 	{

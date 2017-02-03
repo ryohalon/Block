@@ -1,6 +1,7 @@
 #pragma once
 #include "../../SceneBase.h"
 #include "../../../Object/MapManager/MapManager.h"
+#include "../../../Object/GameObject/CubeBase/AutoMoveCube/AutoMoveCube.h"
 
 
 
@@ -19,4 +20,5 @@ public:
 private:
 
 	MapManager map_manager;
+	AutoMoveCube main_cube;
 };

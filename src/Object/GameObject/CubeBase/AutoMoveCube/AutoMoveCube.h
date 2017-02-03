@@ -27,7 +27,7 @@ public:
 	~AutoMoveCube();
 
 	void Setup() override;
-	void Setup(const ci::JsonTree &json);
+	void Setup(const ci::JsonTree &params) override;
 	void Update() override;
 	void Draw() override;
 

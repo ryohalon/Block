@@ -11,6 +11,8 @@ std::string GetFilePath(const std::string &path);
 
 ci::Vec3f GetVec3f(const ci::JsonTree& params);
 
+ci::Vec3i GetVec3i(const ci::JsonTree& params);
+
 ci::Color GetColor(const ci::JsonTree& params);
 
 ci::Color GetColorA(const ci::JsonTree& params);

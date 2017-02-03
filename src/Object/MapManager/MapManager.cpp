@@ -13,11 +13,8 @@ MapManager::~MapManager()
 
 }
 
-void MapManager::Setup(const int & world, const int & stage)
+void MapManager::Setup(const ci::JsonTree & params)
 {
-	ci::JsonTree params(ci::app::loadAsset("LoadFile/StageData/World" + std::to_string(world)
-		+ "/Stage" + std::to_string(stage) + "/Stage.json"));
-
 	ci::Vec3f size = GetVec3f(params["cube_size"]);
 
 	ci::JsonTree cube_type = params["cube_type"];

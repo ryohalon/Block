@@ -153,53 +153,50 @@
     <ClInclude Include="..\src\Object\GameObject\CubeBase\VanishCube\VanishCube.h">
       <Filter>Source Files\Object\GameObject\CubeBase\VanishCube</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Object\GameObject\AutoMoveCube\AutoMoveCube.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Object\GameObject\CharacterBase\CharacterBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Object\GameObject\CharacterBase\Enemy\Enemy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Object\GameObject\CharacterBase\Player\Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Object\GameObject\Grid\Grid.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Object\GameObject\MainCamera\MainCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utillity\Input\GamePad\MyGamePad.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utillity\Input\LeapMotion\Cinder-LeapMotion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utillity\Input\LeapMotion\Leap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utillity\Input\LeapMotion\LeapController\LeapController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utillity\Input\LeapMotion\LeapMath.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utillity\Key_Event\Key.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utillity\Mouse_Event\Mouse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Object\MapManager\MapManager.h">
       <Filter>Source Files\Object\MapManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Utillity\Collision\Collision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Utillity\Input\Key\Key.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Utillity\Input\Mouse\Mouse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Utillity\Manager\EasingManager\EasingManageOne\EasingManageOne.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Utillity\Manager\EasingManager\EasingManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Utillity\Manager\EasingManager\Easing\Easing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Utillity\Manager\SoundManager\SoundManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Utillity\Manager\SoundManager\Sound\Sound.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Utillity\Manager\TextureManager\TextureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Utillity\Manager\TimeManager\TimeManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Utility\Collision\Collision.h">
+      <Filter>Source Files\Utility\Collision</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Utility\Utility.h">
       <Filter>Source Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Utility\Collision\Collision.h">
-      <Filter>Source Files\Utility\Collision</Filter>
+    <ClInclude Include="..\src\Utility\Input\Key\Key.h">
+      <Filter>Source Files\Utility\Input\Key</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Utility\Input\Mouse\Mouse.h">
+      <Filter>Source Files\Utility\Input\Mouse</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Utility\Manager\EasingManager\Easing\Easing.h">
       <Filter>Source Files\Utility\Manager\EasingManager\Easing</Filter>
@@ -210,23 +207,17 @@
     <ClInclude Include="..\src\Utility\Manager\EasingManager\EasingManager.h">
       <Filter>Source Files\Utility\Manager\EasingManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Utility\Input\Key\Key.h">
-      <Filter>Source Files\Utility\Input\Key</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utility\Input\Mouse\Mouse.h">
-      <Filter>Source Files\Utility\Input\Mouse</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Utility\Manager\SoundManager\Sound\Sound.h">
       <Filter>Source Files\Utility\Manager\SoundManager\Sound</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Utility\Manager\SoundManager\SoundManager.h">
       <Filter>Source Files\Utility\Manager\SoundManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Utility\Manager\TextureManager\TextureManager.h">
-      <Filter>Source Files\Utility\Manager\TextureManager</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Utility\Manager\TimeManager\TimeManager.h">
       <Filter>Source Files\Utility\Manager\TimeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Utility\Manager\TextureManager\TextureManager.h">
+      <Filter>Source Files\Utility\Manager\TextureManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -276,20 +267,20 @@
     <ClCompile Include="..\src\Object\MapManager\MapManager.cpp">
       <Filter>Source Files\Object\MapManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Utility\Utility.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Utility\Collision\Collision.cpp">
       <Filter>Source Files\Utility\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Utility\Manager\EasingManager\EasingManager.cpp">
-      <Filter>Source Files\Utility\Manager\EasingManager</Filter>
+    <ClCompile Include="..\src\Utility\Utility.cpp">
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Utility\Input\Key\Key.cpp">
       <Filter>Source Files\Utility\Input\Key</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Utility\Input\Mouse\Mouse.cpp">
       <Filter>Source Files\Utility\Input\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Utility\Manager\EasingManager\EasingManager.cpp">
+      <Filter>Source Files\Utility\Manager\EasingManager</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Utility\Manager\SoundManager\Sound\Sound.cpp">
       <Filter>Source Files\Utility\Manager\SoundManager\Sound</Filter>
