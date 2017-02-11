@@ -31,6 +31,9 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void Hit();
+	void FallStart();
+
 private:
 
 	// ˆÚ“®æ‚ğŒˆ‚ß‚é
@@ -41,9 +44,13 @@ private:
 	void ChangeMoveDirection();
 
 	ci::Vec3f start_pos, end_pos;
-	ci::Quatf now_quat, prev_quat;
+	ci::Quatf now_quat, rotating_quat;
+	// g‚Á‚Ä‚¢‚È‚¢
+	ci::Quatf prev_quat;
 	float rotate_angle;
 	float time, take_time;
-	bool is_move, is_moving;
-	MoveDirection move_direction;
+	bool is_move, is_moving,
+		is_fall, is_falling;
+	MoveDirection move_direction, next_direction;
+	ci::Matrix44f rotate_axis;
 };

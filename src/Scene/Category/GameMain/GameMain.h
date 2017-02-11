@@ -2,6 +2,9 @@
 #include "../../SceneBase.h"
 #include "../../../Object/MapManager/MapManager.h"
 #include "../../../Object/GameObject/CubeBase/AutoMoveCube/AutoMoveCube.h"
+// Debug
+#include "../../../NotUse/MainCamera/MainCamera.h"
+#include "../../../Object/GameObject/SkyDome/SkyDome.h"
 
 
 
@@ -21,4 +24,8 @@ private:
 
 	MapManager map_manager;
 	AutoMoveCube main_cube;
+
+	// Debug
+	MainCamera camera;
+	SkyDome sky;
 };

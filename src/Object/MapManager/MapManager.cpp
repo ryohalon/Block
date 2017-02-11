@@ -18,8 +18,6 @@ void MapManager::Setup(const ci::JsonTree & params)
 	ci::Vec3f size = GetVec3f(params["cube_size"]);
 
 	ci::JsonTree cube_type = params["cube_type"];
-	ci::JsonTree params_;
-
 	for (int y = 0; y < cube_type.getNumChildren(); y++)
 	{
 		std::vector<std::vector<int>> cube_types_zx;
@@ -28,7 +26,7 @@ void MapManager::Setup(const ci::JsonTree & params)
 			std::vector<int> cube_types_x;
 			for (int x = 0; x < cube_type[y][z].getNumChildren(); x++)
 			{
-				int type = params[y][z].getValueAtIndex<int>(x);
+				int type = cube_type[y][z].getValueAtIndex<int>(x);
 				cube_types_x.push_back(type);
 
 				switch (static_cast<CubeType>(type))
@@ -43,17 +41,18 @@ void MapManager::Setup(const ci::JsonTree & params)
 					break;
 
 				case CubeType::SHRINK:
-
-					params_ = params[std::to_string(y)][std::to_string(z)][std::to_string(x)];
-
+				{
+					ci::JsonTree params_ = params["_" + std::to_string(y)]["_" + std::to_string(z)]["_" + std::to_string(x)];
 					cubes.push_back(new ShrinkCube(ci::Vec3f(size.x * x, size.y * y, size.z * z),
 						ci::Vec3f::zero(),
 						size,
-						ci::gl::Material(GetMaterial(params["material"]["normal"])),
+						ci::gl::Material(GetMaterial(params["material"]["shrink"])),
 						ci::Vec3i(x, y, z),
 						params_.getValueForKey<bool>("is_shrink"),
 						GetVec3f(params_["shrink_value"]),
 						params_.getValueForKey<float>("take_time")));
+				}
+
 					break;
 				case CubeType::VANISH:
 					break;
@@ -69,6 +68,9 @@ void MapManager::Setup(const ci::JsonTree & params)
 		cube_types.push_back(cube_types_zx);
 		cube_types_zx.clear();
 	}
+
+	for (auto &cube : cubes)
+		cube->Setup();
 }
 
 void MapManager::Update()
