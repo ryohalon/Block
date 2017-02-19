@@ -1,8 +1,10 @@
 #include "AutoMoveCube.h"
 #include "../../../../Utility/Manager/EasingManager/Easing/Easing.h"
 #include "../../../../Utility/Manager/TimeManager/TimeManager.h"
-#include "../../../../Utility/Input/Mouse/Mouse.h"
 #include "../../../../Utility/Utility.h"
+#ifdef _DEBUG
+#include "../../../../Utility/Input/Mouse/Mouse.h"
+#endif
 
 AutoMoveCube::AutoMoveCube() :
 	start_pos(ci::Vec3f::zero()),
@@ -12,9 +14,11 @@ AutoMoveCube::AutoMoveCube() :
 	prev_quat(ci::Quatf::identity()),
 	rotate_angle(0.0f),
 	time(0.0f),
-	take_time(1.0f),
-	is_move(false),
+	take_time(0.0f),
+	move_take_time(1.0f),
+	fall_take_time(1.0f),
 	is_moving(false),
+	is_falling(false),
 	move_direction(MoveDirection::FRONT),
 	next_direction(MoveDirection::FRONT)
 {
@@ -26,7 +30,8 @@ AutoMoveCube::AutoMoveCube(const ci::Vec3f & pos,
 	const ci::Vec3f & scale,
 	const ci::gl::Material & material,
 	const ci::Vec3i &map_pos,
-	const float & take_time,
+	const float & move_take_time,
+	const float & fall_take_time,
 	const MoveDirection & move_direction) :
 	CubeBase(pos, angle, scale, material, map_pos),
 	start_pos(ci::Vec3f::zero()),
@@ -36,9 +41,11 @@ AutoMoveCube::AutoMoveCube(const ci::Vec3f & pos,
 	prev_quat(ci::Quatf::identity()),
 	rotate_angle(0.0f),
 	time(0.0f),
-	take_time(take_time),
-	is_move(false),
+	take_time(0.0f),
+	move_take_time(move_take_time),
+	fall_take_time(fall_take_time),
 	is_moving(false),
+	is_falling(false),
 	move_direction(move_direction),
 	next_direction(move_direction)
 {
@@ -60,28 +67,37 @@ void AutoMoveCube::Setup(const ci::JsonTree & params)
 	transform.pos = GetVec3f(params["start_pos"]);
 	transform.scale = GetVec3f(params["scale"]);
 	map_pos = GetVec3i(params["map_pos"]);
+	move_take_time = params.getValueForKey<float>("move_take_time");
+	fall_take_time = params.getValueForKey<float>("fall_take_time");
 	move_direction = static_cast<MoveDirection>(params.getValueForKey<int>("start_move_direction"));
 }
 
 void AutoMoveCube::Update()
 {
-	MoveStart();
-	Moving();
+	UpdateAction();
 
+#ifdef _DEBUG
 	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::LEFT_DOWN))
 		ChangeMoveDirection();
+	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::MIDDLE_DOWN))
+		is_stop = !is_stop;
 	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::RIGHT_DOWN))
-		is_move = !is_move;
+		MoveStart();
+#endif
 }
 
 void AutoMoveCube::Draw()
 {
+	if (!is_active)
+		return;
+
 	ci::gl::pushModelView();
 
 	ci::Matrix44f mtranstale = ci::Matrix44f::createTranslation(transform.pos);
 	ci::Matrix44f mrotate = now_quat.toMatrix44();
 	ci::Matrix44f mscale = ci::Matrix44f::createScale(transform.scale);
 
+	// 移動中の処理
 	if (is_moving)
 	{
 		// 回転させる位置
@@ -110,6 +126,7 @@ void AutoMoveCube::Draw()
 		ci::Matrix44f mrotate = now_quat.toMatrix44();
 		ci::Matrix44f mrotating = rotating_quat.toMatrix44();
 		ci::Matrix44f mscale = ci::Matrix44f::createScale(transform.scale);
+		// 今現在回転している行列をかけてから元の回転行列をかける
 		matrix = mtranstale * mrotate_axis * mrotating * mrotate_axis.inverted() * mrotate * mscale;
 	}
 	else
@@ -127,26 +144,15 @@ void AutoMoveCube::Draw()
 	ci::gl::popModelView();
 }
 
-void AutoMoveCube::Hit()
-{
-	// モノにぶつかった時の音を鳴らす
-	// まだ入れてない
-
-	// 移動方向変更
-	ChangeMoveDirection();
-}
-
-void AutoMoveCube::FallStart()
-{
-
-}
-
 void AutoMoveCube::MoveStart()
 {
-	if (!is_move)
+	if (!is_stop)
 		return;
 	// 動いている最中ははじく
 	if (is_moving)
+		return;
+	// 落ちている最中ははじく
+	if (is_falling)
 		return;
 
 	// 移動先
@@ -189,33 +195,36 @@ void AutoMoveCube::MoveStart()
 	rotate_angle = rotate_angles[static_cast<int>(move_direction)];
 
 	// マップ上の位置の更新
-	map_pos = ci::Vec3i(move_pos[static_cast<int>(move_direction)].x,
-		map_pos.y,
-		move_pos[static_cast<int>(move_direction)].y);
+	map_pos += ci::Vec3i(static_cast<int>(move_pos[static_cast<int>(move_direction)].x),
+		static_cast<int>(move_pos[static_cast<int>(move_direction)].y),
+		static_cast<int>(move_pos[static_cast<int>(move_direction)].z));
 
+	// 移動にかかる時間の設定
+	take_time = move_take_time;
 	is_moving = true;
+
+	// 移動音の再生
+	// 未実装
 }
 
-void AutoMoveCube::Moving()
+void AutoMoveCube::FallStart(const ci::Vec3f &fall_pos)
 {
-	if (!is_move)
+	if (!is_stop)
 		return;
-	if (!is_moving)
+	if (is_falling)
 		return;
-
-	time = std::min(1.0f, TimeManager::Get().GetDeltaTime() / take_time + time);
-	float time_ = Easing::CubicIn(time, 0.0f, 1.0f);
-	float now_angle = ci::lerp(0.0f, rotate_angle, time_);
-	rotating_quat = ci::Quatf(transform.angle, now_angle);
-
-	if (time < 1.0f)
+	if (is_moving)
 		return;
 
-	time = 0.0f;
-	prev_quat = now_quat;
-	transform.pos = end_pos;
-	is_moving = false;
-	now_quat = rotating_quat;
+	start_pos = transform.pos;
+	end_pos = fall_pos;
+	map_pos.y -= static_cast<int>(start_pos.z - end_pos.z);
+	// 落ちる数分秒数を伸ばす
+	take_time = fall_take_time * (start_pos.z - end_pos.z);
+	is_falling = true;
+
+	// 落ちる音の再生
+	// 未実装
 }
 
 void AutoMoveCube::ChangeMoveDirection()
@@ -224,3 +233,61 @@ void AutoMoveCube::ChangeMoveDirection()
 		(static_cast<int>(move_direction) + 1)
 		% static_cast<int>(MoveDirection::DIRECTIONNUM));
 }
+
+void AutoMoveCube::Hit()
+{
+	// モノにぶつかった時の衝突音の再生
+	// 未実装
+
+	// 移動方向変更
+	ChangeMoveDirection();
+}
+
+void AutoMoveCube::UpdateAction()
+{
+	if (!is_stop)
+		return;
+	if (!is_moving && !is_falling)
+		return;
+
+	time = std::min(1.0f, TimeManager::Get().GetDeltaTime() / take_time + time);
+	float time_ = Easing::CubicIn(time, 0.0f, 1.0f);
+
+	Moving(time_);
+	Falling(time_);
+}
+
+void AutoMoveCube::Moving(const float &time_)
+{
+	if (!is_moving)
+		return;
+
+	float now_angle = ci::lerp(0.0f, rotate_angle, time_);
+	rotating_quat = ci::Quatf(transform.angle, now_angle);
+
+	if (time < 1.0f)
+		return;
+
+	time = 0.0f;
+	prev_quat = now_quat;
+	now_quat = rotating_quat;
+	rotating_quat = ci::Quatf::identity();
+	// 回転し終わった時に位置を移動させる
+	transform.pos = end_pos;
+	is_moving = false;
+}
+
+void AutoMoveCube::Falling(const float &time_)
+{
+	if (!is_falling)
+		return;
+
+	transform.pos = ci::lerp(start_pos, end_pos, time_);
+
+	if (time < 1.0f)
+		return;
+
+	time = 0.0f;
+	is_falling = false;
+}
+

@@ -25,14 +25,15 @@ public:
 	void SetOriginPos(const ci::Vec3f &origin_pos_) { origin_pos = origin_pos_; }
 	void SetOriginScale(const ci::Vec3f &origin_scale_) { origin_scale = origin_scale_; }
 
-	void AlreadyShrink();
-	void ShrinkStart();
-
 	void Setup() override;
 	void Update() override;
 	
+	void AlreadyShrink();
+	void Clicked() override;
+
 private:
 
+	void ShrinkStart();
 	void Shrinking();
 
 	bool is_shrink;

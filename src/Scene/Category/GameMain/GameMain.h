@@ -2,9 +2,10 @@
 #include "../../SceneBase.h"
 #include "../../../Object/MapManager/MapManager.h"
 #include "../../../Object/GameObject/CubeBase/AutoMoveCube/AutoMoveCube.h"
-// Debug
+#ifdef _DEBUG
 #include "../../../NotUse/MainCamera/MainCamera.h"
 #include "../../../Object/GameObject/SkyDome/SkyDome.h"
+#endif
 
 
 
@@ -22,10 +23,14 @@ public:
 
 private:
 
+	void ClickAction();
+	void CollisionPlayerToMap();
+
 	MapManager map_manager;
 	AutoMoveCube main_cube;
 
-	// Debug
+#ifdef _DEBUG
 	MainCamera camera;
 	SkyDome sky;
+#endif
 };

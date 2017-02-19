@@ -25,6 +25,9 @@ public:
 	ci::gl::Material GetMaterial() const { return material; }
 	void SetMaterial(const ci::gl::Material &material_) { material = material_; }
 
+	ci::Vec3i GetMapPos() const { return map_pos; }
+	void SetMapPos(const ci::Vec3i &map_pos_) { map_pos = map_pos_; }
+
 	virtual void Setup() override
 	{
 		UpdateMatrix();
@@ -42,6 +45,8 @@ public:
 
 		ci::gl::popModelView();
 	}
+
+	virtual void Clicked() {}
 
 protected:
 

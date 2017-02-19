@@ -44,24 +44,6 @@ ShrinkCube::~ShrinkCube()
 
 }
 
-void ShrinkCube::AlreadyShrink()
-{
-	transform.scale = origin_scale + shrink_value;
-	transform.pos = origin_pos + (shrink_value + origin_scale) / 2.0f;
-}
-
-void ShrinkCube::ShrinkStart()
-{
-	end_shrinking_scale = (is_shrink == true) ?
-		origin_scale :
-		origin_scale + shrink_value;
-
-	start_shrinking_scale = transform.scale;
-	time = 0.0f;
-	is_shrink = !is_shrink;
-	is_shrinking = true;
-}
-
 void ShrinkCube::Setup()
 {
 	if (is_shrink)
@@ -78,6 +60,29 @@ void ShrinkCube::Update()
 	Shrinking();
 
 	UpdateMatrix();
+}
+
+void ShrinkCube::AlreadyShrink()
+{
+	transform.scale = origin_scale + shrink_value;
+	transform.pos = origin_pos + (shrink_value + origin_scale) / 2.0f;
+}
+
+void ShrinkCube::Clicked()
+{
+	ShrinkStart();
+}
+
+void ShrinkCube::ShrinkStart()
+{
+	end_shrinking_scale = (is_shrink == true) ?
+		origin_scale :
+		origin_scale + shrink_value;
+
+	start_shrinking_scale = transform.scale;
+	time = 0.0f;
+	is_shrink = !is_shrink;
+	is_shrinking = true;
 }
 
 void ShrinkCube::Shrinking()

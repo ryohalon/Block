@@ -18,16 +18,16 @@ void MapManager::Setup(const ci::JsonTree & params)
 	ci::Vec3f size = GetVec3f(params["cube_size"]);
 
 	ci::JsonTree cube_type = params["cube_type"];
-	for (int y = 0; y < cube_type.getNumChildren(); y++)
+	for (int y = 0; y < static_cast<int>(cube_type.getNumChildren()); y++)
 	{
-		std::vector<std::vector<int>> cube_types_zx;
-		for (int z = 0; z < cube_type[y].getNumChildren(); z++)
+		std::vector<std::vector<CubeType>> cube_types_zx;
+		for (int z = 0; z < static_cast<int>(cube_type[y].getNumChildren()); z++)
 		{
-			std::vector<int> cube_types_x;
-			for (int x = 0; x < cube_type[y][z].getNumChildren(); x++)
+			std::vector<CubeType> cube_types_x;
+			for (int x = 0; x < static_cast<int>(cube_type[y][z].getNumChildren()); x++)
 			{
 				int type = cube_type[y][z].getValueAtIndex<int>(x);
-				cube_types_x.push_back(type);
+				cube_types_x.push_back(static_cast<CubeType>(type));
 
 				switch (static_cast<CubeType>(type))
 				{
@@ -87,4 +87,21 @@ void MapManager::Draw()
 		cube->Draw();
 
 	ci::gl::popModelView();
+}
+
+void MapManager::ClickCube(const ci::Vec3i & map_pos)
+{
+	if (map_pos.x < 0 || map_pos.x >= static_cast<int>(cube_types[0][0].size()) ||
+		map_pos.y < 0 || map_pos.y >= static_cast<int>(cube_types[0].size()) ||
+		map_pos.z < 0 || map_pos.z >= static_cast<int>(cube_types.size()))
+		return;
+
+	for (auto &cube : cubes)
+	{
+		if (map_pos != cube->GetMapPos())
+			continue;
+
+		cube->Clicked();
+		return;
+	}
 }

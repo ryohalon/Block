@@ -16,11 +16,13 @@ public:
 
 	GameObject() :
 		transform(Transform()),
-		matrix(ci::Matrix44f::identity())
+		matrix(ci::Matrix44f::identity()),
+		is_stop(true)
 	{}
 	GameObject(const Transform &transform) :
 		transform(transform),
-		matrix(ci::Matrix44f::identity())
+		matrix(ci::Matrix44f::identity()),
+		is_stop(true)
 	{
 
 	}
@@ -55,5 +57,4 @@ protected:
 	Transform transform;
 	ci::Matrix44f matrix;
 	bool is_stop;
-
 };
