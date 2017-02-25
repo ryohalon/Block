@@ -29,6 +29,7 @@ public:
 
 	bool GetIsMoving() const { return is_moving; }
 	bool GetIsFalling() const { return is_falling; }
+	MoveDirection GetMoveDirection() const { return next_direction; }
 
 	void Setup() override;
 	void Setup(const ci::JsonTree &params) override;

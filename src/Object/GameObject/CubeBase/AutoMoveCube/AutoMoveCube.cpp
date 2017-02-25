@@ -75,15 +75,6 @@ void AutoMoveCube::Setup(const ci::JsonTree & params)
 void AutoMoveCube::Update()
 {
 	UpdateAction();
-
-#ifdef _DEBUG
-	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::LEFT_DOWN))
-		ChangeMoveDirection();
-	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::MIDDLE_DOWN))
-		is_stop = !is_stop;
-	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::RIGHT_DOWN))
-		MoveStart();
-#endif
 }
 
 void AutoMoveCube::Draw()
@@ -178,11 +169,11 @@ void AutoMoveCube::MoveStart()
 	};
 
 	// マップ上での移動先
-	ci::Vec2i move_map_pos[] = {
-		ci::Vec2i(0,1),
-		ci::Vec2i(-1,0),
-		ci::Vec2i(0,-1),
-		ci::Vec2i(1,0)
+	ci::Vec3i move_map_pos[] = {
+		ci::Vec3i(0, 0, 1),
+		ci::Vec3i(-1, 0, 0),
+		ci::Vec3i(0, 0, -1),
+		ci::Vec3i(1, 0, 0)
 	};
 
 	// 移動方向の決定
@@ -195,9 +186,7 @@ void AutoMoveCube::MoveStart()
 	rotate_angle = rotate_angles[static_cast<int>(move_direction)];
 
 	// マップ上の位置の更新
-	map_pos += ci::Vec3i(static_cast<int>(move_pos[static_cast<int>(move_direction)].x),
-		static_cast<int>(move_pos[static_cast<int>(move_direction)].y),
-		static_cast<int>(move_pos[static_cast<int>(move_direction)].z));
+	map_pos += move_map_pos[static_cast<int>(move_direction)];
 
 	// 移動にかかる時間の設定
 	take_time = move_take_time;
@@ -218,11 +207,11 @@ void AutoMoveCube::FallStart(const ci::Vec3f &fall_pos)
 
 	start_pos = transform.pos;
 	end_pos = fall_pos;
-	map_pos.y -= static_cast<int>(start_pos.z - end_pos.z);
+	map_pos.y = static_cast<int>(end_pos.y / transform.scale.y);
 	// 落ちる数分秒数を伸ばす
-	take_time = fall_take_time * (start_pos.z - end_pos.z);
+	take_time = fall_take_time * (start_pos.y - end_pos.y);
 	is_falling = true;
-
+	
 	// 落ちる音の再生
 	// 未実装
 }
@@ -230,7 +219,7 @@ void AutoMoveCube::FallStart(const ci::Vec3f &fall_pos)
 void AutoMoveCube::ChangeMoveDirection()
 {
 	next_direction = static_cast<MoveDirection>(
-		(static_cast<int>(move_direction) + 1)
+		(static_cast<int>(next_direction) + 1)
 		% static_cast<int>(MoveDirection::DIRECTIONNUM));
 }
 

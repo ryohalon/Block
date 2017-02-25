@@ -24,8 +24,8 @@ public:
 	CubeType GetCubeType(const ci::Vec3i &map_pos)
 	{
 		if (map_pos.x < 0 || map_pos.x >= static_cast<int>(cube_types[0][0].size()) ||
-			map_pos.y < 0 || map_pos.y >= static_cast<int>(cube_types[0].size()) ||
-			map_pos.z < 0 || map_pos.z >= static_cast<int>(cube_types.size()))
+			map_pos.z < 0 || map_pos.z >= static_cast<int>(cube_types[0].size()) ||
+			map_pos.y < 0 || map_pos.y >= static_cast<int>(cube_types.size()))
 			return CubeType::TYPEMAX;
 
 		return cube_types[map_pos.y][map_pos.z][map_pos.x];

@@ -18,6 +18,7 @@ void MapManager::Setup(const ci::JsonTree & params)
 	ci::Vec3f size = GetVec3f(params["cube_size"]);
 
 	ci::JsonTree cube_type = params["cube_type"];
+
 	for (int y = 0; y < static_cast<int>(cube_type.getNumChildren()); y++)
 	{
 		std::vector<std::vector<CubeType>> cube_types_zx;
