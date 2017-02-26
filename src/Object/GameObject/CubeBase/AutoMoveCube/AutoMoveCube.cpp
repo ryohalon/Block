@@ -29,11 +29,12 @@ AutoMoveCube::AutoMoveCube(const ci::Vec3f & pos,
 	const ci::Vec3f & angle,
 	const ci::Vec3f & scale,
 	const ci::gl::Material & material,
+	const CubeType &type,
 	const ci::Vec3i &map_pos,
 	const float & move_take_time,
 	const float & fall_take_time,
 	const MoveDirection & move_direction) :
-	CubeBase(pos, angle, scale, material, map_pos),
+	CubeBase(pos, angle, scale, material, type, map_pos),
 	start_pos(ci::Vec3f::zero()),
 	end_pos(ci::Vec3f::zero()),
 	now_quat(ci::Quatf::identity()),
@@ -64,12 +65,15 @@ void AutoMoveCube::Setup()
 
 void AutoMoveCube::Setup(const ci::JsonTree & params)
 {
-	transform.pos = GetVec3f(params["start_pos"]);
 	transform.scale = GetVec3f(params["scale"]);
 	map_pos = GetVec3i(params["map_pos"]);
 	move_take_time = params.getValueForKey<float>("move_take_time");
 	fall_take_time = params.getValueForKey<float>("fall_take_time");
 	move_direction = static_cast<MoveDirection>(params.getValueForKey<int>("start_move_direction"));
+	transform.pos = ci::Vec3f(
+		static_cast<float>(map_pos.x) * transform.scale.x,
+		static_cast<float>(map_pos.y) * transform.scale.y,
+		static_cast<float>(map_pos.z) * transform.scale.z);
 }
 
 void AutoMoveCube::Update()

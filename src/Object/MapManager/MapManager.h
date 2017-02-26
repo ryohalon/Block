@@ -9,14 +9,7 @@ class MapManager : public Object
 {
 public:
 
-	enum class CubeType
-	{
-		NONE = -1,
-		NORMAL,
-		SHRINK,
-		VANISH,
-		TYPEMAX
-	};
+	
 
 	MapManager();
 	~MapManager();
@@ -31,11 +24,27 @@ public:
 		return cube_types[map_pos.y][map_pos.z][map_pos.x];
 	}
 
-	void Setup(const ci::JsonTree &params);
+	std::vector<CubeBase*>& GetCubes() { return cubes; }
+
+	template<typename T>
+	T* GetCube(const ci::Vec3i &map_pos)
+	{
+		for (auto &cube : cubes)
+		{
+			if (map_pos != cube->GetMapPos())
+				continue;
+
+			return static_cast<T*>(cube);
+		}
+
+		return nullptr;
+	}
+
+	void Setup(const int &world, const int &stage);
 	void Update();
 	void Draw();
 
-	void ClickCube(const ci::Vec3i &map_pos);
+	void ClickCube(CubeBase *cube);
 
 private:
 

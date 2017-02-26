@@ -24,15 +24,19 @@ public:
 
 private:
 
+	// マップ上の特殊なキューブとのカメラからのRayで当たり判定をとって
+	// 　一番近いキューブのアクションを起こす
 	void ClickAction();
 	void CollisionPlayerToMap();
 	void SearchUnderCube(const ci::Vec3i &player_map_pos);
 	void SearchMoveDirectionCube(const ci::Vec3i &player_map_pos, const int &move_direction);
-	void SearchMoveDirectionUnderCube(const ci::Vec3i &player_map_pos, const int &move_direction);
 	void SetFallPos(const ci::Vec3i &player_map_pos);
 
 	MapManager map_manager;
 	AutoMoveCube main_cube;
+
+	bool is_failed;
+	float failed_fall_pos_y;
 
 #ifdef _DEBUG
 	MainCamera camera;

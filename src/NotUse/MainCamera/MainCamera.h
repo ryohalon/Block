@@ -38,6 +38,8 @@ public:
 	MainCamera();
 	~MainCamera();
 
+	ci::CameraPersp GetCamera() const { return maya_camera.getCamera(); }
+
 	void SetEyeDirection(const ci::Vec3f &eye_direction) { this->eye_direction = eye_direction; }
 	void SetMoveSpeed(const ci::Vec3f &move_speed) { this->move_speed = move_speed; }
 	void SetRotateSpeed(const ci::Vec2f &rotate_speed) { this->rotate_speed = rotate_speed; }

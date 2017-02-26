@@ -6,6 +6,7 @@
 ShrinkCube::ShrinkCube() :
 	is_shrink(false),
 	is_shrinking(false),
+	shrink_direction(ShrinkDirection::UP),
 	shrink_value(ci::Vec3f(0.0f, 2.0f, 0.0f)),
 	origin_pos(ci::Vec3f::zero()),
 	origin_scale(ci::Vec3f::one()),
@@ -21,11 +22,12 @@ ShrinkCube::ShrinkCube(const ci::Vec3f & pos,
 	const ci::Vec3f & angle,
 	const ci::Vec3f & scale,
 	const ci::gl::Material & material,
+	const CubeType &type,
 	const ci::Vec3i & map_pos,
 	const bool & is_shrink,
 	const ci::Vec3f & shrink_value,
 	const float & take_time) :
-	CubeBase(pos, angle, scale, material, map_pos),
+	CubeBase(pos, angle, scale, material, type, map_pos),
 	is_shrink(is_shrink),
 	is_shrinking(false),
 	shrink_value(shrink_value),
@@ -46,6 +48,19 @@ ShrinkCube::~ShrinkCube()
 
 void ShrinkCube::Setup()
 {
+	if (shrink_value.x > 0)
+		shrink_direction = ShrinkDirection::LEFT;
+	else if(shrink_value.x < 0)
+		shrink_direction = ShrinkDirection::LEFT;
+	else if (shrink_value.y < 0)
+		shrink_direction = ShrinkDirection::UNDER;
+	else if (shrink_value.y > 0)
+		shrink_direction = ShrinkDirection::UP;
+	else if (shrink_value.z < 0)
+		shrink_direction = ShrinkDirection::BACK;
+	else if (shrink_value.z > 0)
+		shrink_direction = ShrinkDirection::FRONT;
+	
 	if (is_shrink)
 		AlreadyShrink();
 
@@ -65,7 +80,8 @@ void ShrinkCube::Update()
 void ShrinkCube::AlreadyShrink()
 {
 	transform.scale = origin_scale + shrink_value;
-	transform.pos = origin_pos + (shrink_value + origin_scale) / 2.0f;
+
+	transform.pos = origin_pos + shrink_value / 2.0f;
 }
 
 void ShrinkCube::Clicked()

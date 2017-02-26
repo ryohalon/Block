@@ -1,8 +1,7 @@
 {
-  "start_pos": [ 2.0, 7.0, 2.0 ],
   "scale": [ 1.0, 1.0, 1.0 ],
   "map_pos": [ 2, 7, 2 ],
-  "move_take_time": 1.0,
-  "fall_take_time": 0.2,
+  "move_take_time": 0.5,
+  "fall_take_time": 0.1,
   "start_move_direction": 0
 }

@@ -1,0 +1,13 @@
+<タスク>
+・VanishCubeの作成
+・GoalCubeの作成
+・StartCubeの作成
+・SpringCubeの作成
+・AutoMoveCubeクラスをPlayerクラスに変える
+・AutoMoveCubeクラスの作成
+・UI全般の作成
+・Titleの作成
+・StageSelectの作成
+・TextureManager,SoundManagerのリファクタリング
+・セーブクラスの作成
+・

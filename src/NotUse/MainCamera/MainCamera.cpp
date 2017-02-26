@@ -163,7 +163,7 @@ void MainCamera::Setup()
 		ci::app::getWindowAspectRatio(),
 		0.1f,
 		2000.0f);
-
+	camera_persp.setCenterOfInterest(20);
 	maya_camera.setCurrentCam(camera_persp);
 }
 
