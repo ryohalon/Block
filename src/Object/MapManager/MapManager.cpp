@@ -1,9 +1,17 @@
 #include "MapManager.h"
 #include "cinder/Filesystem.h"
 #include "../../Utility/Utility.h"
+#include "../../Utility/Input/Key/Key.h"
+#include "../../Utility/Manager/TimeManager/TimeManager.h"
+#include "../../Utility/Manager/EasingManager/Easing/Easing.h"
 
 
-MapManager::MapManager()
+MapManager::MapManager() :
+	start_rotate_angle(0.0f),
+	end_rotate_angle(0.0f),
+	max_rotate_angle(M_PI / 2.0f),
+	is_rotating(false),
+	stage_matrix(ci::Matrix44f::identity())
 {
 
 }
@@ -19,7 +27,9 @@ void MapManager::Setup(const int &world, const int &stage)
 		+ "/Stage" + std::to_string(stage) + "/";
 
 	ci::JsonTree params = ci::JsonTree(ci::app::loadAsset(file_path + "Stage.json"));
-	ci::Vec3f size = GetVec3f(params["cube_size"]);
+	cube_scale = ci::Vec3f::one() * params.getValueForKey<float>("cube_scale");
+	rotate_take_time = params.getValueForKey<float>("rotate_take_time");
+	stage_rotate_angle = GetVec3f(params["stage_rotate_angle"]);
 
 	std::fstream file(GetFilePath(file_path) + "Stage.csv");
 	std::string line;
@@ -33,7 +43,6 @@ void MapManager::Setup(const int &world, const int &stage)
 		std::vector<CubeType> cube_types_x;
 
 		std::string type = "";
-		ci::app::console() << z << ": ";
 		for (int i = 0; i < static_cast<int>(line.size()); i++)
 		{
 			if (line[i] != ',')
@@ -42,24 +51,27 @@ void MapManager::Setup(const int &world, const int &stage)
 				continue;
 			}
 
-			ci::app::console() << type << " ";
+			CubeType type_ = static_cast<CubeType>(boost::lexical_cast<int>(type));
+			cube_types_x.push_back(type_);
 
-			cube_types_x.push_back(static_cast<CubeType>(boost::lexical_cast<int>(type)));
-			if (type == "0")
+			switch (type_)
 			{
-				cubes.push_back(new CubeBase(ci::Vec3f(size.x * x, size.y * y, size.z * z),
+			case CubeType::NORMAL:
+
+				cubes.push_back(new CubeBase(cube_scale * ci::Vec3f(x, y, z),
 					ci::Vec3f::zero(),
-					size,
+					cube_scale,
 					ci::gl::Material(GetMaterial(params["material"]["normal"])),
 					CubeType::NORMAL,
 					ci::Vec3i(x, y, z)));
-			}
-			else if (type == "1")
+				break;
+			case CubeType::SHRINK:
+
 			{
 				ci::JsonTree params_ = params["_" + std::to_string(y)]["_" + std::to_string(z)]["_" + std::to_string(x)];
-				cubes.push_back(new ShrinkCube(ci::Vec3f(size.x * x, size.y * y, size.z * z),
+				cubes.push_back(new ShrinkCube(cube_scale * ci::Vec3f(x, y, z),
 					ci::Vec3f::zero(),
-					size,
+					cube_scale,
 					ci::gl::Material(GetMaterial(params["material"]["shrink"])),
 					CubeType::SHRINK,
 					ci::Vec3i(x, y, z),
@@ -67,12 +79,43 @@ void MapManager::Setup(const int &world, const int &stage)
 					GetVec3f(params_["shrink_value"]),
 					params_.getValueForKey<float>("take_time")));
 			}
+			break;
+			case CubeType::START:
+
+				player_start_pos = ci::Vec3i(x, y + 1, z);
+				cubes.push_back(new CubeBase(cube_scale * ci::Vec3f(x, y, z),
+					ci::Vec3f::zero(),
+					cube_scale,
+					ci::gl::Material(GetMaterial(params["material"]["start"])),
+					CubeType::NORMAL,
+					ci::Vec3i(x, y, z)));
+				break;
+			case CubeType::GOAL:
+
+				cubes.push_back(new CubeBase(cube_scale * ci::Vec3f(x, y, z),
+					ci::Vec3f::zero(),
+					cube_scale,
+					ci::gl::Material(GetMaterial(params["material"]["goal"])),
+					CubeType::NORMAL,
+					ci::Vec3i(x, y, z)));
+				break;
+			case CubeType::VANISH:
+
+				cubes.push_back(new VanishCube(cube_scale * ci::Vec3f(x, y, z),
+					ci::Vec3f::zero(),
+					cube_scale,
+					ci::gl::Material(GetMaterial(params["material"]["vanish"])),
+					CubeType::VANISH,
+					ci::Vec3i(x, y, z),
+					params["_" + std::to_string(y)]
+					["_" + std::to_string(z)]
+				["_" + std::to_string(x)].getValueForKey<bool>("is_vanish")));
+				break;
+			}
 
 			type = "";
 			x++;
 		}
-
-		ci::app::console() << std::endl;
 
 		z++;
 		x = 0;
@@ -90,6 +133,14 @@ void MapManager::Setup(const int &world, const int &stage)
 			cube_types_x.clear();
 		}
 	}
+
+	map_center_pos = ci::Vec3f(
+		static_cast<float>(cube_types[0][0].size() - 1) * cube_scale.x / 2.0f,
+		static_cast<float>(cube_types.size() - 1) * cube_scale.y / 2.0f,
+		static_cast<float>(cube_types[0].size() - 1) * cube_scale.z / 2.0f);
+	ci::Matrix44f mtranslate = ci::Matrix44f::createTranslation(map_center_pos);
+	ci::Matrix44f mrotate = ci::Matrix44f::createRotation(stage_rotate_angle);
+	stage_matrix = mtranslate * mrotate * mtranslate.inverted();
 
 	for (auto &cube : cubes)
 	{
@@ -130,35 +181,37 @@ void MapManager::Setup(const int &world, const int &stage)
 			} while (shrink_direction_ != shrink_value);
 		}
 	}
-
-	for (auto &a : cube_types)
-	{
-		for (auto &b : a)
-		{
-			for (auto &c : b)
-			{
-				ci::app::console() << static_cast<int>(c) << ",";
-			}
-			ci::app::console() << std::endl;
-		}
-		ci::app::console() << std::endl;
-	}
 }
 
 void MapManager::Update()
 {
 	for (auto &cube : cubes)
 		cube->Update();
+
+	Rotating();
+
+	if (Key::Get().IsPushKey(ci::app::KeyEvent::KEY_q) ||
+		Key::Get().IsPushKey(ci::app::KeyEvent::KEY_e))
+	{
+		RotateStart();
+	}
 }
 
 void MapManager::Draw()
 {
 	ci::gl::pushModelView();
 
+	glMultMatrixf(stage_matrix);
+
 	for (auto &cube : cubes)
 		cube->Draw();
 
 	ci::gl::popModelView();
+}
+
+void MapManager::Reset()
+{
+
 }
 
 void MapManager::ClickCube(CubeBase *cube)
@@ -198,4 +251,38 @@ void MapManager::ClickCube(CubeBase *cube)
 			CubeType::NONE;
 
 	} while (shrink_direction_ != shrink_value);
+}
+
+void MapManager::RotateStart()
+{
+	if (is_rotating)
+		return;
+
+	start_rotate_angle = stage_rotate_angle.y;
+
+	if (Key::Get().IsPushKey(ci::app::KeyEvent::KEY_e))
+		end_rotate_angle = stage_rotate_angle.y - max_rotate_angle;
+	else if (Key::Get().IsPushKey(ci::app::KeyEvent::KEY_q))
+		end_rotate_angle = stage_rotate_angle.y + max_rotate_angle;
+
+	time = 0.0f;
+	is_rotating = true;
+}
+
+void MapManager::Rotating()
+{
+	if (!is_rotating)
+		return;
+
+	time = std::min(1.0f, TimeManager::Get().GetDeltaTime() / rotate_take_time + time);
+	stage_rotate_angle.y = Easing::Linear(time, start_rotate_angle, end_rotate_angle);
+	ci::Matrix44f mtranslate = ci::Matrix44f::createTranslation(map_center_pos);
+	ci::Matrix44f mrotate = ci::Matrix44f::createRotation(stage_rotate_angle);
+	stage_matrix = mtranslate * mrotate * mtranslate.inverted();
+
+	if (time < 1.0f)
+		return;
+
+	time = 0.0f;
+	is_rotating = false;
 }

@@ -37,7 +37,7 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	// 移動先を決める
+	// 移動スタート
 	void MoveStart();
 
 	// 落ちるときに呼ぶ関数

@@ -1,5 +1,6 @@
 #pragma once
 #include "../../SceneBase.h"
+#include "../../../Object/GameObject/SkyDome/SkyDome.h"
 
 
 
@@ -17,5 +18,6 @@ public:
 
 private:
 
-
+	ci::CameraPersp camera_persp;
+	SkyDome sky_dome;
 };

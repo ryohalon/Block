@@ -103,6 +103,18 @@
     <Filter Include="Source Files\Object\MapManager">
       <UniqueIdentifier>{057c5d5c-2844-4639-859a-1c15826c352a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Object\GameObject\CubeBase\MoveCube">
+      <UniqueIdentifier>{3f62edaa-3ed8-4b98-8f0c-058a77977452}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\GameObject\CubeBase\MoveCube\PlayerCube">
+      <UniqueIdentifier>{040c9e31-9ecd-4b12-87a4-ef328d178c84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\GameObject\MainCamera">
+      <UniqueIdentifier>{e704899a-7e12-45ff-93e1-f77ab8b3b216}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\GameObject\CubeBase\SpringCube">
+      <UniqueIdentifier>{fe56f91d-c2f2-40cb-a190-0616b369860d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -135,9 +147,6 @@
     <ClInclude Include="..\src\Scene\SceneBase.h">
       <Filter>Source Files\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\NotUse\MainCamera\MainCamera.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Object\GameObject\GameObject.h">
       <Filter>Source Files\Object\GameObject</Filter>
     </ClInclude>
@@ -155,36 +164,6 @@
     </ClInclude>
     <ClInclude Include="..\src\Object\MapManager\MapManager.h">
       <Filter>Source Files\Object\MapManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utillity\Collision\Collision.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utillity\Input\Key\Key.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utillity\Input\Mouse\Mouse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utillity\Manager\EasingManager\EasingManageOne\EasingManageOne.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utillity\Manager\EasingManager\EasingManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utillity\Manager\EasingManager\Easing\Easing.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utillity\Manager\SoundManager\SoundManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utillity\Manager\SoundManager\Sound\Sound.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utillity\Manager\TextureManager\TextureManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utillity\Manager\TimeManager\TimeManager.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Utility\Collision\Collision.h">
       <Filter>Source Files\Utility\Collision</Filter>
@@ -219,6 +198,18 @@
     <ClInclude Include="..\src\Utility\Manager\TextureManager\TextureManager.h">
       <Filter>Source Files\Utility\Manager\TextureManager</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Object\GameObject\CubeBase\MoveCube\MoveCube.h">
+      <Filter>Source Files\Object\GameObject\CubeBase\MoveCube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Object\GameObject\CubeBase\MoveCube\PlayerCube\PlayerCube.h">
+      <Filter>Source Files\Object\GameObject\CubeBase\MoveCube\PlayerCube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Object\GameObject\MainCamera\MainCamera.h">
+      <Filter>Source Files\Object\GameObject\MainCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Object\GameObject\CubeBase\SpringCube\SpringCube.h">
+      <Filter>Source Files\Object\GameObject\CubeBase\SpringCube</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -250,9 +241,6 @@
       <Filter>Source Files\Scene\Category\Title</Filter>
     </ClCompile>
     <ClCompile Include="..\src\MainProject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\NotUse\MainCamera\MainCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Object\GameObject\CubeBase\AutoMoveCube\AutoMoveCube.cpp">
@@ -290,6 +278,18 @@
     </ClCompile>
     <ClCompile Include="..\src\Utility\Manager\TextureManager\TextureManager.cpp">
       <Filter>Source Files\Utility\Manager\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Object\GameObject\CubeBase\MoveCube\MoveCube.cpp">
+      <Filter>Source Files\Object\GameObject\CubeBase\MoveCube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Object\GameObject\CubeBase\MoveCube\PlayerCube\PlayerCube.cpp">
+      <Filter>Source Files\Object\GameObject\CubeBase\MoveCube\PlayerCube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Object\GameObject\MainCamera\MainCamera.cpp">
+      <Filter>Source Files\Object\GameObject\MainCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Object\GameObject\CubeBase\SpringCube\SpringCube.cpp">
+      <Filter>Source Files\Object\GameObject\CubeBase\SpringCube</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

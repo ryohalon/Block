@@ -50,7 +50,7 @@ void ShrinkCube::Setup()
 {
 	if (shrink_value.x > 0)
 		shrink_direction = ShrinkDirection::LEFT;
-	else if(shrink_value.x < 0)
+	else if (shrink_value.x < 0)
 		shrink_direction = ShrinkDirection::LEFT;
 	else if (shrink_value.y < 0)
 		shrink_direction = ShrinkDirection::UNDER;
@@ -60,7 +60,7 @@ void ShrinkCube::Setup()
 		shrink_direction = ShrinkDirection::BACK;
 	else if (shrink_value.z > 0)
 		shrink_direction = ShrinkDirection::FRONT;
-	
+
 	if (is_shrink)
 		AlreadyShrink();
 
@@ -77,9 +77,24 @@ void ShrinkCube::Update()
 	UpdateMatrix();
 }
 
+void ShrinkCube::Draw()
+{
+	ci::gl::pushModelView();
+
+	glMultMatrixf(matrix);
+
+	material.apply();
+	ci::gl::drawCube(ci::Vec3f::zero(), ci::Vec3f::one());
+
+	ci::gl::popModelView();
+}
+
 void ShrinkCube::AlreadyShrink()
 {
-	transform.scale = origin_scale + shrink_value;
+	transform.scale = origin_scale
+		+ ci::Vec3f(std::abs(shrink_value.x),
+			std::abs(shrink_value.y),
+			std::abs(shrink_value.z));
 
 	transform.pos = origin_pos + shrink_value / 2.0f;
 }
@@ -91,9 +106,12 @@ void ShrinkCube::Clicked()
 
 void ShrinkCube::ShrinkStart()
 {
+
 	end_shrinking_scale = (is_shrink == true) ?
 		origin_scale :
-		origin_scale + shrink_value;
+		origin_scale + ci::Vec3f(std::abs(shrink_value.x),
+			std::abs(shrink_value.y),
+			std::abs(shrink_value.z));
 
 	start_shrinking_scale = transform.scale;
 	time = 0.0f;
@@ -110,12 +128,21 @@ void ShrinkCube::Shrinking()
 	float time_ = Easing::CubicOut(time, 0.0f, 1.0f);
 
 	transform.scale = ci::lerp(start_shrinking_scale, end_shrinking_scale, time_);
-	ci::Vec3f distance = transform.scale - origin_scale;
+
+	ci::Vec3f distance;
+	if (shrink_direction == ShrinkDirection::UNDER ||
+		shrink_direction == ShrinkDirection::BACK ||
+		shrink_direction == ShrinkDirection::RIGHT)
+	{
+		distance = origin_scale - transform.scale;
+	}
+	else
+	{
+		distance = transform.scale - origin_scale;
+	}
+	
 	transform.pos = origin_pos + distance / 2.0f;
 
 	if (time_ >= 1.0f)
-	{
-		time = 0.0f;
 		is_shrinking = false;
-	}
 }

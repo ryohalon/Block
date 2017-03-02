@@ -41,6 +41,7 @@ public:
 
 	void Setup() override;
 	void Update() override;
+	void Draw() override;
 	
 	void AlreadyShrink();
 	void Clicked() override;

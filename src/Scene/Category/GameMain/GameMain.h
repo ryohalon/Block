@@ -1,9 +1,9 @@
 #pragma once
 #include "../../SceneBase.h"
 #include "../../../Object/MapManager/MapManager.h"
-#include "../../../Object/GameObject/CubeBase/AutoMoveCube/AutoMoveCube.h"
+#include "../../../Object/GameObject/CubeBase/MoveCube/PlayerCube/PlayerCube.h"
+#include "../../../Object/GameObject/MainCamera/MainCamera.h"
 #ifdef _DEBUG
-#include "../../../NotUse/MainCamera/MainCamera.h"
 #include "../../../Object/GameObject/SkyDome/SkyDome.h"
 #include <cinder/gl/Light.h>
 #endif
@@ -32,15 +32,20 @@ private:
 	void SearchMoveDirectionCube(const ci::Vec3i &player_map_pos, const int &move_direction);
 	void SetFallPos(const ci::Vec3i &player_map_pos);
 
-	MapManager map_manager;
-	AutoMoveCube main_cube;
+	void Failed();
+	void Goal();
 
-	bool is_failed;
+	MainCamera main_camera;
+
+	MapManager map_manager;
+	PlayerCube player_cube;
+
+	bool is_failed, is_goal;
 	float failed_fall_pos_y;
 
 #ifdef _DEBUG
-	MainCamera camera;
 	SkyDome sky;
 	ci::gl::Light *point_light;
+	ci::gl::Light *light;
 #endif
 };

@@ -1,5 +1,7 @@
 {
-  "cube_size": [ 1.0, 1.0, 1.0 ],
+  "cube_scale": 1.0,
+  "rotate_take_time": 0.2,
+  "stage_rotate_angle": [ 0.0, 45.0, 0.0 ],
   "material": {
     "normal": {
       "ambient": [ 1.0, 1.0, 1.0, 1.0 ],
@@ -14,43 +16,104 @@
       "specular": [ 0.9, 0.0, 0.0, 1.0 ],
       "shininess": 80.0,
       "emission": [ 0.0, 0.0, 0.0, 0.0 ]
+    },
+    "start": {
+      "ambient": [ 0.0, 0.0, 0.7, 1.0 ],
+      "diffuse": [ 0.0, 0.0, 0.7, 1.0 ],
+      "specular": [ 0.0, 0.0, 0.9, 1.0 ],
+      "shininess": 80.0,
+      "emission": [ 0.0, 0.0, 0.0, 0.0 ]
+    },
+    "goal": {
+      "ambient": [ 0.0, 0.7, 0.0, 1.0 ],
+      "diffuse": [ 0.0, 0.7, 0.0, 1.0 ],
+      "specular": [ 0.0, 0.9, 0.0, 1.0 ],
+      "shininess": 80.0,
+      "emission": [ 0.0, 0.0, 0.0, 0.0 ]
+    },
+    "vanish": {
+      "ambient": [ 0.6, 0.6, 0.0, 1.0 ],
+      "diffuse": [ 0.7, 0.7, 0.0, 1.0 ],
+      "specular": [ 0.9, 0.9, 0.0, 1.0 ],
+      "shininess": 80.0,
+      "emission": [ 0.0, 0.0, 0.0, 0.0 ]
     }
   },
 
   "_0": {
-    "_6": {
-      "_2": {
+    "_10": {
+      "_14": {
         "shrink_value": [ 0.0, 1.0, 0.0 ],
         "is_shrink": true,
+        "take_time": 1.0
+      }
+    },
+    "_13": {
+      "_13": {
+        "shrink_value": [ 0.0, 2.0, 0.0 ],
+        "is_shrink": true,
+        "take_time": 0.1
+      }
+    }
+  },
+
+  "_1": {
+    "_2": {
+      "_9": {
+        "shrink_value": [ 0.0, 1.0, 0.0 ],
+        "is_shrink": true,
+        "take_time": 1.0
+      }
+    },
+    "_3": {
+      "_9": {
+        "shrink_value": [ 0.0, 1.0, 0.0 ],
+        "is_shrink": false,
         "take_time": 2.0
-      },
-      "_3": {
-        "shrink_value": [ 0.0, 1.0, 0.0 ],
-        "is_shrink": false,
-        "take_time": 1.0
       }
     },
+    "_4": {
+      "_9": {
+        "shrink_value": [ 0.0, 1.0, 0.0 ],
+        "is_shrink": true,
+        "take_time": 3.0
+      }
+    },
+    "_14": {
+      "_14": {
+        "shrink_value": [ 2.0, 0.0, 0.0 ],
+        "is_shrink": false,
+        "take_time": 1.5
+      }
+    }
 
+  },
+
+  "_2": {
+    "_2": {
+      "_10": {
+        "is_vanish": false
+      }
+    },
+    "_3": {
+      "_10": {
+        "is_vanish": false
+      }
+    },
+    "_4": {
+      "_10": {
+        "is_vanish": true
+      }
+    },
+    "_5": {
+      "_10": {
+        "is_vanish": true
+      }
+    },
     "_7": {
-      "_6": {
-        "shrink_value": [ 0.0, 1.0, 0.0 ],
+      "_16": {
+        "shrink_value": [ 0.0, -1.0, 0.0 ],
         "is_shrink": true,
-        "take_time": 1.0
-      }
-    },
-
-    "_16": {
-      "_2": {
-        "shrink_value": [ 0.0, 1.0, 0.0 ],
-        "is_shrink": true,
-        "take_time": 1.0
-      }
-    },
-
-    "_17": {
-      "_2": {
-        "shrink_value": [ 0.0, 1.0, 0.0 ],
-        "is_shrink": false,
         "take_time": 1.0
       }
     }

@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 
-SceneManager::SceneManager()
+SceneManager::SceneManager() :
+	now_scene(nullptr)
 {
 
 }
@@ -17,7 +18,7 @@ void SceneManager::Resize()
 
 void SceneManager::Setup()
 {
-	now_scene = std::make_shared<GameMain>();
+	now_scene = std::make_shared<Title>();
 	now_scene->Setup();
 }
 

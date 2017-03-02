@@ -7,6 +7,13 @@ class VanishCube : public CubeBase
 public:
 
 	VanishCube();
+	VanishCube(const ci::Vec3f &pos,
+		const ci::Vec3f &angle,
+		const ci::Vec3f &scale,
+		const ci::gl::Material &material,
+		const CubeType &type,
+		const ci::Vec3i &map_pos,
+		const bool &is_vanish);
 	~VanishCube();
 
 	bool GetIsVanish() const { return is_vanish; }
@@ -16,6 +23,8 @@ public:
 	void Setup() override;
 	void Update() override;
 	void Draw() override;
+
+	void Clicked();
 
 private:
 

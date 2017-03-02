@@ -38,7 +38,5 @@ protected:
 	SceneType next_scene;
 	bool is_end;
 
-	ci::CameraPersp camera_persp;
 	ci::CameraOrtho camera_ortho;
-
 };
