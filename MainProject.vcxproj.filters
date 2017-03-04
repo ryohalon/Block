@@ -204,11 +204,11 @@
     <ClInclude Include="..\src\Object\GameObject\CubeBase\MoveCube\PlayerCube\PlayerCube.h">
       <Filter>Source Files\Object\GameObject\CubeBase\MoveCube\PlayerCube</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Object\GameObject\MainCamera\MainCamera.h">
-      <Filter>Source Files\Object\GameObject\MainCamera</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Object\GameObject\CubeBase\SpringCube\SpringCube.h">
       <Filter>Source Files\Object\GameObject\CubeBase\SpringCube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Object\GameObject\MainCamera\MainCamera.h">
+      <Filter>Source Files\Object\GameObject\MainCamera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -279,17 +279,20 @@
     <ClCompile Include="..\src\Utility\Manager\TextureManager\TextureManager.cpp">
       <Filter>Source Files\Utility\Manager\TextureManager</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\NotUse\MainCamera\MainCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\Object\GameObject\CubeBase\MoveCube\MoveCube.cpp">
       <Filter>Source Files\Object\GameObject\CubeBase\MoveCube</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Object\GameObject\CubeBase\MoveCube\PlayerCube\PlayerCube.cpp">
       <Filter>Source Files\Object\GameObject\CubeBase\MoveCube\PlayerCube</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Object\GameObject\MainCamera\MainCamera.cpp">
-      <Filter>Source Files\Object\GameObject\MainCamera</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Object\GameObject\CubeBase\SpringCube\SpringCube.cpp">
       <Filter>Source Files\Object\GameObject\CubeBase\SpringCube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Object\GameObject\MainCamera\MainCamera.cpp">
+      <Filter>Source Files\Object\GameObject\MainCamera</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

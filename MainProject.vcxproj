@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0B3350A2-DF33-4E9B-8A6F-4232231FCAD1}</ProjectGuid>
+    <RootNamespace>TemplateProject</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\include;"..\..\cinder_0.8.6_vs2015\include";"..\..\cinder_0.8.6_vs2015\boost"</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;NOMINMAX;_WIN32_WINNT=0x0502;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>"..\..\cinder_0.8.6_vs2015\include";..\include</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>cinder-$(PlatformToolset)_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\cinder_0.8.6_vs2015\lib\msw\$(PlatformTarget);..\lib\msw\$(PlatformTarget)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+      <TargetMachine>MachineX86</TargetMachine>
+      <IgnoreSpecificDefaultLibraries>LIBCMT;LIBCPMT</IgnoreSpecificDefaultLibraries>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\include;"..\..\cinder_0.8.6_vs2015\include";"..\..\cinder_0.8.6_vs2015\boost"</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;NOMINMAX;_WIN32_WINNT=0x0502;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>"..\..\cinder_0.8.6_vs2015\include";..\include</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>cinder-$(PlatformToolset).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>"..\..\cinder_0.8.6_vs2015\lib\msw\$(PlatformTarget)"</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding />
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\MainProject.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\NotUse\MainCamera\MainCamera.cpp" />
+    <ClCompile Include="..\src\Object\GameObject\CubeBase\AutoMoveCube\AutoMoveCube.cpp" />
+    <ClCompile Include="..\src\Object\GameObject\CubeBase\MoveCube\MoveCube.cpp" />
+    <ClCompile Include="..\src\Object\GameObject\CubeBase\MoveCube\PlayerCube\PlayerCube.cpp" />
+    <ClCompile Include="..\src\Object\GameObject\CubeBase\ShrinkCube\ShrinkCube.cpp" />
+    <ClCompile Include="..\src\Object\GameObject\CubeBase\SpringCube\SpringCube.cpp" />
+    <ClCompile Include="..\src\Object\GameObject\CubeBase\VanishCube\VanishCube.cpp" />
+    <ClCompile Include="..\src\Object\GameObject\MainCamera\MainCamera.cpp" />
+    <ClCompile Include="..\src\Object\GameObject\SkyDome\SkyDome.cpp" />
+    <ClCompile Include="..\src\Object\MapManager\MapManager.cpp" />
+    <ClCompile Include="..\src\Scene\Category\GameMain\GameMain.cpp" />
+    <ClCompile Include="..\src\Scene\Category\Option\Option.cpp" />
+    <ClCompile Include="..\src\Scene\Category\StageSelect\StageSelect.cpp" />
+    <ClCompile Include="..\src\Scene\Category\Title\Title.cpp" />
+    <ClCompile Include="..\src\Scene\SceneManager\SceneManager.cpp" />
+    <ClCompile Include="..\src\Utility\Collision\Collision.cpp" />
+    <ClCompile Include="..\src\Utility\Input\Key\Key.cpp" />
+    <ClCompile Include="..\src\Utility\Input\Mouse\Mouse.cpp" />
+    <ClCompile Include="..\src\Utility\Manager\EasingManager\EasingManager.cpp" />
+    <ClCompile Include="..\src\Utility\Manager\SoundManager\SoundManager.cpp" />
+    <ClCompile Include="..\src\Utility\Manager\SoundManager\Sound\Sound.cpp" />
+    <ClCompile Include="..\src\Utility\Manager\TextureManager\TextureManager.cpp" />
+    <ClCompile Include="..\src\Utility\Utility.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\Resources.h" />
+    <ClInclude Include="..\src\Object\Component\Transform\Transform.h" />
+    <ClInclude Include="..\src\Object\GameObject\CubeBase\AutoMoveCube\AutoMoveCube.h" />
+    <ClInclude Include="..\src\Object\GameObject\CubeBase\CubeBase.h" />
+    <ClInclude Include="..\src\Object\GameObject\CubeBase\MoveCube\MoveCube.h" />
+    <ClInclude Include="..\src\Object\GameObject\CubeBase\MoveCube\PlayerCube\PlayerCube.h" />
+    <ClInclude Include="..\src\Object\GameObject\CubeBase\ShrinkCube\ShrinkCube.h" />
+    <ClInclude Include="..\src\Object\GameObject\CubeBase\SpringCube\SpringCube.h" />
+    <ClInclude Include="..\src\Object\GameObject\CubeBase\VanishCube\VanishCube.h" />
+    <ClInclude Include="..\src\Object\GameObject\GameObject.h" />
+    <ClInclude Include="..\src\Object\GameObject\MainCamera\MainCamera.h" />
+    <ClInclude Include="..\src\Object\GameObject\SkyDome\SkyDome.h" />
+    <ClInclude Include="..\src\Object\MapManager\MapManager.h" />
+    <ClInclude Include="..\src\Object\Object.h" />
+    <ClInclude Include="..\src\Scene\Category\GameMain\GameMain.h" />
+    <ClInclude Include="..\src\Scene\Category\Option\Option.h" />
+    <ClInclude Include="..\src\Scene\Category\StageSelect\StageSelect.h" />
+    <ClInclude Include="..\src\Scene\Category\Title\Title.h" />
+    <ClInclude Include="..\src\Scene\SceneBase.h" />
+    <ClInclude Include="..\src\Scene\SceneManager\SceneManager.h" />
+    <ClInclude Include="..\src\Utility\Collision\Collision.h" />
+    <ClInclude Include="..\src\Utility\Input\Key\Key.h" />
+    <ClInclude Include="..\src\Utility\Input\Mouse\Mouse.h" />
+    <ClInclude Include="..\src\Utility\Manager\EasingManager\EasingManageOne\EasingManageOne.h" />
+    <ClInclude Include="..\src\Utility\Manager\EasingManager\EasingManager.h" />
+    <ClInclude Include="..\src\Utility\Manager\EasingManager\Easing\Easing.h" />
+    <ClInclude Include="..\src\Utility\Manager\SoundManager\SoundManager.h" />
+    <ClInclude Include="..\src\Utility\Manager\SoundManager\Sound\Sound.h" />
+    <ClInclude Include="..\src\Utility\Manager\TextureManager\TextureManager.h" />
+    <ClInclude Include="..\src\Utility\Manager\TimeManager\TimeManager.h" />
+    <ClInclude Include="..\src\Utility\Utility.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>
