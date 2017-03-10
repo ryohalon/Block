@@ -14,7 +14,7 @@ public:
 	void Resize() override;
 	void Setup() override;
 	void Update() override;
-	void Draw() override;
+	void Draw(const ci::CameraOrtho &camera_ortho) override;
 
 private:
 

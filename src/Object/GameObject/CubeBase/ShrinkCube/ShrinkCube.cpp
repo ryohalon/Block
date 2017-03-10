@@ -18,21 +18,16 @@ ShrinkCube::ShrinkCube() :
 
 }
 
-ShrinkCube::ShrinkCube(const ci::Vec3f & pos,
-	const ci::Vec3f & angle,
-	const ci::Vec3f & scale,
-	const ci::gl::Material & material,
-	const CubeType &type,
-	const ci::Vec3i & map_pos,
+ShrinkCube::ShrinkCube(const CubeBase & cube_base,
 	const bool & is_shrink,
 	const ci::Vec3f & shrink_value,
 	const float & take_time) :
-	CubeBase(pos, angle, scale, material, type, map_pos),
+	CubeBase(cube_base),
 	is_shrink(is_shrink),
 	is_shrinking(false),
 	shrink_value(shrink_value),
-	origin_pos(pos),
-	origin_scale(scale),
+	origin_pos(cube_base.GetTransform().pos),
+	origin_scale(cube_base.GetTransform().scale),
 	start_shrinking_scale(ci::Vec3f::one()),
 	end_shrinking_scale(ci::Vec3f::one()),
 	time(0.0f),

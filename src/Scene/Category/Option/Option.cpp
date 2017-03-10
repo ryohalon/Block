@@ -25,7 +25,7 @@ void Option::Update()
 
 }
 
-void Option::Draw()
+void Option::Draw(const ci::CameraOrtho &camera_ortho)
 {
 
 }

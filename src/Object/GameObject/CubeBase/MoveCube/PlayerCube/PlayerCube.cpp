@@ -4,24 +4,17 @@
 #include "../../../../../Utility/Utility.h"
 
 PlayerCube::PlayerCube() :
-	MoveCube(),
 	fall_take_time(1.0f),
 	is_falling(false)
 {
 
 }
 
-PlayerCube::PlayerCube(const ci::Vec3f & pos,
-	const ci::Vec3f & angle,
-	const ci::Vec3f & scale,
-	const ci::gl::Material & material,
-	const CubeType & type,
-	const ci::Vec3i & map_pos,
-	const float & move_take_time,
-	const float & fall_take_time,
-	const MoveDirection & move_direction) :
-	MoveCube(pos, angle, scale, material, type, map_pos, move_take_time, move_direction),
-	fall_take_time(1.0f)
+PlayerCube::PlayerCube(const MoveCube & move_cube,
+	const float & fall_take_time) :
+	MoveCube(move_cube),
+	fall_take_time(fall_take_time),
+	is_falling(false)
 {
 
 }

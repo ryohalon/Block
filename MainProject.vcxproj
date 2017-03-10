@@ -115,8 +115,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\src\NotUse\MainCamera\MainCamera.cpp" />
-    <ClCompile Include="..\src\Object\GameObject\CubeBase\AutoMoveCube\AutoMoveCube.cpp" />
     <ClCompile Include="..\src\Object\GameObject\CubeBase\MoveCube\MoveCube.cpp" />
     <ClCompile Include="..\src\Object\GameObject\CubeBase\MoveCube\PlayerCube\PlayerCube.cpp" />
     <ClCompile Include="..\src\Object\GameObject\CubeBase\ShrinkCube\ShrinkCube.cpp" />
@@ -127,7 +125,6 @@
     <ClCompile Include="..\src\Object\MapManager\MapManager.cpp" />
     <ClCompile Include="..\src\Scene\Category\GameMain\GameMain.cpp" />
     <ClCompile Include="..\src\Scene\Category\Option\Option.cpp" />
-    <ClCompile Include="..\src\Scene\Category\StageSelect\StageSelect.cpp" />
     <ClCompile Include="..\src\Scene\Category\Title\Title.cpp" />
     <ClCompile Include="..\src\Scene\SceneManager\SceneManager.cpp" />
     <ClCompile Include="..\src\Utility\Collision\Collision.cpp" />
@@ -142,7 +139,6 @@
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h" />
     <ClInclude Include="..\src\Object\Component\Transform\Transform.h" />
-    <ClInclude Include="..\src\Object\GameObject\CubeBase\AutoMoveCube\AutoMoveCube.h" />
     <ClInclude Include="..\src\Object\GameObject\CubeBase\CubeBase.h" />
     <ClInclude Include="..\src\Object\GameObject\CubeBase\MoveCube\MoveCube.h" />
     <ClInclude Include="..\src\Object\GameObject\CubeBase\MoveCube\PlayerCube\PlayerCube.h" />
@@ -156,7 +152,6 @@
     <ClInclude Include="..\src\Object\Object.h" />
     <ClInclude Include="..\src\Scene\Category\GameMain\GameMain.h" />
     <ClInclude Include="..\src\Scene\Category\Option\Option.h" />
-    <ClInclude Include="..\src\Scene\Category\StageSelect\StageSelect.h" />
     <ClInclude Include="..\src\Scene\Category\Title\Title.h" />
     <ClInclude Include="..\src\Scene\SceneBase.h" />
     <ClInclude Include="..\src\Scene\SceneManager\SceneManager.h" />

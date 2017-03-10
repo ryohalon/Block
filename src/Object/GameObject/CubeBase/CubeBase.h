@@ -12,6 +12,7 @@ enum class CubeType
 	AUTOMOVE,
 	START,
 	GOAL,
+	SPRING,
 	TYPEMAX
 };
 
@@ -24,13 +25,11 @@ public:
 		type(CubeType::NONE),
 		map_pos(ci::Vec3i::zero())
 	{}
-	CubeBase(const ci::Vec3f &pos,
-		const ci::Vec3f &angle,
-		const ci::Vec3f &scale,
+	CubeBase(const Transform &transform,
 		const ci::gl::Material &material,
 		const CubeType &type,
 		const ci::Vec3i &map_pos):
-		GameObject(Transform(pos, angle, scale)),
+		GameObject(transform),
 		type(type),
 		material(material),
 		map_pos(map_pos)

@@ -2,20 +2,14 @@
 #include "../MoveCube.h"
 
 
+
 class PlayerCube : public MoveCube
 {
 public:
 
 	PlayerCube();
-	PlayerCube(const ci::Vec3f &pos,
-		const ci::Vec3f &angle,
-		const ci::Vec3f &scale,
-		const ci::gl::Material &material,
-		const CubeType &type,
-		const ci::Vec3i &map_pos,
-		const float &move_take_time,
-		const float &fall_take_time,
-		const MoveDirection &move_direction);
+	PlayerCube(const MoveCube &move_cube,
+		const float &fall_take_time);
 	~PlayerCube();
 
 	bool GetIsFalling() const { return is_falling; }

@@ -16,15 +16,10 @@ public:
 	};
 
 	MoveCube();
-	MoveCube(const ci::Vec3f &pos,
-		const ci::Vec3f &angle,
-		const ci::Vec3f &scale,
-		const ci::gl::Material &material,
-		const CubeType &type,
-		const ci::Vec3i &map_pos,
+	MoveCube(const CubeBase &cube_base,
 		const float &move_take_time,
 		const MoveDirection &move_direction);
-	~MoveCube();
+	virtual ~MoveCube();
 
 	bool GetIsMoving() const { return is_moving; }
 	MoveDirection GetMoveDirection() const { return next_direction; }
@@ -35,7 +30,7 @@ public:
 	virtual void Draw() override;
 
 	// 移動スタート
-	void MoveStart();
+	void StartMotion();
 
 protected:
 

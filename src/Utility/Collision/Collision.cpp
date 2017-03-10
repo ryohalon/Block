@@ -1,4 +1,5 @@
 #include "Collision.h"
+#include <cinder/Vector.h>
 
 namespace Collision
 {

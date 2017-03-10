@@ -18,12 +18,7 @@ public:
 	};
 
 	ShrinkCube();
-	ShrinkCube(const ci::Vec3f &pos,
-		const ci::Vec3f &angle,
-		const ci::Vec3f &scale,
-		const ci::gl::Material &material,
-		const CubeType &type,
-		const ci::Vec3i &map_pos,
+	ShrinkCube(const CubeBase &cube_base,
 		const bool &is_shrink,
 		const ci::Vec3f &shrink_value,
 		const float &take_time);

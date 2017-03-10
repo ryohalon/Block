@@ -1,8 +1,14 @@
 #pragma once
-#include "cinder/app/MouseEvent.h"
 #include <set>
 #include <memory>
+#include <cinder/Vector.h>
 
+namespace cinder {
+	namespace app {
+		class MouseEvent;
+	}
+}
+namespace ci = cinder;
 
 
 class Mouse

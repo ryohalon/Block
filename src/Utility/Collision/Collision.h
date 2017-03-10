@@ -1,6 +1,11 @@
 #pragma once
-#include "cinder/Vector.h"
-
+namespace cinder
+{
+	template<typename T>
+	class Vec3;
+	typedef Vec3<float>		Vec3f;
+}
+namespace ci = cinder;
 
 namespace Collision
 {

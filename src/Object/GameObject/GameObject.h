@@ -15,7 +15,6 @@ class GameObject : public Object
 public:
 
 	GameObject() :
-		transform(Transform()),
 		matrix(ci::Matrix44f::identity()),
 		is_stop(true)
 	{}

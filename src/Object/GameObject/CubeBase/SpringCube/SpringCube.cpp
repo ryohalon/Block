@@ -5,15 +5,10 @@ SpringCube::SpringCube()
 
 }
 
-SpringCube::SpringCube(const ci::Vec3f & pos,
-	const ci::Vec3f & angle,
-	const ci::Vec3f & scale,
-	const ci::gl::Material & material,
-	const CubeType & type,
-	const ci::Vec3i & map_pos,
+SpringCube::SpringCube(const CubeBase & cube_base,
 	const ci::Vec2f & spring_power,
 	const float & spring_take_time) :
-	CubeBase(pos, angle, scale, material, type, map_pos),
+	CubeBase(cube_base),
 	spring_power(spring_power),
 	time(0.0f),
 	spring_take_time(spring_take_time),

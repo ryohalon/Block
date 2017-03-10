@@ -1,9 +1,13 @@
 #pragma once
-#include "cinder/app/KeyEvent.h"
 #include <set>
 #include <memory>
 
-
+namespace cinder {
+	namespace app {
+		class KeyEvent;
+	}
+}
+namespace ci = cinder;
 
 
 class Key

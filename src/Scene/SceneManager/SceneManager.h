@@ -1,8 +1,8 @@
 #pragma once
-#include "../Category/Title/Title.h"
-#include "../Category/StageSelect/StageSelect.h"
-#include "../Category/GameMain/GameMain.h"
-#include "../Category/Option/Option.h"
+#include "cinder/Camera.h"
+
+class SceneBase;
+
 
 
 class SceneManager
@@ -30,5 +30,5 @@ private:
 
 	std::shared_ptr<SceneBase> now_scene;
 
-	ci::CameraOrtho ui_camera;
+	ci::CameraOrtho camera_ortho;
 };

@@ -31,12 +31,10 @@ public:
 	virtual void Resize() = 0;
 	virtual void Setup() = 0;
 	virtual void Update() = 0;
-	virtual void Draw() = 0;
+	virtual void Draw(const ci::CameraOrtho &camera_ortho) = 0;
 
 protected:
 
 	SceneType next_scene;
 	bool is_end;
-
-	ci::CameraOrtho camera_ortho;
 };

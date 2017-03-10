@@ -1,4 +1,6 @@
 #include "MapManager.h"
+#include "../GameObject/CubeBase/ShrinkCube/ShrinkCube.h"
+#include "../GameObject/CubeBase/VanishCube/VanishCube.h"
 #include "cinder/Filesystem.h"
 #include "../../Utility/Utility.h"
 #include "../../Utility/Input/Key/Key.h"
@@ -9,7 +11,7 @@
 MapManager::MapManager() :
 	start_rotate_angle(0.0f),
 	end_rotate_angle(0.0f),
-	max_rotate_angle(M_PI / 2.0f),
+	max_rotate_angle(static_cast<float>(M_PI) / 2.0f),
 	is_rotating(false),
 	stage_matrix(ci::Matrix44f::identity())
 {
@@ -31,7 +33,21 @@ void MapManager::Setup(const int &world, const int &stage)
 	rotate_take_time = params.getValueForKey<float>("rotate_take_time");
 	stage_rotate_angle = GetVec3f(params["stage_rotate_angle"]);
 
-	std::fstream file(GetFilePath(file_path) + "Stage.csv");
+	CreateMap(params, std::fstream(GetFilePath(file_path) + "Stage.csv"));
+
+	map_center_pos = ci::Vec3f(
+		static_cast<float>(cube_types[0][0].size() - 1) * cube_scale.x / 2.0f,
+		static_cast<float>(cube_types.size() - 1) * cube_scale.y / 2.0f,
+		static_cast<float>(cube_types[0].size() - 1) * cube_scale.z / 2.0f);
+	ci::Matrix44f mtranslate = ci::Matrix44f::createTranslation(map_center_pos);
+	ci::Matrix44f mrotate = ci::Matrix44f::createRotation(stage_rotate_angle);
+	stage_matrix = mtranslate * mrotate * mtranslate.inverted();
+
+	CubeSetup();
+}
+
+void MapManager::CreateMap(const ci::JsonTree & params, std::fstream &file)
+{
 	std::string line;
 	int y = 0;
 	int z = 0;
@@ -54,13 +70,15 @@ void MapManager::Setup(const int &world, const int &stage)
 			CubeType type_ = static_cast<CubeType>(boost::lexical_cast<int>(type));
 			cube_types_x.push_back(type_);
 
+			Transform transform = Transform(cube_scale * ci::Vec3f(x, y, z),
+				ci::Vec3f::zero(),
+				cube_scale);
+
 			switch (type_)
 			{
 			case CubeType::NORMAL:
 
-				cubes.push_back(new CubeBase(cube_scale * ci::Vec3f(x, y, z),
-					ci::Vec3f::zero(),
-					cube_scale,
+				cubes.push_back(new CubeBase(transform,
 					ci::gl::Material(GetMaterial(params["material"]["normal"])),
 					CubeType::NORMAL,
 					ci::Vec3i(x, y, z)));
@@ -69,12 +87,10 @@ void MapManager::Setup(const int &world, const int &stage)
 
 			{
 				ci::JsonTree params_ = params["_" + std::to_string(y)]["_" + std::to_string(z)]["_" + std::to_string(x)];
-				cubes.push_back(new ShrinkCube(cube_scale * ci::Vec3f(x, y, z),
-					ci::Vec3f::zero(),
-					cube_scale,
+				cubes.push_back(new ShrinkCube(CubeBase(transform,
 					ci::gl::Material(GetMaterial(params["material"]["shrink"])),
 					CubeType::SHRINK,
-					ci::Vec3i(x, y, z),
+					ci::Vec3i(x, y, z)),
 					params_.getValueForKey<bool>("is_shrink"),
 					GetVec3f(params_["shrink_value"]),
 					params_.getValueForKey<float>("take_time")));
@@ -83,30 +99,24 @@ void MapManager::Setup(const int &world, const int &stage)
 			case CubeType::START:
 
 				player_start_pos = ci::Vec3i(x, y + 1, z);
-				cubes.push_back(new CubeBase(cube_scale * ci::Vec3f(x, y, z),
-					ci::Vec3f::zero(),
-					cube_scale,
+				cubes.push_back(new CubeBase(transform,
 					ci::gl::Material(GetMaterial(params["material"]["start"])),
 					CubeType::NORMAL,
 					ci::Vec3i(x, y, z)));
 				break;
 			case CubeType::GOAL:
 
-				cubes.push_back(new CubeBase(cube_scale * ci::Vec3f(x, y, z),
-					ci::Vec3f::zero(),
-					cube_scale,
+				cubes.push_back(new CubeBase(transform,
 					ci::gl::Material(GetMaterial(params["material"]["goal"])),
 					CubeType::NORMAL,
 					ci::Vec3i(x, y, z)));
 				break;
 			case CubeType::VANISH:
 
-				cubes.push_back(new VanishCube(cube_scale * ci::Vec3f(x, y, z),
-					ci::Vec3f::zero(),
-					cube_scale,
+				cubes.push_back(new VanishCube(CubeBase(transform,
 					ci::gl::Material(GetMaterial(params["material"]["vanish"])),
 					CubeType::VANISH,
-					ci::Vec3i(x, y, z),
+					ci::Vec3i(x, y, z)),
 					params["_" + std::to_string(y)]
 					["_" + std::to_string(z)]
 				["_" + std::to_string(x)].getValueForKey<bool>("is_vanish")));
@@ -133,15 +143,10 @@ void MapManager::Setup(const int &world, const int &stage)
 			cube_types_x.clear();
 		}
 	}
+}
 
-	map_center_pos = ci::Vec3f(
-		static_cast<float>(cube_types[0][0].size() - 1) * cube_scale.x / 2.0f,
-		static_cast<float>(cube_types.size() - 1) * cube_scale.y / 2.0f,
-		static_cast<float>(cube_types[0].size() - 1) * cube_scale.z / 2.0f);
-	ci::Matrix44f mtranslate = ci::Matrix44f::createTranslation(map_center_pos);
-	ci::Matrix44f mrotate = ci::Matrix44f::createRotation(stage_rotate_angle);
-	stage_matrix = mtranslate * mrotate * mtranslate.inverted();
-
+void MapManager::CubeSetup()
+{
 	for (auto &cube : cubes)
 	{
 		cube->Setup();

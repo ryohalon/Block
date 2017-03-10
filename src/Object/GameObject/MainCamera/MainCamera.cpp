@@ -4,9 +4,9 @@
 #include "../../../Utility/Manager/TimeManager/TimeManager.h"
 #include "../../../Utility/Manager/EasingManager/Easing/Easing.h"
 #include "../../../Utility/Utility.h"
+#include <cinder/Ray.h>
 
 MainCamera::MainCamera() :
-	GameObject(),
 	camera_persp(ci::CameraPersp(ci::app::getWindowWidth(),
 		ci::app::getWindowHeight(),
 		60.0f,
@@ -61,18 +61,29 @@ void MainCamera::Setup(const ci::JsonTree & params)
 void MainCamera::Update()
 {
 	Move();
-	/*Rotating();
-
-	if (Key::Get().IsPushKey(ci::app::KeyEvent::KEY_q) ||
-		Key::Get().IsPushKey(ci::app::KeyEvent::KEY_e))
-	{
-		RotateStart();
-	}*/
 }
 
 void MainCamera::Draw()
 {
 	ci::gl::setMatrices(camera_persp);
+}
+
+ci::Ray MainCamera::CreateRayCameraToMouse()
+{
+	// マウス座標を(0,0)~(1,1)の範囲に正規化する
+	//		マウスの座標はYの下方向がプラス
+	//      表示座標はYの上方向がプラス
+	//      向きが逆なので、補正します
+	ci::Vec2f mouse_pos_window_ratio = ci::Vec2f(
+		static_cast<float>(Mouse::Get().GetMousePosition().x) / ci::app::getWindowSize().x,
+		1.0f - static_cast<float>(Mouse::Get().GetMousePosition().y) / ci::app::getWindowSize().y);
+
+	ci::Ray ray = camera_persp.generateRay(
+		mouse_pos_window_ratio.x,
+		mouse_pos_window_ratio.y,
+		ci::app::getWindowAspectRatio());
+
+	return ray;
 }
 
 void MainCamera::Move()

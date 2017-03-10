@@ -2,6 +2,9 @@
 #include <cinder/Camera.h>
 #include "../GameObject.h"
 
+namespace cinder {
+	class Ray;
+}
 
 
 class MainCamera : public GameObject
@@ -12,12 +15,14 @@ public:
 	~MainCamera();
 
 	const ci::CameraPersp& GetCamera() const { return camera_persp; }
-	void SetInterestPoint(const ci::Vec3f &map_center_pos) { interest_point = map_center_pos; }
+	void SetInterestPoint(const ci::Vec3f &interest_point_) { interest_point = interest_point_; }
 
 	void Setup() override;
 	void Setup(const ci::JsonTree &params) override;
 	void Update() override;
 	void Draw() override;
+
+	ci::Ray CreateRayCameraToMouse();
 
 private:
 

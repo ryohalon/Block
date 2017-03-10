@@ -1,8 +1,6 @@
 #pragma once
 #include "../Object.h"
-#include "../GameObject/CubeBase/ShrinkCube/ShrinkCube.h"
-#include "../GameObject/CubeBase/VanishCube/VanishCube.h"
-
+#include "../GameObject/CubeBase/CubeBase.h"
 
 
 class MapManager : public Object
@@ -21,7 +19,6 @@ public:
 
 		return cube_types[map_pos.y][map_pos.z][map_pos.x];
 	}
-
 	std::vector<CubeBase*>& GetCubes() { return cubes; }
 
 	template<typename T>
@@ -45,6 +42,8 @@ public:
 	ci::Matrix44f GetStageMatrix() const { return stage_matrix; }
 
 	void Setup(const int &world, const int &stage);
+	void CreateMap(const ci::JsonTree &params, std::fstream &file);
+	void CubeSetup();
 	void Update();
 	void Draw();
 

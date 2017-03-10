@@ -6,16 +6,12 @@ VanishCube::VanishCube() :
 
 }
 
-VanishCube::VanishCube(const ci::Vec3f & pos,
-	const ci::Vec3f & angle,
-	const ci::Vec3f & scale,
-	const ci::gl::Material & material,
-	const CubeType & type,
-	const ci::Vec3i & map_pos,
+VanishCube::VanishCube(const CubeBase & cube_base,
 	const bool & is_vanish) :
-	CubeBase(pos, angle, scale, material, type, map_pos),
+	CubeBase(cube_base),
 	is_vanish(is_vanish)
 {
+
 }
 
 VanishCube::~VanishCube()

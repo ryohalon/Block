@@ -1,4 +1,7 @@
 #include "GameMain.h"
+#include "../../../Object/GameObject/CubeBase/ShrinkCube/ShrinkCube.h"
+#include "../../../Object/GameObject/CubeBase/VanishCube/VanishCube.h"
+#include "../../../Object/GameObject/CubeBase/SpringCube/SpringCube.h"
 #include "../../../Utility/Utility.h"
 #include "../../../Utility/Input/Mouse/Mouse.h"
 
@@ -61,8 +64,10 @@ void GameMain::Setup()
 
 void GameMain::Update()
 {
+#ifdef _DEBUG
 	if (Key::Get().IsPushKey(ci::app::KeyEvent::KEY_1))
 		Setup();
+#endif
 
 	main_camera.Update();
 
@@ -76,7 +81,7 @@ void GameMain::Update()
 	Goal();
 }
 
-void GameMain::Draw()
+void GameMain::Draw(const ci::CameraOrtho &camera_ortho)
 {
 	ci::gl::pushModelView();
 
@@ -84,9 +89,7 @@ void GameMain::Draw()
 
 #ifdef _DEBUG
 	
-	glCullFace(GL_FRONT);
 	sky.Draw();
-	glCullFace(GL_BACK);
 	point_light->setPosition(map_manager.GetStageMatrix() * player_cube.GetTransform().pos);
 	point_light->enable();
 	light->setPosition(map_manager.GetStageMatrix() * (map_manager.GetMapCenterPos() + ci::Vec3f(0.0f, 1.0f, 0.0f)));
@@ -112,18 +115,7 @@ void GameMain::ClickAction()
 	if (!Mouse::Get().IsPushButton(ci::app::MouseEvent::LEFT_DOWN))
 		return;
 
-	// マウス座標を(0,0)~(1,1)の範囲に正規化する
-	//		マウスの座標はYの下方向がプラス
-	//      表示座標はYの上方向がプラス
-	//      向きが逆なので、補正します
-	ci::Vec2f mouse_pos_window_ratio = ci::Vec2f(
-		static_cast<float>(Mouse::Get().GetMousePosition().x) / ci::app::getWindowSize().x,
-		1.0f - static_cast<float>(Mouse::Get().GetMousePosition().y) / ci::app::getWindowSize().y);
-
-	ci::Ray ray = main_camera.GetCamera().generateRay(
-		mouse_pos_window_ratio.x,
-		mouse_pos_window_ratio.y,
-		ci::app::getWindowAspectRatio());
+	ci::Ray ray = main_camera.CreateRayCameraToMouse();
 
 	ray.setOrigin(map_manager.GetStageMatrix().inverted() * ray.getOrigin());
 	ray.setDirection(map_manager.GetStageMatrix().inverted().transformVec(ray.getDirection()));
@@ -153,12 +145,25 @@ void GameMain::ClickAction()
 	if (clicked_cube == nullptr)
 		return;
 
+	// ShrinkCubeが上方向に収縮する場合
+	// プレイヤーキューブが上に存在するときはじく
 	if (clicked_cube->GetType() == CubeType::SHRINK)
 	{
 		ShrinkCube *shrink_cube = static_cast<ShrinkCube*>(clicked_cube);
 		if (shrink_cube->GetShrinkDirection() == ShrinkCube::ShrinkDirection::UP)
 		{
 			if (clicked_cube->GetMapPos() + ci::Vec3i(0, 1, 0) == player_cube.GetMapPos())
+				return;
+		}
+	}
+	// VanishCubeのis_vanishがtrueのとき
+	// プレイヤーキューブと位置が同じ場合はじく
+	else if (clicked_cube->GetType() == CubeType::VANISH)
+	{
+		VanishCube *vanish_cube = static_cast<VanishCube*>(clicked_cube);
+		if (vanish_cube->GetIsVanish())
+		{
+			if (clicked_cube->GetMapPos() == player_cube.GetMapPos())
 				return;
 		}
 	}
@@ -178,19 +183,9 @@ void GameMain::CollisionPlayerToMap()
 	if (player_cube.GetIsFalling())
 		return;
 
-	// まず真下のマップ情報を見る
-	// 　何もなかった場合 : 
-	// 　　下にキューブがある場合 : そのキューブの上まで落ちる
-	// 　　下にキューブがない場合 : 画面外まで落ちてゲームオーバーにする　この後のリスタート処理はどうするかは未定
-	// 　キューブがある場合 :
-	// 　　普通のキューブ : メインキューブの移動方向のキューブを調べる
-	// 　　　何もない場合 : 移動
-	// 　　　キューブがある場合 : 
-	// 　　　　普通のキューブ : 移動方向の変更　そのあとすぐ移動するか、1フレーム後にするかは未定
-	// 　　Vanish : オン、オフで変わる
-	// 　　　オン : ないものとして処理する
-	// 　　　オフ : 普通のキューブとして処理する
-
+	// プレイヤーキューブの
+	// 下、進行方向
+	// の順に調べて進む、落ちる、曲がる を決める
 	SearchUnderCube(player_cube.GetMapPos());
 }
 
@@ -204,18 +199,23 @@ void GameMain::SearchUnderCube(const ci::Vec3i & player_map_pos)
 	switch (type)
 	{
 	case CubeType::NONE:
+
 		SetFallPos(player_map_pos);
 		break;
+
+	case CubeType::GOAL:
+
+		is_goal = true;
+		break;
+
 	case CubeType::NORMAL:
-
-		SearchMoveDirectionCube(player_map_pos,
-			static_cast<int>(player_cube.GetMoveDirection()));
-		break;
 	case CubeType::SHRINK:
+	case CubeType::START:
 
 		SearchMoveDirectionCube(player_map_pos,
 			static_cast<int>(player_cube.GetMoveDirection()));
 		break;
+
 	case CubeType::VANISH:
 
 	{
@@ -230,16 +230,7 @@ void GameMain::SearchUnderCube(const ci::Vec3i & player_map_pos)
 				static_cast<int>(player_cube.GetMoveDirection()));
 	}
 	break;
-
-	case CubeType::START:
-
-		SearchMoveDirectionCube(player_map_pos,
-			static_cast<int>(player_cube.GetMoveDirection()));
-		break;
-
-	case CubeType::GOAL:
-
-		is_goal = true;
+	case CubeType::SPRING:
 		break;
 	}
 }
@@ -260,36 +251,33 @@ void GameMain::SearchMoveDirectionCube(const ci::Vec3i &player_map_pos, const in
 	switch (type)
 	{
 	case CubeType::NONE:
-		player_cube.MoveStart();
+
+		player_cube.StartMotion();
 		break;
+
 	case CubeType::NORMAL:
-		player_cube.Hit();
-		break;
 	case CubeType::SHRINK:
+	case CubeType::START:
+	case CubeType::GOAL:
+	case CubeType::SPRING:
+
 		player_cube.Hit();
 		break;
+
 	case CubeType::VANISH:
+
 	{
 		VanishCube *cube = map_manager.GetCube<VanishCube>(player_map_pos + move_map_pos[move_direction]);
 		if (cube->GetMapPos() == (ci::Vec3i::one() * -1))
 			assert(!"error : 存在しないキューブです");
 
 		if (cube->GetIsVanish())
-			player_cube.MoveStart();
+			player_cube.StartMotion();
 		else
 			player_cube.Hit();
 	}
 		break;
 
-	case CubeType::START:
-
-		player_cube.Hit();
-		break;
-
-	case CubeType::GOAL:
-
-		player_cube.Hit();
-		break;
 	}
 }
 
@@ -306,18 +294,26 @@ void GameMain::SetFallPos(const ci::Vec3i &player_map_pos)
 		case CubeType::NONE:
 			break;
 		case CubeType::NORMAL:
-			player_cube.FallStart(ci::Vec3f(
-				static_cast<float>(player_map_pos.x),
-				static_cast<float>(y + 1),
-				static_cast<float>(player_map_pos.z)));
-			return;
 		case CubeType::SHRINK:
+		case CubeType::START:
+		case CubeType::SPRING:
+
 			player_cube.FallStart(ci::Vec3f(
 				static_cast<float>(player_map_pos.x),
 				static_cast<float>(y + 1),
 				static_cast<float>(player_map_pos.z)));
 			return;
+
+		case CubeType::GOAL:
+
+			player_cube.FallStart(ci::Vec3f(
+				static_cast<float>(player_map_pos.x),
+				static_cast<float>(y + 1),
+				static_cast<float>(player_map_pos.z)));
+			break;
+
 		case CubeType::VANISH:
+
 		{
 			VanishCube *cube = map_manager.GetCube<VanishCube>(ci::Vec3i(player_map_pos.x, y, player_map_pos.z));
 			if (cube->GetMapPos() == (ci::Vec3i::one() * -1))
@@ -333,23 +329,7 @@ void GameMain::SetFallPos(const ci::Vec3i &player_map_pos)
 				return;
 			}
 		}
-			break;
 
-		case CubeType::START:
-
-			player_cube.FallStart(ci::Vec3f(
-				static_cast<float>(player_map_pos.x),
-				static_cast<float>(y + 1),
-				static_cast<float>(player_map_pos.z)));
-			return;
-
-		case CubeType::GOAL:
-
-			player_cube.FallStart(ci::Vec3f(
-				static_cast<float>(player_map_pos.x),
-				static_cast<float>(y + 1),
-				static_cast<float>(player_map_pos.z)));
-			break;
 		}
 	}
 
@@ -377,10 +357,12 @@ void GameMain::Goal()
 	if (!is_goal)
 		return;
 
+#ifdef _DEBUG
 	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::RIGHT_DOWN))
 	{
 		is_goal = false;
 		is_end = true;
 		next_scene = SceneType::TITLE;
 	}
+#endif
 }

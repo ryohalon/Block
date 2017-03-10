@@ -7,12 +7,7 @@ class SpringCube : public CubeBase
 public:
 
 	SpringCube();
-	SpringCube(const ci::Vec3f &pos,
-		const ci::Vec3f &angle,
-		const ci::Vec3f &scale,
-		const ci::gl::Material &material,
-		const CubeType &type,
-		const ci::Vec3i &map_pos,
+	SpringCube(const CubeBase &cube_base,
 		const ci::Vec2f &spring_power,
 		const float &spring_take_time);
 	~SpringCube();

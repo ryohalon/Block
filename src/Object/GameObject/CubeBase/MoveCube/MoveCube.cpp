@@ -5,7 +5,6 @@
 
 
 MoveCube::MoveCube() :
-	CubeBase(),
 	start_pos(ci::Vec3f::zero()),
 	end_pos(ci::Vec3f::zero()),
 	now_quat(ci::Quatf::identity()),
@@ -21,26 +20,12 @@ MoveCube::MoveCube() :
 	rotate_axis.identity();
 }
 
-MoveCube::MoveCube(const ci::Vec3f & pos,
-	const ci::Vec3f & angle,
-	const ci::Vec3f & scale,
-	const ci::gl::Material & material,
-	const CubeType & type,
-	const ci::Vec3i & map_pos,
+MoveCube::MoveCube(const CubeBase & cube_base,
 	const float & move_take_time,
 	const MoveDirection & move_direction) :
-	CubeBase(pos, angle, scale, material, type, map_pos),
-	start_pos(ci::Vec3f::zero()),
-	end_pos(ci::Vec3f::zero()),
-	now_quat(ci::Quatf::identity()),
-	rotating_quat(ci::Quatf::identity()),
-	rotate_angle(0.0f),
-	time(0.0f),
-	take_time(0.0f),
+	CubeBase(cube_base),
 	move_take_time(move_take_time),
-	is_moving(false),
-	move_direction(move_direction),
-	next_direction(move_direction)
+	move_direction(move_direction)
 {
 	rotate_axis.identity();
 }
@@ -120,7 +105,7 @@ void MoveCube::Draw()
 	ci::gl::popModelView();
 }
 
-void MoveCube::MoveStart()
+void MoveCube::StartMotion()
 {
 	if (!is_stop)
 		return;

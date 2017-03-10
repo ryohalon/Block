@@ -1,6 +1,8 @@
 #include "cinder/app/AppNative.h"
+#include <cinder/Json.h>
 #include "Scene/SceneManager/SceneManager.h"
-
+#include "Utility/Input/Key/Key.h"
+#include "Utility/Input/Mouse/Mouse.h"
 
 class MainProject : public ci::app::AppNative
 {
@@ -31,21 +33,16 @@ public:
 
 void MainProject::prepareSettings(Settings * settings)
 {
-	settings->setWindowSize(WindowSize::WIDTH, WindowSize::HEIGHT);
+	ci::JsonTree params(ci::app::loadAsset("LoadFile/WindowData/WindowData.json"));
+
+	settings->setWindowSize(params.getValueForKey<int>("width"),
+		params.getValueForKey<int>("height"));
 	settings->setFullScreen(false);
 }
 
 void MainProject::setup()
 {
-	//SoundManager::Get().Setup();
-	TextureManager::Get().Setup();
-
 	SceneManager::Get().Setup();
-
-	ci::gl::enableAlphaBlending();
-	ci::gl::enableDepthRead();
-	ci::gl::enableDepthWrite();
-	glCullFace(GL_BACK);
 }
 
 void MainProject::resize()
@@ -55,14 +52,7 @@ void MainProject::resize()
 
 void MainProject::update()
 {
-	TimeManager::Get().Update(
-		static_cast<float>(getElapsedSeconds()),
-		static_cast<int>(getElapsedFrames()));
-
 	SceneManager::Get().Update();
-
-	Mouse::Get().FlushInput();
-	Key::Get().FlushInput();
 }
 
 void MainProject::draw()
