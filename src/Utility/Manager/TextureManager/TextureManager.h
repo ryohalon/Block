@@ -1,7 +1,5 @@
 #pragma once
-#include "cinder/gl/Texture.h"
-#include "cinder/ImageIo.h"
-#include "cinder/app/App.h"
+#include <cinder/gl/Texture.h>
 #include <map>
 
 
@@ -21,13 +19,12 @@ public:
 
 	void Setup();
 
-	void Register(const std::string &path);
-	/*void Register(const std::string &path,
+	void Register(const std::string &file_path, const std::string &name);
+	void Register(const std::string &file_path,
 		const ci::gl::Texture::Format &format,
-		const std::string &name);*/
+		const std::string &name);
 	ci::gl::Texture GetTexture(const std::string &name);
-	const ci::Vec2f& GetSize(const std::string &name);
-
+	
 	void Delete(const std::string &name);
 	void AllDelete();
 

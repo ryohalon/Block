@@ -24,6 +24,9 @@ public:
 
 private:
 
+	void DrawObject() override;
+	void DrawUI() override;
+
 	// マップ上の特殊なキューブとのカメラからのRayで当たり判定をとって
 	// 　一番近いキューブのアクションを起こす
 	void ClickAction();

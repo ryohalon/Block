@@ -82,9 +82,6 @@
     <Filter Include="Source Files\Scene\Category\GameMain">
       <UniqueIdentifier>{65ee3f03-a531-434b-adbf-59ae2d6466d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Scene\Category\Option">
-      <UniqueIdentifier>{655d5ad9-6d2c-4bbf-9404-b92dbc110a06}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Object\GameObject\CubeBase">
       <UniqueIdentifier>{7668a490-f1f1-43c0-931e-c80270a0f97d}</UniqueIdentifier>
     </Filter>
@@ -137,9 +134,6 @@
     </ClInclude>
     <ClInclude Include="..\src\Scene\Category\Title\Title.h">
       <Filter>Source Files\Scene\Category\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Scene\Category\Option\Option.h">
-      <Filter>Source Files\Scene\Category\Option</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Scene\Category\GameMain\GameMain.h">
       <Filter>Source Files\Scene\Category\GameMain</Filter>
@@ -210,11 +204,11 @@
     <ClInclude Include="..\src\Scene\Category\StageSelect\StageSelect.h">
       <Filter>Source Files\Scene\Category\StageSelect</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Utility\Manager\ObjManager\Model\Model.h">
-      <Filter>Source Files\Utility\Manager\ModelManager\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utility\Manager\ObjManager\ModelManager.h">
+    <ClInclude Include="..\src\Utility\Manager\ModelManager\ModelManager.h">
       <Filter>Source Files\Utility\Manager\ModelManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Utility\Manager\ModelManager\Model\Model.h">
+      <Filter>Source Files\Utility\Manager\ModelManager\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -236,9 +230,6 @@
     </ClCompile>
     <ClCompile Include="..\src\Scene\Category\GameMain\GameMain.cpp">
       <Filter>Source Files\Scene\Category\GameMain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Scene\Category\Option\Option.cpp">
-      <Filter>Source Files\Scene\Category\Option</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Scene\Category\Title\Title.cpp">
       <Filter>Source Files\Scene\Category\Title</Filter>
@@ -294,7 +285,7 @@
     <ClCompile Include="..\src\Scene\Category\StageSelect\StageSelect.cpp">
       <Filter>Source Files\Scene\Category\StageSelect</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Utility\Manager\ObjManager\ModelManager.cpp">
+    <ClCompile Include="..\src\Utility\Manager\ModelManager\ModelManager.cpp">
       <Filter>Source Files\Utility\Manager\ModelManager</Filter>
     </ClCompile>
   </ItemGroup>

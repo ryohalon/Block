@@ -10,8 +10,8 @@ public:
 
 	enum SoundType
 	{
-		FILEPLAYER = 0,
-		BUFFERPLAYER = 1
+		FILEPLAYER,
+		BUFFERPLAYER
 	};
 
 	SoundManager();
@@ -25,11 +25,14 @@ public:
 	}
 
 	void Setup();
-
-	void Register(const std::string &file_path);
+	void LoadBGM(std::string directory_path);
+	void LoadSE(std::string directory_path);
+	void Register(const std::string &file_path,
+		const SoundType &type,
+		const std::string &name);
 	void Delete(const std::string &name);
 	void AllDelete();
-	Sound& Find(const std::string &name);
+	Sound& GetSound(const std::string &name);
 	void AllStop();
 
 private:

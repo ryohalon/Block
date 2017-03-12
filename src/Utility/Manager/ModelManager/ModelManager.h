@@ -19,10 +19,13 @@ public:
 	}
 
 	void Setup();
-	void Register(const std::string &file_path, const std::string &name);
 	void AllDelete();
+	void DeleteModel(const std::string &name);
+	Model& GetModel(const std::string &name);
 
 private:
+
+	void Register(const std::string &file_path, const std::string &name);
 
 	std::map <std::string, Model> models;
 

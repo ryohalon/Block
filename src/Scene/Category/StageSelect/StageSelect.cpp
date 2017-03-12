@@ -39,3 +39,11 @@ void StageSelect::Draw(const ci::CameraOrtho & camera_ortho)
 
 	ci::gl::popModelView();
 }
+
+void StageSelect::DrawObject()
+{
+}
+
+void StageSelect::DrawUI()
+{
+}

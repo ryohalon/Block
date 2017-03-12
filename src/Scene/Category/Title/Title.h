@@ -19,10 +19,13 @@ public:
 
 private:
 
+	void DrawObject() override;
+	void DrawUI() override;
+
 	ci::CameraPersp camera_persp;
 	SkyDome sky_dome;
 
-	Transform transform;
-	ci::TriMesh title_logo;
-	ci::gl::Material title_logo_material;
+	Transform titlelogo_trans;
+	float rotate_angle;
+	float rotate_speed;
 };

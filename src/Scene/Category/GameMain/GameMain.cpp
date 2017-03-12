@@ -109,6 +109,14 @@ void GameMain::Draw(const ci::CameraOrtho &camera_ortho)
 	ci::gl::popModelView();
 }
 
+void GameMain::DrawObject()
+{
+}
+
+void GameMain::DrawUI()
+{
+}
+
 void GameMain::ClickAction()
 {
 	// ¶ƒNƒŠƒbƒN‚µ‚Ä‚¢‚È‚¢‚Æ‚«‚Í‚Í‚¶‚­

@@ -1,5 +1,4 @@
 #pragma once
-#include "cinder/app/App.h"
 #include "cinder/audio/Context.h"
 #include "cinder/audio/GainNode.h"
 #include "cinder/audio/SamplePlayerNode.h"
@@ -15,9 +14,9 @@ public:
 	Sound(const ci::audio::SamplePlayerNodeRef &node, ci::audio::Context *context);
 	~Sound();
 
-	const bool& GetIsLoop() const { return is_loop; }
-	void SetIsLoop(const bool &is_loop) { this->is_loop = is_loop; }
-	const ci::audio::SamplePlayerNodeRef& GetSound() const { return sound; }
+	bool GetIsLoop() const { return is_loop; }
+	void SetIsLoop(const bool &is_loop_) { is_loop = is_loop_; }
+	ci::audio::SamplePlayerNodeRef GetSound() const { return sound; }
 
 	void ChangeGain(const float &gain, ci::audio::Context *context);
 	void Play();

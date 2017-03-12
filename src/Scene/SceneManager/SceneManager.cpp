@@ -1,7 +1,7 @@
 #include "SceneManager.h"
 #include "../Category/Title/Title.h"
+#include "../Category/StageSelect/StageSelect.h"
 #include "../Category/GameMain/GameMain.h"
-#include "../Category/Option/Option.h"
 
 SceneManager::SceneManager() :
 	now_scene(nullptr)
@@ -21,7 +21,7 @@ void SceneManager::Resize()
 
 void SceneManager::Setup()
 {
-	//SoundManager::Get().Setup();
+	SoundManager::Get().Setup();
 	TextureManager::Get().Setup();
 	ModelManager::Get().Setup();
 
@@ -73,13 +73,10 @@ void SceneManager::ChangeScene()
 			now_scene = std::make_shared<Title>();
 		},
 			[&] {
-			//now_scene = std::make_shared<StageSelect>();
+			now_scene = std::make_shared<StageSelect>();
 		},
 			[&] {
 			now_scene = std::make_shared<GameMain>();
-		},
-			[&] {
-			now_scene = std::make_shared<Option>();
 		}
 	};
 

@@ -17,6 +17,9 @@ public:
 
 private:
 
+	void DrawObject() override;
+	void DrawUI() override;
+
 	ci::CameraPersp camera_persp;
 
 };

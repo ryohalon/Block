@@ -1,6 +1,9 @@
 #include "Title.h"
+#include "../../../Utility/Utility.h"
 
-Title::Title()
+Title::Title() :
+	rotate_angle(0.0f),
+	rotate_speed(0.0f)
 {
 
 }
@@ -12,15 +15,16 @@ Title::~Title()
 
 void Title::Resize()
 {
-
+	camera_persp.setAspectRatio(ci::app::getWindowAspectRatio());
 }
 
 void Title::Setup()
 {
-	ci::JsonTree params(ci::app::loadAsset("LoadFile/TitleLogoData.json"));
-	std::string file_path = params["model"].getValueForKey<std::string>("file_path");
-	ci::ObjLoader loader(ci::app::loadAsset(file_path + params["model"].getValueForKey<std::string>("name")));
-	loader.load(&title_logo);
+	ci::JsonTree params(ci::app::loadAsset("LoadFile/TitleLogoData/TitleLogoData.json"));
+	titlelogo_trans.pos = GetVec3f(params["pos"]);
+	titlelogo_trans.angle = GetVec3f(params["angle"]);
+	titlelogo_trans.scale = GetVec3f(params["scale"]);
+	rotate_speed = params.getValueForKey<float>("rotate_speed");
 
 	next_scene = SceneType::GAMEMAIN;
 	camera_persp = ci::CameraPersp(ci::app::getWindowWidth(),
@@ -37,24 +41,57 @@ void Title::Update()
 {
 	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::LEFT_DOWN))
 		is_end = true;
+
+	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::RIGHT_DOWN))
+	{
+		ci::JsonTree params(ci::app::loadAsset("LoadFile/TitleLogoData/TitleLogoData.json"));
+		titlelogo_trans.pos = GetVec3f(params["pos"]);
+		titlelogo_trans.angle = GetVec3f(params["angle"]);
+	}
+
+	rotate_angle += TimeManager::Get().GetDeltaTime() * rotate_speed;
 }
 
 void Title::Draw(const ci::CameraOrtho &camera_ortho)
 {
 	ci::gl::pushModelView();
-
 	ci::gl::setMatrices(camera_persp);
-
-	sky_dome.Draw();
+	DrawObject();
 	ci::gl::popModelView();
 
 	ci::gl::pushModelView();
 	ci::gl::setMatrices(camera_ortho);
+	DrawUI();
+	ci::gl::popModelView();
+}
+
+void Title::DrawObject()
+{
+	sky_dome.Draw();
+
+	ci::gl::pushModelView();
+	// ÉÇÉfÉãÇÃíÜêSÇ™Ç∏ÇÍÇƒÇ¢ÇÈÇΩÇﬂè≠ÇµèCê≥
+	ci::gl::translate(titlelogo_trans.pos);
+	ci::gl::rotate(ci::Vec3f::yAxis() * rotate_angle);
+	//ci::gl::translate(titlelogo_trans.pos);
+	ci::gl::rotate(titlelogo_trans.angle);
+	ci::gl::scale(titlelogo_trans.scale);
+
+	const Model &model = ModelManager::Get().GetModel("TitleLogo");
+	model.GetTexture().enableAndBind();
+	ci::gl::draw(model.GetTriMesh());
+	model.GetTexture().unbind();
+
+	ci::gl::popModelView();
+
+	ci::gl::drawStrokedCube(ci::AxisAlignedBox3f(ci::Vec3f::one() * -1.0f, ci::Vec3f::one() * 1.0f));
+}
+
+void Title::DrawUI()
+{
 	ci::gl::translate(0.0f, 0.0f, -10.0f);
-	
+
 	ci::gl::color(ci::ColorA(1.0f, 0.0f, 0.0f));
 	ci::gl::drawSolidRect(ci::Rectf(ci::Vec2f(-100.0f, -100.0f), ci::Vec2f(100.0f, 100.0f)));
 	ci::gl::color(ci::ColorA(1.0f, 1.0f, 1.0f));
-
-	ci::gl::popModelView();
 }

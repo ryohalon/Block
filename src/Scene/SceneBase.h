@@ -5,14 +5,13 @@
 #include "../Utility/Manager/TimeManager/TimeManager.h"
 #include "../Utility/Manager/TextureManager/TextureManager.h"
 #include "../Utility/Manager/SoundManager/SoundManager.h"
-#include "../Utility/Manager/ObjManager/ModelManager.h"
+#include "../Utility/Manager/ModelManager/ModelManager.h"
 
 enum class SceneType
 {
 	TITLE,
 	STAGESELECT,
 	GAMEMAIN,
-	OPTION,
 	NONE
 };
 
@@ -35,6 +34,9 @@ public:
 	virtual void Draw(const ci::CameraOrtho &camera_ortho) = 0;
 
 protected:
+
+	virtual void DrawObject() = 0;
+	virtual void DrawUI() = 0;
 
 	SceneType next_scene;
 	bool is_end;

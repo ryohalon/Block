@@ -64,11 +64,7 @@ void ShrinkCube::Setup()
 
 void ShrinkCube::Update()
 {
-	if (Key::Get().IsPushKey(ci::app::KeyEvent::KEY_RETURN))
-		ShrinkStart();
-
 	Shrinking();
-
 	UpdateMatrix();
 }
 
