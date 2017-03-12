@@ -23,6 +23,7 @@ void SceneManager::Setup()
 {
 	//SoundManager::Get().Setup();
 	TextureManager::Get().Setup();
+	ModelManager::Get().Setup();
 
 	now_scene = std::make_shared<Title>();
 	now_scene->Setup();

@@ -109,6 +109,15 @@
     <Filter Include="Source Files\Object\GameObject\CubeBase\SpringCube">
       <UniqueIdentifier>{fe56f91d-c2f2-40cb-a190-0616b369860d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Scene\Category\StageSelect">
+      <UniqueIdentifier>{0ede6f8e-fee8-4feb-a995-5f4ae272292e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility\Manager\ModelManager">
+      <UniqueIdentifier>{5e1e0f43-994d-4414-a3e3-a27b749b0c79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility\Manager\ModelManager\Model">
+      <UniqueIdentifier>{d0e06254-b1e1-47cf-bf5a-bb7ae394c978}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -198,6 +207,15 @@
     <ClInclude Include="..\src\Object\GameObject\MainCamera\MainCamera.h">
       <Filter>Source Files\Object\GameObject\MainCamera</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Scene\Category\StageSelect\StageSelect.h">
+      <Filter>Source Files\Scene\Category\StageSelect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Utility\Manager\ObjManager\Model\Model.h">
+      <Filter>Source Files\Utility\Manager\ModelManager\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Utility\Manager\ObjManager\ModelManager.h">
+      <Filter>Source Files\Utility\Manager\ModelManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -272,6 +290,12 @@
     </ClCompile>
     <ClCompile Include="..\src\Object\GameObject\MainCamera\MainCamera.cpp">
       <Filter>Source Files\Object\GameObject\MainCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Scene\Category\StageSelect\StageSelect.cpp">
+      <Filter>Source Files\Scene\Category\StageSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Utility\Manager\ObjManager\ModelManager.cpp">
+      <Filter>Source Files\Utility\Manager\ModelManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

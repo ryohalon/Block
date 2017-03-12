@@ -1,7 +1,6 @@
 #include "Title.h"
 
-Title::Title() :
-	SceneBase()
+Title::Title()
 {
 
 }
@@ -18,6 +17,11 @@ void Title::Resize()
 
 void Title::Setup()
 {
+	ci::JsonTree params(ci::app::loadAsset("LoadFile/TitleLogoData.json"));
+	std::string file_path = params["model"].getValueForKey<std::string>("file_path");
+	ci::ObjLoader loader(ci::app::loadAsset(file_path + params["model"].getValueForKey<std::string>("name")));
+	loader.load(&title_logo);
+
 	next_scene = SceneType::GAMEMAIN;
 	camera_persp = ci::CameraPersp(ci::app::getWindowWidth(),
 		ci::app::getWindowHeight(),

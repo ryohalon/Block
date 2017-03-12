@@ -1,6 +1,7 @@
 #pragma once
 #include "../../SceneBase.h"
 #include "../../../Object/GameObject/SkyDome/SkyDome.h"
+#include <cinder/ObjLoader.h>
 
 
 
@@ -20,4 +21,8 @@ private:
 
 	ci::CameraPersp camera_persp;
 	SkyDome sky_dome;
+
+	Transform transform;
+	ci::TriMesh title_logo;
+	ci::gl::Material title_logo_material;
 };

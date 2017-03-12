@@ -125,12 +125,14 @@
     <ClCompile Include="..\src\Object\MapManager\MapManager.cpp" />
     <ClCompile Include="..\src\Scene\Category\GameMain\GameMain.cpp" />
     <ClCompile Include="..\src\Scene\Category\Option\Option.cpp" />
+    <ClCompile Include="..\src\Scene\Category\StageSelect\StageSelect.cpp" />
     <ClCompile Include="..\src\Scene\Category\Title\Title.cpp" />
     <ClCompile Include="..\src\Scene\SceneManager\SceneManager.cpp" />
     <ClCompile Include="..\src\Utility\Collision\Collision.cpp" />
     <ClCompile Include="..\src\Utility\Input\Key\Key.cpp" />
     <ClCompile Include="..\src\Utility\Input\Mouse\Mouse.cpp" />
     <ClCompile Include="..\src\Utility\Manager\EasingManager\EasingManager.cpp" />
+    <ClCompile Include="..\src\Utility\Manager\ObjManager\ModelManager.cpp" />
     <ClCompile Include="..\src\Utility\Manager\SoundManager\SoundManager.cpp" />
     <ClCompile Include="..\src\Utility\Manager\SoundManager\Sound\Sound.cpp" />
     <ClCompile Include="..\src\Utility\Manager\TextureManager\TextureManager.cpp" />
@@ -152,6 +154,7 @@
     <ClInclude Include="..\src\Object\Object.h" />
     <ClInclude Include="..\src\Scene\Category\GameMain\GameMain.h" />
     <ClInclude Include="..\src\Scene\Category\Option\Option.h" />
+    <ClInclude Include="..\src\Scene\Category\StageSelect\StageSelect.h" />
     <ClInclude Include="..\src\Scene\Category\Title\Title.h" />
     <ClInclude Include="..\src\Scene\SceneBase.h" />
     <ClInclude Include="..\src\Scene\SceneManager\SceneManager.h" />
@@ -161,6 +164,8 @@
     <ClInclude Include="..\src\Utility\Manager\EasingManager\EasingManageOne\EasingManageOne.h" />
     <ClInclude Include="..\src\Utility\Manager\EasingManager\EasingManager.h" />
     <ClInclude Include="..\src\Utility\Manager\EasingManager\Easing\Easing.h" />
+    <ClInclude Include="..\src\Utility\Manager\ObjManager\ModelManager.h" />
+    <ClInclude Include="..\src\Utility\Manager\ObjManager\Model\Model.h" />
     <ClInclude Include="..\src\Utility\Manager\SoundManager\SoundManager.h" />
     <ClInclude Include="..\src\Utility\Manager\SoundManager\Sound\Sound.h" />
     <ClInclude Include="..\src\Utility\Manager\TextureManager\TextureManager.h" />

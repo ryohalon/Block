@@ -5,6 +5,7 @@
 #include "../Utility/Manager/TimeManager/TimeManager.h"
 #include "../Utility/Manager/TextureManager/TextureManager.h"
 #include "../Utility/Manager/SoundManager/SoundManager.h"
+#include "../Utility/Manager/ObjManager/ModelManager.h"
 
 enum class SceneType
 {
