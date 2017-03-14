@@ -1,5 +1,6 @@
 #include "SoundManager.h"
 #include "../../Utility.h"
+#include <cinder/app/App.h>
 #include <filesystem>
 
 SoundManager::SoundManager()
@@ -25,7 +26,7 @@ void SoundManager::Setup()
 void SoundManager::LoadBGM(std::string directory_path)
 {
 	directory_path += "BGM/";
-	for (std::tr2::sys::directory_iterator itr(GetFilePath(directory_path)), end; itr != end; itr++)
+	for (std::tr2::sys::directory_iterator end, itr(GetFilePath(directory_path)); itr != end; itr++)
 	{
 		std::string file_name = itr->path().string().substr(GetFilePath(directory_path).size(), itr->path().string().size() - 1);
 
@@ -39,12 +40,12 @@ void SoundManager::LoadBGM(std::string directory_path)
 void SoundManager::LoadSE(std::string directory_path)
 {
 	directory_path += "SE/";
-	for (std::tr2::sys::directory_iterator itr(GetFilePath(directory_path)), end; itr != end; itr++)
+	for (std::tr2::sys::directory_iterator end, itr(GetFilePath(directory_path)); itr != end; itr++)
 	{
 		std::string file_name = itr->path().string().substr(GetFilePath(directory_path).size(), itr->path().string().size() - 1);
 
 		Register(directory_path + file_name,
-			SoundType::BUFFERPLAYER,
+			SoundType::FILEPLAYER,
 			file_name.substr(0, file_name.size() - 4));
 	}
 }

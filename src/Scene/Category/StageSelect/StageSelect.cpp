@@ -1,6 +1,9 @@
 #include "StageSelect.h"
 
-StageSelect::StageSelect()
+StageSelect::StageSelect() :
+	action_type(ActionType::WORLDSELECT),
+	world_select_num(1),
+	stage_select_num(1)
 {
 
 }

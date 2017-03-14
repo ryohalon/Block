@@ -5,6 +5,7 @@
 #include "../../../Utility/Manager/EasingManager/Easing/Easing.h"
 #include "../../../Utility/Utility.h"
 #include <cinder/Ray.h>
+#include <cinder/app/App.h>
 
 MainCamera::MainCamera() :
 	camera_persp(ci::CameraPersp(ci::app::getWindowWidth(),
@@ -18,7 +19,7 @@ MainCamera::MainCamera() :
 	rotate_take_time(1.0f),
 	start_rotate_angle(0.0f),
 	end_rotate_angle(0.0f),
-	max_rotate_angle(M_PI / 2.0f),
+	max_rotate_angle(static_cast<float>(M_PI) / 2.0f),
 	is_rotating(false),
 	camera_distance(10.0f)
 {
@@ -39,7 +40,7 @@ void MainCamera::Setup(const ci::JsonTree & params)
 {
 	transform.angle = GetVec3f(params["start_angle"]);
 	rotate_take_time = params.getValueForKey<float>("rotate_take_time");
-	max_rotate_angle = M_PI * (params.getValueForKey<float>("max_rotate_angle") / 180.0f);
+	max_rotate_angle = static_cast<float>(M_PI) * (params.getValueForKey<float>("max_rotate_angle") / 180.0f);
 	move_speed = params.getValueForKey<float>("move_speed");
 	camera_distance = params.getValueForKey<float>("camera_distance");
 

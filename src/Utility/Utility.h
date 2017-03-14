@@ -3,7 +3,6 @@
 #include <cinder/Vector.h>
 #include <cinder/Color.h>
 #include <cinder/gl/Material.h>
-#include <cinder/app/App.h>
 
 
 
@@ -18,3 +17,8 @@ ci::Color GetColor(const ci::JsonTree& params);
 ci::Color GetColorA(const ci::JsonTree& params);
 
 ci::gl::Material GetMaterial(const ci::JsonTree &params);
+
+void DrawtexCoord(const ci::Vec2f &pos = ci::Vec2f::zero(),
+	const ci::Vec2f &size = ci::Vec2f::one(),
+	const ci::Vec2f &uv1 = ci::Vec2f::zero(),
+	const ci::Vec2f &uv2 = ci::Vec2f::one());

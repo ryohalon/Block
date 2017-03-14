@@ -1,5 +1,5 @@
 #include "Mouse.h"
-#include "cinder/app/MouseEvent.h"
+
 
 Mouse::Mouse()
 {

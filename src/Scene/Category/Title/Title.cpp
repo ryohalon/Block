@@ -1,5 +1,6 @@
 #include "Title.h"
 #include "../../../Utility/Utility.h"
+#include "../../../Utility/Manager/EasingManager/EasingManager.h"
 
 Title::Title() :
 	rotate_angle(0.0f),
@@ -26,7 +27,7 @@ void Title::Setup()
 	titlelogo_trans.scale = GetVec3f(params["scale"]);
 	rotate_speed = params.getValueForKey<float>("rotate_speed");
 
-	next_scene = SceneType::GAMEMAIN;
+	next_scene = SceneType::STAGESELECT;
 	camera_persp = ci::CameraPersp(ci::app::getWindowWidth(),
 		ci::app::getWindowHeight(),
 		60.0f,

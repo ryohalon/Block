@@ -2,6 +2,7 @@
 #include "../Category/Title/Title.h"
 #include "../Category/StageSelect/StageSelect.h"
 #include "../Category/GameMain/GameMain.h"
+#include "../../Utility/Manager/EasingManager/EasingManager.h"
 
 SceneManager::SceneManager() :
 	now_scene(nullptr)
@@ -24,6 +25,7 @@ void SceneManager::Setup()
 	SoundManager::Get().Setup();
 	TextureManager::Get().Setup();
 	ModelManager::Get().Setup();
+	EasingManager::Get();
 
 	now_scene = std::make_shared<Title>();
 	now_scene->Setup();
@@ -49,11 +51,14 @@ void SceneManager::Update()
 		static_cast<float>(ci::app::getElapsedSeconds()),
 		static_cast<int>(ci::app::getElapsedFrames()));
 
+	EasingManager::Get().Update();
+
 	now_scene->Update();
 
 	if (now_scene->IsEnd())
 		ChangeScene();
 
+	EasingManager::Get().UpdateDelete();
 	Mouse::Get().FlushInput();
 	Key::Get().FlushInput();
 }

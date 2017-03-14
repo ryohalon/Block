@@ -1,12 +1,11 @@
 #include "Utility.h"
+#include <cinder/app/App.h>
 
 
 
 std::string GetFilePath(const std::string &path)
 {
 	ci::fs::path full_path = ci::app::getAssetPath(path);
-
-	ci::app::console() << full_path << std::endl;
 
 	return full_path.string();
 }
@@ -64,4 +63,21 @@ ci::gl::Material GetMaterial(const ci::JsonTree &params)
 			GetColorA(params["emission"]));
 
 	return material;
+}
+
+void DrawtexCoord(const ci::Vec2f &pos,
+	const ci::Vec2f &size,
+	const ci::Vec2f &uv1,
+	const ci::Vec2f &uv2)
+{
+	ci::gl::begin(GL_QUADS);
+	ci::gl::texCoord(uv1);
+	ci::gl::vertex(pos + ci::Vec2f(-size.x, size.y) / 2.0f);
+	ci::gl::texCoord(uv2.x, uv1.y);
+	ci::gl::vertex(pos + size / 2.0f);
+	ci::gl::texCoord(uv2);
+	ci::gl::vertex(pos + ci::Vec2f(size.x, -size.y) / 2.0f);
+	ci::gl::texCoord(uv1.x, uv2.y);
+	ci::gl::vertex(pos - size / 2.0f);
+	ci::gl::end();
 }

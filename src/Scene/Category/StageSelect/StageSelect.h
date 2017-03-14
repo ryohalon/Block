@@ -7,6 +7,12 @@ class StageSelect : public SceneBase
 {
 public:
 
+	enum class ActionType
+	{
+		WORLDSELECT,
+		STAGESELECT
+	};
+
 	StageSelect();
 	~StageSelect();
 
@@ -21,5 +27,7 @@ private:
 	void DrawUI() override;
 
 	ci::CameraPersp camera_persp;
-
+	ActionType action_type;
+	int world_select_num;
+	int stage_select_num;
 };

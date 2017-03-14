@@ -1,11 +1,12 @@
 #include "MapManager.h"
 #include "../GameObject/CubeBase/ShrinkCube/ShrinkCube.h"
 #include "../GameObject/CubeBase/VanishCube/VanishCube.h"
-#include "cinder/Filesystem.h"
 #include "../../Utility/Utility.h"
 #include "../../Utility/Input/Key/Key.h"
 #include "../../Utility/Manager/TimeManager/TimeManager.h"
 #include "../../Utility/Manager/EasingManager/Easing/Easing.h"
+#include <cinder/app/App.h>
+
 
 
 MapManager::MapManager() :
@@ -70,7 +71,10 @@ void MapManager::CreateMap(const ci::JsonTree & params, std::fstream &file)
 			CubeType type_ = static_cast<CubeType>(boost::lexical_cast<int>(type));
 			cube_types_x.push_back(type_);
 
-			Transform transform = Transform(cube_scale * ci::Vec3f(x, y, z),
+			Transform transform = Transform(cube_scale * 
+				ci::Vec3f(static_cast<float>(x),
+					static_cast<float>(y),
+					static_cast<float>(z)),
 				ci::Vec3f::zero(),
 				cube_scale);
 

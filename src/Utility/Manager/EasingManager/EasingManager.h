@@ -3,6 +3,7 @@
 #include <map>
 
 
+
 class EasingManager
 {
 public:
@@ -10,26 +11,38 @@ public:
 	EasingManager() {};
 	~EasingManager() {};
 
-	void SetIsActive(const std::string &name, const bool &is_active)
+	static EasingManager& Get()
 	{
-		if (easing_list.find(name) == easing_list.cend())
-			return;
-
-		easing_list[name].SetIsActive(is_active);
+		static EasingManager easing_manager;
+		
+		return easing_manager;
 	}
 
-	void Register(const std::string &name,
+	
+	void SetIsActive(float *p, const bool &is_active)
+	{
+		if (easings.find(p) == easings.cend())
+			return;
+
+		easings[p].SetIsActive(is_active);
+	}
+
+	
+	void Register(float *p,
 		const std::function<const float&(float, const float&, const float&)> &easing_func,
 		const float &delay_time,
 		const float &take_time,
-		float &start_value,
+		const float &start_value,
 		const float &end_value);
-	void Delete(const std::string &name);
+	bool IsExist(float *p);
+	void Delete(float *p);
 	void AllDelete();
 	void Update();
+	void UpdateDelete();
 
 private:
 
-	std::map<std::string, EasingManageOne> easing_list;
+	
+	std::map<float*, EasingManageOne> easings;
 
 };

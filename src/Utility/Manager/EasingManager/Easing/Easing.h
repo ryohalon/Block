@@ -1,5 +1,4 @@
 #pragma once
-#include "cinder/Easing.h"
 #include "cinder/Vector.h"
 
 

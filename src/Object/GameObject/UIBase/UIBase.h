@@ -6,18 +6,20 @@ class UIBase : public GameObject
 {
 public:
 
-	UIBase() {}
+	UIBase() :
+		color(ci::ColorAf::white())
+	{}
 	UIBase(const Transform &transform) :
 		GameObject(transform)
 	{}
 	virtual ~UIBase() {}
 
-	virtual void Setup() {}
-	virtual void Setup(const ci::JsonTree &params) {}
-	virtual void Update() {}
-	virtual void Draw() {};
+	virtual void Setup() override {}
+	virtual void Setup(const ci::JsonTree &params) override {}
+	virtual void Update() override {}
+	virtual void Draw() override {}
 
-	virtual bool IsCollisionMouse(const ci::Vec2f &mouse_pos)
+	virtual bool IsCollisionMouse(const ci::Vec2i &mouse_pos)
 	{
 		if (mouse_pos.x < transform.pos.x || mouse_pos.x > transform.pos.x + transform.scale.x)
 			return false;
@@ -27,7 +29,7 @@ public:
 		return true;
 	}
 
-private:
+protected:
 
-	ci::Vec2f anchor;
+	ci::ColorAf color;
 };

@@ -3,6 +3,7 @@
 #include "../../TimeManager/TimeManager.h"
 
 
+
 class EasingManageOne
 {
 public:
@@ -12,23 +13,21 @@ public:
 		time(0.0f),
 		delay_time(0.0f),
 		take_time(1.0f),
-		start_value(0.0f),
-		terget_value(0.0f),
-		end_value(0.0f),
 		is_active(true),
 		is_end(false)
 	{};
-	EasingManageOne(const std::function<const float&(float, float, float)> &easing_func,
+	EasingManageOne(float *target_value,
+		const std::function<const float&(float, float, float)> &easing_func,
 		const float &delay_time,
 		const float &take_time,
-		float &start_value,
+		const float &start_value,
 		const float &end_value) :
 		easing_func(easing_func),
 		time(0.0f),
 		delay_time(delay_time),
 		take_time(take_time),
+		terget_value(target_value),
 		start_value(start_value),
-		terget_value(start_value),
 		end_value(end_value),
 		is_active(true),
 		is_end(false)
@@ -41,7 +40,7 @@ public:
 	bool GetIsActive() const { return is_active; }
 
 	void SetTime(const float &time_) { time = time_; }
-	void SetIsActive(const bool &is_active) { this->is_active = is_active; }
+	void SetIsActive(const bool &is_active_) { is_active = is_active_; }
 
 	void EasingEnd() { time = delay_time + take_time; }
 
@@ -53,29 +52,30 @@ public:
 			return;
 
 		time += TimeManager::Get().GetDeltaTime();
-		if (DelayTime() == 1.0f)
+		float time_ = std::fminf(1.0f, std::fmaxf(0.0f,
+			time - delay_time) / take_time);
+		if (time_ == 1.0f)
 			is_end = true;
 
-		terget_value = easing_func(DelayTime(), start_value, end_value);
+		float ratio = easing_func(time_, 0.0f, 1.0f);
+		(*terget_value) = ci::lerp(start_value, end_value, ratio);
 	}
 
 private:
 
+	void UpdateTime()
+	{
+		
+	}
+
 	std::function<const float&(float, float, float)> easing_func;
 	float time;
-	const float delay_time;
-	const float take_time;
-	const float start_value;
-	float terget_value;
-	const float end_value;
+	float delay_time;
+	float take_time;
+	float *terget_value;
+	float start_value;
+	float end_value;
 	bool is_active;
 	bool is_end;
-
-	float DelayTime()
-	{
-		float time_ = std::fminf(1.0f, std::fmaxf(0.0f, time - delay_time) / take_time);
-
-		return time_;
-	}
 
 };

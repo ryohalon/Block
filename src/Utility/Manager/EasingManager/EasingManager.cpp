@@ -1,39 +1,60 @@
 #include "EasingManager.h"
+#include <cinder/app/App.h>
 
-void EasingManager::Register(const std::string &name,
+
+void EasingManager::Register(float *p,
 	const std::function<const float&(float, const float&, const float&)> &easing_func,
 	const float &delay_time,
-	const float & take_time,
-	float &start_value,
+	const float &take_time,
+	const float &start_value,
 	const float &end_value)
 {
-	if (easing_list.find(name) != easing_list.cend())
+	if (easings.find(p) != easings.cend())
 		return;
 
-	easing_list.insert(std::make_pair(name,
-		EasingManageOne(easing_func, delay_time, take_time, start_value, end_value)));
+	easings.insert(std::make_pair(p,
+		EasingManageOne(p, easing_func, delay_time, take_time, start_value, end_value)));
 }
 
-void EasingManager::Delete(const std::string &name)
+
+bool EasingManager::IsExist(float *p)
 {
-	if (easing_list.find(name) == easing_list.cend())
+	if (easings.find(p) != easings.cend())
+		return true;
+
+	return false;
+}
+
+
+void EasingManager::Delete(float *p)
+{
+	if (easings.find(p) == easings.cend())
 		return;
 
-	easing_list.erase(name);
+	easings.erase(p);
 }
+
 
 void EasingManager::AllDelete()
 {
-	easing_list.clear();
+	easings.clear();
 }
+
 
 void EasingManager::Update()
 {
-	for (auto &easing : easing_list)
-	{
+	for (auto &easing : easings)
 		easing.second.Update();
+}
 
+void EasingManager::UpdateDelete()
+{
+	ci::app::console() << "0easings : " << easings.size() << std::endl;
+	for (auto &easing : easings)
+	{
 		if (easing.second.GetIsEnd())
-			easing_list.erase(easing.first);
+			Delete(easing.first);
 	}
+
+	ci::app::console() << "1easings : " << easings.size() << std::endl;
 }

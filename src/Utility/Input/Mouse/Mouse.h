@@ -2,14 +2,7 @@
 #include <set>
 #include <memory>
 #include <cinder/Vector.h>
-
-namespace cinder {
-	namespace app {
-		class MouseEvent;
-	}
-}
-namespace ci = cinder;
-
+#include <cinder/app/MouseEvent.h>
 
 class Mouse
 {

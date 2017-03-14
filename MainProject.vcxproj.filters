@@ -115,6 +115,18 @@
     <Filter Include="Source Files\Utility\Manager\ModelManager\Model">
       <UniqueIdentifier>{d0e06254-b1e1-47cf-bf5a-bb7ae394c978}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Object\GameObject\UIBase">
+      <UniqueIdentifier>{6e9304cd-32a8-45ec-a5ce-2f7ffeea7fee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\UIManager">
+      <UniqueIdentifier>{4073272c-a157-4bf5-a6f4-b53f08a3b3b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\GameObject\UIBase\TextureUI">
+      <UniqueIdentifier>{69c22cda-3a4e-4121-abda-9d6d48c109e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\GameObject\UIBase\TextureUI\ButtonUI">
+      <UniqueIdentifier>{f36ba600-08bd-4b51-89f4-4b0ac9e2469d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -210,6 +222,18 @@
     <ClInclude Include="..\src\Utility\Manager\ModelManager\Model\Model.h">
       <Filter>Source Files\Utility\Manager\ModelManager\Model</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Object\GameObject\UIBase\UIBase.h">
+      <Filter>Source Files\Object\GameObject\UIBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Object\UIManager\UIManager.h">
+      <Filter>Source Files\Object\UIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Object\GameObject\UIBase\TextureUI\TextureUI.h">
+      <Filter>Source Files\Object\GameObject\UIBase\TextureUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Object\GameObject\UIBase\TextureUI\ButtonUI\ButtonUI.h">
+      <Filter>Source Files\Object\GameObject\UIBase\TextureUI\ButtonUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -287,6 +311,9 @@
     </ClCompile>
     <ClCompile Include="..\src\Utility\Manager\ModelManager\ModelManager.cpp">
       <Filter>Source Files\Utility\Manager\ModelManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Object\UIManager\UIManager.cpp">
+      <Filter>Source Files\Object\UIManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
