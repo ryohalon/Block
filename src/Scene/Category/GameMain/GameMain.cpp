@@ -19,7 +19,7 @@ GameMain::~GameMain()
 
 }
 
-void GameMain::Resize()
+void GameMain::Resize(const float &window_ratio)
 {
 
 }

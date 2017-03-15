@@ -10,13 +10,13 @@ public:
 	ButtonUI() :
 		flag(nullptr)
 	{}
-	ButtonUI() {}
+	virtual  ~ButtonUI() {}
 
 	void SetFlag(bool &flag_) { flag = &flag_; }
 
-	void Setup() override {}
-	void Setup(const ci::JsonTree &params) override {}
-	void Update() override
+	virtual void Setup() override {}
+	virtual void Setup(const ci::JsonTree &params) override {}
+	virtual void Update() override
 	{
 		if (Mouse::Get().IsPushButton(ci::app::MouseEvent::LEFT_DOWN))
 		{
@@ -24,8 +24,9 @@ public:
 				(*flag) = !(*flag);
 		}
 	}
+	virtual void Draw() override {}
 
-private:
+protected:
 
 	bool *flag;
 };

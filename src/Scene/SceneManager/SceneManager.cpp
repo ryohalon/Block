@@ -5,7 +5,8 @@
 #include "../../Utility/Manager/EasingManager/EasingManager.h"
 
 SceneManager::SceneManager() :
-	now_scene(nullptr)
+	now_scene(nullptr),
+	default_window_size(ci::Vec2i::zero())
 {
 
 }
@@ -17,7 +18,10 @@ SceneManager::~SceneManager()
 
 void SceneManager::Resize()
 {
-	now_scene->Resize();
+	float window_ratio = static_cast<float>(ci::app::getWindowWidth()) / default_window_size.x;
+	ci::app::setWindowSize(ci::app::getWindowWidth(),
+		static_cast<float>(default_window_size.y) * window_ratio);
+	now_scene->Resize(window_ratio);
 }
 
 void SceneManager::Setup()
@@ -30,7 +34,7 @@ void SceneManager::Setup()
 	now_scene = std::make_shared<Title>();
 	now_scene->Setup();
 
-	ci::JsonTree params(ci::app::loadAsset("LoadFile/WindowData/WindowData.json"));
+	ci::JsonTree params(ci::app::loadAsset("LoadFile/CameraOrthoData/CameraOrthoData.json"));
 
 	camera_ortho = ci::CameraOrtho(-ci::app::getWindowWidth() / 2.0f,
 		-ci::app::getWindowHeight() / 2.0f,
@@ -38,6 +42,10 @@ void SceneManager::Setup()
 		ci::app::getWindowHeight() / 2.0f,
 		params.getValueForKey<float>("near_plane"),
 		params.getValueForKey<float>("far_plane"));
+
+	default_window_size = ci::Vec2i(
+		ci::app::getWindowWidth(),
+		ci::app::getWindowHeight());
 
 	ci::gl::enableAlphaBlending();
 	ci::gl::enableDepthRead();
@@ -58,7 +66,6 @@ void SceneManager::Update()
 	if (now_scene->IsEnd())
 		ChangeScene();
 
-	EasingManager::Get().UpdateDelete();
 	Mouse::Get().FlushInput();
 	Key::Get().FlushInput();
 }

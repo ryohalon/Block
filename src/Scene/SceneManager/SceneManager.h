@@ -29,6 +29,6 @@ private:
 	void ChangeScene();
 
 	std::shared_ptr<SceneBase> now_scene;
-
+	ci::Vec2i default_window_size;
 	ci::CameraOrtho camera_ortho;
 };

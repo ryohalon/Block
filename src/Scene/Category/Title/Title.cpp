@@ -14,7 +14,7 @@ Title::~Title()
 
 }
 
-void Title::Resize()
+void Title::Resize(const float &window_ratio)
 {
 	camera_persp.setAspectRatio(ci::app::getWindowAspectRatio());
 }

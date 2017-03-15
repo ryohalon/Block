@@ -1,12 +1,47 @@
 #pragma once
 #include "EasingManageOne/EasingManageOne.h"
-#include <map>
+#include <deque>
 
 
 
 class EasingManager
 {
 public:
+
+	enum EasingType
+	{
+		LINEAR,
+		BACKIN,
+		BACKOUT,
+		BACKINOUT,
+		BOUNCEIN,
+		BOUNCEOUT,
+		BOUNCEINOUT,
+		CIRCIN,
+		CIRCOUT,
+		CIRCINOUT,
+		CUBICIN,
+		CUBICOUT,
+		CUBICINOUT,
+		ELASTICIN,
+		ELASTICOUT,
+		ELASTICINOUT,
+		EXPOIN,
+		EXPOOUT,
+		EXPOINOUT,
+		QUADIN,
+		QUADOUT,
+		QUADINOUT,
+		QUARTIN,
+		QUARTOUT,
+		QUARTINOUT,
+		QUINTIN,
+		QUINTOUT,
+		QUINTINOUT,
+		SINEIN,
+		SINEOUT,
+		SINEINOUT
+	};
 
 	EasingManager() {};
 	~EasingManager() {};
@@ -17,32 +52,18 @@ public:
 		
 		return easing_manager;
 	}
-
-	
-	void SetIsActive(float *p, const bool &is_active)
-	{
-		if (easings.find(p) == easings.cend())
-			return;
-
-		easings[p].SetIsActive(is_active);
-	}
-
 	
 	void Register(float *p,
-		const std::function<const float&(float, const float&, const float&)> &easing_func,
+		const EasingType &easing_type,
 		const float &delay_time,
 		const float &take_time,
 		const float &start_value,
 		const float &end_value);
-	bool IsExist(float *p);
-	void Delete(float *p);
 	void AllDelete();
 	void Update();
-	void UpdateDelete();
 
 private:
-
 	
-	std::map<float*, EasingManageOne> easings;
+	std::deque<EasingManageOne> easings;
 
 };

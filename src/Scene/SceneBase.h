@@ -28,7 +28,7 @@ public:
 	SceneType GetNextSceneType() const { return next_scene; }
 	bool IsEnd() { return is_end; }
 
-	virtual void Resize() = 0;
+	virtual void Resize(const float &window_ratio) = 0;
 	virtual void Setup() = 0;
 	virtual void Update() = 0;
 	virtual void Draw(const ci::CameraOrtho &camera_ortho) = 0;

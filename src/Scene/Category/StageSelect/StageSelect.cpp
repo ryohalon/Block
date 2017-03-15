@@ -13,7 +13,7 @@ StageSelect::~StageSelect()
 
 }
 
-void StageSelect::Resize()
+void StageSelect::Resize(const float &window_ratio)
 {
 
 }

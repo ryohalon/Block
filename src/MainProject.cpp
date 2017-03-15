@@ -8,14 +8,6 @@ class MainProject : public ci::app::AppNative
 {
 private:
 
-	enum WindowSize
-	{
-		WIDTH = 1024,
-		HEIGHT = 786
-	};
-
-	SceneManager scene_manager;
-
 public:
 	void prepareSettings(Settings *settings) override;
 	void setup() override;
@@ -33,7 +25,7 @@ public:
 
 void MainProject::prepareSettings(Settings * settings)
 {
-	ci::JsonTree params(ci::app::loadAsset("LoadFile/WindowData/WindowData.json"));
+	ci::JsonTree params(ci::app::loadAsset("LoadFile/WindowSize/WindowSize.json"));
 
 	settings->setWindowSize(params.getValueForKey<int>("width"),
 		params.getValueForKey<int>("height"));

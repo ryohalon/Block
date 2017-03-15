@@ -39,7 +39,7 @@ public:
 		ci::gl::popModelView();
 	}
 
-private:
+protected:
 
 	ci::gl::Texture *texture;
 };

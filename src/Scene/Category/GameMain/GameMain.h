@@ -17,7 +17,7 @@ public:
 	GameMain();
 	~GameMain();
 
-	void Resize() override;
+	void Resize(const float &window_ratio) override;
 	void Setup() override;
 	void Update() override;
 	void Draw(const ci::CameraOrtho &camera_ortho) override;

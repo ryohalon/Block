@@ -3,37 +3,53 @@
 
 
 void EasingManager::Register(float *p,
-	const std::function<const float&(float, const float&, const float&)> &easing_func,
+	const EasingType &easing_type,
 	const float &delay_time,
 	const float &take_time,
 	const float &start_value,
 	const float &end_value)
 {
-	if (easings.find(p) != easings.cend())
-		return;
+	std::function<float(float, float, float)> easing_func[] = {
+		Easing::Linear,
+		Easing::BackIn,
+		Easing::BackOut,
+		Easing::BackInOut,
+		Easing::BounceIn,
+		Easing::BounceOut,
+		Easing::BounceInOut,
+		Easing::CircIn,
+		Easing::CircOut,
+		Easing::CircInOut,
+		Easing::CubicIn,
+		Easing::CubicOut,
+		Easing::CubicInOut,
+		Easing::ElasticIn,
+		Easing::ElasticOut,
+		Easing::ElasticInOut,
+		Easing::ExpoIn,
+		Easing::ExpoOut,
+		Easing::ExpoInOut,
+		Easing::QuadIn,
+		Easing::QuadOut,
+		Easing::QuadInOut,
+		Easing::QuartIn,
+		Easing::QuartOut,
+		Easing::QuartInOut,
+		Easing::QuintIn,
+		Easing::QuintOut,
+		Easing::QuintInOut,
+		Easing::SineIn,
+		Easing::SineOut,
+		Easing::SineInOut
+	};
 
-	easings.insert(std::make_pair(p,
-		EasingManageOne(p, easing_func, delay_time, take_time, start_value, end_value)));
+	easings.push_back(EasingManageOne(p,
+		easing_func[easing_type],
+		delay_time,
+		take_time,
+		start_value,
+		end_value));
 }
-
-
-bool EasingManager::IsExist(float *p)
-{
-	if (easings.find(p) != easings.cend())
-		return true;
-
-	return false;
-}
-
-
-void EasingManager::Delete(float *p)
-{
-	if (easings.find(p) == easings.cend())
-		return;
-
-	easings.erase(p);
-}
-
 
 void EasingManager::AllDelete()
 {
@@ -43,18 +59,12 @@ void EasingManager::AllDelete()
 
 void EasingManager::Update()
 {
-	for (auto &easing : easings)
-		easing.second.Update();
-}
-
-void EasingManager::UpdateDelete()
-{
-	ci::app::console() << "0easings : " << easings.size() << std::endl;
-	for (auto &easing : easings)
+	for (int i = 0; i < easings.size(); i++)
 	{
-		if (easing.second.GetIsEnd())
-			Delete(easing.first);
-	}
+		easings[i].Update();
 
-	ci::app::console() << "1easings : " << easings.size() << std::endl;
+		if (easings[i].GetIsEnd())
+			easings.erase(easings.begin() + i);
+	}
+		
 }

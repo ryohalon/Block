@@ -17,7 +17,7 @@ public:
 		is_end(false)
 	{};
 	EasingManageOne(float *target_value,
-		const std::function<const float&(float, float, float)> &easing_func,
+		const std::function<float(float, float, float)> &easing_func,
 		const float &delay_time,
 		const float &take_time,
 		const float &start_value,
