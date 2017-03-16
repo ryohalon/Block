@@ -127,7 +127,7 @@
     <Filter Include="Source Files\Object\GameObject\UIBase\TextureUI\ButtonUI">
       <UniqueIdentifier>{f36ba600-08bd-4b51-89f4-4b0ac9e2469d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Object\GameObject\UIBase\TextureUI\ButtonUI\WorldUI">
+    <Filter Include="Source Files\Object\GameObject\UIBase\TextureUI\ButtonUI\StageUI">
       <UniqueIdentifier>{c130684b-6f3f-48bd-ad56-3a95fc2e6ece}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -237,8 +237,8 @@
     <ClInclude Include="..\src\Object\GameObject\UIBase\TextureUI\ButtonUI\ButtonUI.h">
       <Filter>Source Files\Object\GameObject\UIBase\TextureUI\ButtonUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Object\GameObject\UIBase\TextureUI\ButtonUI\WorldUI\WorldUI.h">
-      <Filter>Source Files\Object\GameObject\UIBase\TextureUI\ButtonUI\WorldUI</Filter>
+    <ClInclude Include="..\src\Object\GameObject\UIBase\TextureUI\ButtonUI\StageUI\StageUI.h">
+      <Filter>Source Files\Object\GameObject\UIBase\TextureUI\ButtonUI\StageUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

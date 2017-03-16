@@ -14,7 +14,7 @@ class TextureUI : public UIBase
 public:
 
 	TextureUI() :
-		texture(nullptr)
+		texture_name("")
 	{}
 	virtual ~TextureUI() {}
 
@@ -23,23 +23,22 @@ public:
 	{
 		transform.pos = GetVec3f(params["pos"]);
 		transform.scale = GetVec3f(params["scale"]);
-		texture = &(TextureManager::Get().GetTexture(
-			params.getValueForKey<std::string>("texture_name")));
+		texture_name = params.getValueForKey<std::string>("texture_name");
 	}
 	virtual void Update() override {}
 	virtual void Draw() override
 	{
 		ci::gl::pushModelView();
 
-		(*texture).enableAndBind();
-		DrawtexCoord(transform.pos.xy,
-			transform.scale.xy);
-		(*texture).unbind();
+		TextureManager::Get().GetTexture(texture_name).enableAndBind();
+		DrawtexCoord(transform.pos.xy(),
+			transform.scale.xy());
+		TextureManager::Get().GetTexture(texture_name).unbind();
 
 		ci::gl::popModelView();
 	}
 
 protected:
 
-	ci::gl::Texture *texture;
+	std::string texture_name;
 };

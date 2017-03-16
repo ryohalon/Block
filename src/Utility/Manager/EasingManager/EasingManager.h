@@ -53,7 +53,8 @@ public:
 		return easing_manager;
 	}
 	
-	void Register(float *p,
+	void Register(bool *is_end,
+		float *p,
 		const EasingType &easing_type,
 		const float &delay_time,
 		const float &take_time,

@@ -151,7 +151,7 @@
     <ClInclude Include="..\src\Object\GameObject\MainCamera\MainCamera.h" />
     <ClInclude Include="..\src\Object\GameObject\SkyDome\SkyDome.h" />
     <ClInclude Include="..\src\Object\GameObject\UIBase\TextureUI\ButtonUI\ButtonUI.h" />
-    <ClInclude Include="..\src\Object\GameObject\UIBase\TextureUI\ButtonUI\WorldUI\WorldUI.h" />
+    <ClInclude Include="..\src\Object\GameObject\UIBase\TextureUI\ButtonUI\StageUI\StageUI.h" />
     <ClInclude Include="..\src\Object\GameObject\UIBase\TextureUI\TextureUI.h" />
     <ClInclude Include="..\src\Object\GameObject\UIBase\UIBase.h" />
     <ClInclude Include="..\src\Object\MapManager\MapManager.h" />

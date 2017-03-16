@@ -1,5 +1,6 @@
 #pragma once
 #include "../GameObject.h"
+#include "../../../Utility/Manager/EasingManager/EasingManager.h"
 
 
 class UIBase : public GameObject
