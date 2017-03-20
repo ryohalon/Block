@@ -1,7 +1,6 @@
 #pragma once
 #include "../../SceneBase.h"
 #include "../../../Object/GameObject/SkyDome/SkyDome.h"
-#include <cinder/ObjLoader.h>
 
 
 
@@ -28,5 +27,4 @@ private:
 	Transform titlelogo_trans;
 	float rotate_angle;
 	float rotate_speed;
-
 };

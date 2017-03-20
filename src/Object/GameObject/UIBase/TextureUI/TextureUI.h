@@ -21,9 +21,16 @@ public:
 	virtual void Setup() {}
 	virtual void Setup(const ci::JsonTree &params)
 	{
-		transform.pos = GetVec3f(params["pos"]);
-		transform.scale = GetVec3f(params["scale"]);
+		default_pos = GetVec2f(params["pos"]);
+		default_size = GetVec2f(params["size"]);
 		texture_name = params.getValueForKey<std::string>("texture_name");
+
+		transform.pos = ci::Vec3f(default_pos.x,
+			default_pos.y,
+			0.0f);
+		transform.scale = ci::Vec3f(default_size.x,
+			default_size.y,
+			1.0f);
 	}
 	virtual void Update() override {}
 	virtual void Draw() override

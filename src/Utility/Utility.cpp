@@ -10,7 +10,27 @@ std::string GetFilePath(const std::string &path)
 	return full_path.string();
 }
 
-ci::Vec3f GetVec3f(const ci::JsonTree& params)
+ci::Vec2f GetVec2f(const ci::JsonTree & params)
+{
+	ci::Vec2f vec;
+
+	vec.x = params.getValueAtIndex<float>(0);
+	vec.y = params.getValueAtIndex<float>(1);
+
+	return vec;
+}
+
+ci::Vec2i GetVec2i(const ci::JsonTree & params)
+{
+	ci::Vec2i vec;
+
+	vec.x = params.getValueAtIndex<int>(0);
+	vec.y = params.getValueAtIndex<int>(1);
+
+	return vec;
+}
+
+ci::Vec3f GetVec3f(const ci::JsonTree& params) 
 {
 	ci::Vec3f vec;
 

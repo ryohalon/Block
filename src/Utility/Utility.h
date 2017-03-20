@@ -8,6 +8,8 @@
 
 std::string GetFilePath(const std::string &path);
 
+ci::Vec2f GetVec2f(const ci::JsonTree & params);
+
 ci::Vec3f GetVec3f(const ci::JsonTree& params);
 
 ci::Vec3i GetVec3i(const ci::JsonTree& params);

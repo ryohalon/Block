@@ -6,6 +6,7 @@
 #include "../Utility/Manager/TextureManager/TextureManager.h"
 #include "../Utility/Manager/SoundManager/SoundManager.h"
 #include "../Utility/Manager/ModelManager/ModelManager.h"
+#include "../Object/UIManager/UIManager.h"
 
 enum class SceneType
 {
@@ -40,4 +41,5 @@ protected:
 
 	SceneType next_scene;
 	bool is_end;
+	UIManager ui_manager;
 };

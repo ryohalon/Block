@@ -43,6 +43,13 @@ public:
 		SINEINOUT
 	};
 
+	struct EasingOne
+	{
+		EasingManageOne easing_manage;
+		float *p;
+		bool is_auto_delete;
+	};
+
 	EasingManager() {};
 	~EasingManager() {};
 
@@ -53,18 +60,19 @@ public:
 		return easing_manager;
 	}
 	
-	void Register(bool *is_end,
-		float *p,
+	void Register(float *p,
 		const EasingType &easing_type,
 		const float &delay_time,
 		const float &take_time,
 		const float &start_value,
-		const float &end_value);
+		const float &end_value,
+		const bool &is_auto_delete = true);
+	bool IsEaseEnd(const float *p);
 	void AllDelete();
 	void Update();
 
 private:
 	
-	std::deque<EasingManageOne> easings;
+	std::deque<EasingOne> easings;
 
 };

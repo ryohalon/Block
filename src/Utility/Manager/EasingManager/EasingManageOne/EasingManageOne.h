@@ -17,10 +17,9 @@ public:
 		start_value(0.0f),
 		end_value(0.0f),
 		is_active(true),
-		is_end(nullptr)
+		is_end(false)
 	{};
-	EasingManageOne(bool *is_end,
-		float *target_value,
+	EasingManageOne(float *target_value,
 		const std::function<float(float, float, float)> &easing_func,
 		const float &delay_time,
 		const float &take_time,
@@ -38,7 +37,7 @@ public:
 	{};
 	~EasingManageOne() {};
 
-	bool GetIsEnd() const { return (*is_end); }
+	bool GetIsEnd() const { return is_end; }
 	float GetTime() const { return time; }
 	float GetTakeTime() const { return take_time; }
 	bool GetIsActive() const { return is_active; }
@@ -59,7 +58,7 @@ public:
 		float time_ = std::fminf(1.0f, std::fmaxf(0.0f,
 			time - delay_time) / take_time);
 		if (time_ == 1.0f)
-			(*is_end) = true;
+			is_end = true;
 
 		float ratio = easing_func(time_, 0.0f, 1.0f);
 		(*terget_value) = ci::lerp(start_value, end_value, ratio);
@@ -80,6 +79,6 @@ private:
 	float start_value;
 	float end_value;
 	bool is_active;
-	bool *is_end;
+	bool is_end;
 
 };

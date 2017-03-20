@@ -20,7 +20,8 @@ void SceneManager::Resize()
 {
 	float window_ratio = static_cast<float>(ci::app::getWindowWidth()) / default_window_size.x;
 	ci::app::setWindowSize(ci::app::getWindowWidth(),
-		static_cast<float>(default_window_size.y) * window_ratio);
+		static_cast<int>(static_cast<float>(default_window_size.y) * window_ratio));
+	camera_ortho.setAspectRatio(ci::app::getWindowAspectRatio());
 	now_scene->Resize(window_ratio);
 }
 
@@ -37,8 +38,8 @@ void SceneManager::Setup()
 	ci::JsonTree params(ci::app::loadAsset("LoadFile/CameraOrthoData/CameraOrthoData.json"));
 
 	camera_ortho = ci::CameraOrtho(-ci::app::getWindowWidth() / 2.0f,
-		-ci::app::getWindowHeight() / 2.0f,
 		ci::app::getWindowWidth() / 2.0f,
+		-ci::app::getWindowHeight() / 2.0f,
 		ci::app::getWindowHeight() / 2.0f,
 		params.getValueForKey<float>("near_plane"),
 		params.getValueForKey<float>("far_plane"));

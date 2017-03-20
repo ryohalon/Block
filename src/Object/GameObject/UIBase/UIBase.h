@@ -1,5 +1,6 @@
 #pragma once
 #include "../GameObject.h"
+#include "../../../Utility/Utility.h"
 #include "../../../Utility/Manager/EasingManager/EasingManager.h"
 
 
@@ -9,8 +10,7 @@ public:
 
 	UIBase() :
 		default_pos(ci::Vec2f::zero()),
-		default_size(ci::Vec2f::zero()),
-		color(ci::ColorAf::white())
+		default_size(ci::Vec2f::zero())
 	{}
 	UIBase(const Transform &transform) :
 		GameObject(transform)
@@ -30,7 +30,18 @@ public:
 			transform.pos.z);
 	}
 	virtual void Setup() override {}
-	virtual void Setup(const ci::JsonTree &params) override {}
+	virtual void Setup(const ci::JsonTree &params) override 
+	{
+		default_pos = GetVec2f(params["pos"]);
+		default_size = GetVec2f(params["size"]);
+
+		transform.pos = ci::Vec3f(default_pos.x,
+			default_pos.y,
+			0.0f);
+		transform.scale = ci::Vec3f(default_size.x,
+			default_size.y,
+			1.0f);
+	}
 	virtual void Update() override {}
 	virtual void Draw() override {}
 
@@ -48,5 +59,4 @@ protected:
 
 	ci::Vec2f default_pos;
 	ci::Vec2f default_size;
-	ci::ColorAf color;
 };
