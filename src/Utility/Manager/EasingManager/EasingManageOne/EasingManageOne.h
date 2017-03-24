@@ -17,7 +17,8 @@ public:
 		start_value(0.0f),
 		end_value(0.0f),
 		is_active(true),
-		is_end(false)
+		is_end(false),
+		end_func([] {})
 	{};
 	EasingManageOne(float *target_value,
 		const std::function<float(float, float, float)> &easing_func,
@@ -44,6 +45,7 @@ public:
 
 	void SetTime(const float &time_) { time = time_; }
 	void SetIsActive(const bool &is_active_) { is_active = is_active_; }
+	void SetEndFunc(const std::function<void()> &end_func_) { end_func = end_func_; }
 
 	void EasingEnd() { time = delay_time + take_time; }
 
@@ -58,7 +60,10 @@ public:
 		float time_ = std::fminf(1.0f, std::fmaxf(0.0f,
 			time - delay_time) / take_time);
 		if (time_ == 1.0f)
+		{
 			is_end = true;
+			end_func();
+		}
 
 		float ratio = easing_func(time_, 0.0f, 1.0f);
 		(*terget_value) = ci::lerp(start_value, end_value, ratio);
@@ -80,5 +85,6 @@ private:
 	float end_value;
 	bool is_active;
 	bool is_end;
+	std::function<void()> end_func;
 
 };

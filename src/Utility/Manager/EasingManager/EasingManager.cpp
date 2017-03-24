@@ -2,7 +2,7 @@
 #include <cinder/app/App.h>
 
 
-void EasingManager::Register(float *p,
+EasingManageOne& EasingManager::Register(float *p,
 	const EasingType &easing_type,
 	const float &delay_time,
 	const float &take_time,
@@ -55,6 +55,8 @@ void EasingManager::Register(float *p,
 		end_value);
 
 	easings.emplace_back(easing);
+
+	return easing.easing_manage;
 }
 
 bool EasingManager::IsEaseEnd(const float * p)

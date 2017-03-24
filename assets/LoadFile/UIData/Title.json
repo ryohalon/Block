@@ -1,0 +1,8 @@
+{
+  "click_start": {
+    "pos": [ 0.0, -200.0 ],
+    "size": [ 300.0, 60.0 ],
+    "color": [ 1.0, 1.0, 1.0, 1.0 ],
+    "texture_name": "ClickStart"
+  }
+}

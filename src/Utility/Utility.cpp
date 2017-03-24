@@ -52,6 +52,18 @@ ci::Vec3i GetVec3i(const ci::JsonTree& params)
 	return vec;
 }
 
+ci::Vec4f GetVec4f(const ci::JsonTree & params)
+{
+	ci::Vec4f vec;
+
+	vec.x = params.getValueAtIndex<int>(0);
+	vec.y = params.getValueAtIndex<int>(1);
+	vec.z = params.getValueAtIndex<int>(2);
+	vec.w = params.getValueAtIndex<int>(3);
+
+	return vec;
+}
+
 ci::Color GetColor(const ci::JsonTree& params) {
 	ci::Color color;
 

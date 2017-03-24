@@ -27,4 +27,6 @@ private:
 	Transform titlelogo_trans;
 	float rotate_angle;
 	float rotate_speed;
+
+	TextureUI click_start;
 };

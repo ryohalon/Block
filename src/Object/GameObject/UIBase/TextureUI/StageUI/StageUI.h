@@ -1,10 +1,10 @@
 #pragma once
-#include "../ButtonUI.h"
-#include "../../../../../../Utility/Manager/TimeManager/TimeManager.h"
+#include "../TextureUI.h"
+#include "../../../../../Utility/Manager/TimeManager/TimeManager.h"
 
 
 
-class StageUI : public ButtonUI
+class StageUI : public TextureUI
 {
 public:
 
@@ -53,6 +53,16 @@ public:
 		TextureManager::Get().GetTexture(texture_name).unbind();
 
 		ci::gl::popModelView();
+	}
+
+	virtual bool IsCollisionMouse(const ci::Vec2i &mouse_pos)
+	{
+		if (mouse_pos.x < transform.pos.x || mouse_pos.x > transform.pos.x + transform.scale.x)
+			return false;
+		if (mouse_pos.y < transform.pos.y || mouse_pos.y > transform.pos.y + transform.scale.y)
+			return false;
+
+		return true;
 	}
 
 private:

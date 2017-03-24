@@ -36,6 +36,9 @@ void Title::Setup()
 	camera_persp.setCenterOfInterestPoint(ci::Vec3f(0.0f, 0.0f, 0.0f));
 
 	sky_dome.Setup();
+
+	params = ci::JsonTree(ci::app::loadAsset("LoadFile/UIData/Title.json"));
+	click_start.Setup(params["click_start"]);
 }
 
 void Title::Update()
@@ -71,10 +74,7 @@ void Title::DrawObject()
 	sky_dome.Draw();
 
 	ci::gl::pushModelView();
-	// ÉÇÉfÉãÇÃíÜêSÇ™Ç∏ÇÍÇƒÇ¢ÇÈÇΩÇﬂè≠ÇµèCê≥
-	ci::gl::translate(titlelogo_trans.pos);
 	ci::gl::rotate(ci::Vec3f::yAxis() * rotate_angle);
-	//ci::gl::translate(titlelogo_trans.pos);
 	ci::gl::rotate(titlelogo_trans.angle);
 	ci::gl::scale(titlelogo_trans.scale);
 
@@ -82,17 +82,11 @@ void Title::DrawObject()
 	model.GetTexture().enableAndBind();
 	ci::gl::draw(model.GetTriMesh());
 	model.GetTexture().unbind();
-
 	ci::gl::popModelView();
-
-	ci::gl::drawStrokedCube(ci::AxisAlignedBox3f(ci::Vec3f::one() * -1.0f, ci::Vec3f::one() * 1.0f));
 }
 
 void Title::DrawUI()
 {
 	ci::gl::translate(0.0f, 0.0f, -10.0f);
-
-	ci::gl::color(ci::ColorA(1.0f, 0.0f, 0.0f));
-	ci::gl::drawSolidRect(ci::Rectf(ci::Vec2f(-100.0f, -100.0f), ci::Vec2f(100.0f, 100.0f)));
-	ci::gl::color(ci::ColorA(1.0f, 1.0f, 1.0f));
+	click_start.Draw();
 }

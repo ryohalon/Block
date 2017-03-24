@@ -1,5 +1,6 @@
 #pragma once
 #include "../../SceneBase.h"
+#include "../../../Object/GameObject/SkyDome/SkyDome.h"
 
 
 
@@ -23,11 +24,15 @@ public:
 
 private:
 
+	void CreateStageButton();
+	void GoStage(const int &world, const int &stage);
+
 	void DrawObject() override;
 	void DrawUI() override;
 
 	ci::CameraPersp camera_persp;
+	SkyDome sky_dome;
 	ActionType action_type;
-	int world_select_num;
-	int stage_select_num;
+
+	std::vector<ButtonUI> buttons;
 };

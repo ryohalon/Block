@@ -8,10 +8,7 @@ class UIBase : public GameObject
 {
 public:
 
-	UIBase() :
-		default_pos(ci::Vec2f::zero()),
-		default_size(ci::Vec2f::zero())
-	{}
+	UIBase() {}
 	UIBase(const Transform &transform) :
 		GameObject(transform)
 	{}
@@ -19,7 +16,7 @@ public:
 
 	virtual void Resize(const float &window_ratio)
 	{
-		transform.pos = ci::Vec3f(
+		/*transform.pos = ci::Vec3f(
 			default_pos.x * window_ratio,
 			default_pos.y * window_ratio,
 			transform.pos.z);
@@ -27,20 +24,18 @@ public:
 		transform.scale = ci::Vec3f(
 			default_size.x * window_ratio,
 			default_size.y * window_ratio,
-			transform.pos.z);
+			transform.pos.z);*/
 	}
 	virtual void Setup() override {}
 	virtual void Setup(const ci::JsonTree &params) override 
 	{
-		default_pos = GetVec2f(params["pos"]);
-		default_size = GetVec2f(params["size"]);
+		ci::Vec2f pos = GetVec2f(params["pos"]);
+		ci::Vec2f size = GetVec2f(params["size"]);
 
-		transform.pos = ci::Vec3f(default_pos.x,
-			default_pos.y,
-			0.0f);
-		transform.scale = ci::Vec3f(default_size.x,
-			default_size.y,
-			1.0f);
+		transform.pos =
+			ci::Vec3f(pos.x, pos.y, 0.0f);
+		transform.scale =
+			ci::Vec3f(size.x, size.y, 1.0f);
 	}
 	virtual void Update() override {}
 	virtual void Draw() override {}
@@ -54,9 +49,4 @@ public:
 
 		return true;
 	}
-
-protected:
-
-	ci::Vec2f default_pos;
-	ci::Vec2f default_size;
 };

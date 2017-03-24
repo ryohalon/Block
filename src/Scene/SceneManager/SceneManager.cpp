@@ -35,14 +35,11 @@ void SceneManager::Setup()
 	now_scene = std::make_shared<Title>();
 	now_scene->Setup();
 
-	ci::JsonTree params(ci::app::loadAsset("LoadFile/CameraOrthoData/CameraOrthoData.json"));
-
 	camera_ortho = ci::CameraOrtho(-ci::app::getWindowWidth() / 2.0f,
 		ci::app::getWindowWidth() / 2.0f,
 		-ci::app::getWindowHeight() / 2.0f,
 		ci::app::getWindowHeight() / 2.0f,
-		params.getValueForKey<float>("near_plane"),
-		params.getValueForKey<float>("far_plane"));
+		0.0f, 100.0f);
 
 	default_window_size = ci::Vec2i(
 		ci::app::getWindowWidth(),

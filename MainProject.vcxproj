@@ -123,7 +123,7 @@
     <ClCompile Include="..\src\Object\GameObject\MainCamera\MainCamera.cpp" />
     <ClCompile Include="..\src\Object\GameObject\SkyDome\SkyDome.cpp" />
     <ClCompile Include="..\src\Object\MapManager\MapManager.cpp" />
-    <ClCompile Include="..\src\Object\UIManager\UIManager.cpp" />
+    <ClCompile Include="..\src\SaveData\SaveData.cpp" />
     <ClCompile Include="..\src\Scene\Category\GameMain\GameMain.cpp" />
     <ClCompile Include="..\src\Scene\Category\StageSelect\StageSelect.cpp" />
     <ClCompile Include="..\src\Scene\Category\Title\Title.cpp" />
@@ -151,12 +151,12 @@
     <ClInclude Include="..\src\Object\GameObject\MainCamera\MainCamera.h" />
     <ClInclude Include="..\src\Object\GameObject\SkyDome\SkyDome.h" />
     <ClInclude Include="..\src\Object\GameObject\UIBase\TextureUI\ButtonUI\ButtonUI.h" />
-    <ClInclude Include="..\src\Object\GameObject\UIBase\TextureUI\ButtonUI\StageUI\StageUI.h" />
+    <ClInclude Include="..\src\Object\GameObject\UIBase\TextureUI\StageUI\StageUI.h" />
     <ClInclude Include="..\src\Object\GameObject\UIBase\TextureUI\TextureUI.h" />
     <ClInclude Include="..\src\Object\GameObject\UIBase\UIBase.h" />
     <ClInclude Include="..\src\Object\MapManager\MapManager.h" />
     <ClInclude Include="..\src\Object\Object.h" />
-    <ClInclude Include="..\src\Object\UIManager\UIManager.h" />
+    <ClInclude Include="..\src\SaveData\SaveData.h" />
     <ClInclude Include="..\src\Scene\Category\GameMain\GameMain.h" />
     <ClInclude Include="..\src\Scene\Category\StageSelect\StageSelect.h" />
     <ClInclude Include="..\src\Scene\Category\Title\Title.h" />

@@ -14,6 +14,8 @@ ci::Vec3f GetVec3f(const ci::JsonTree& params);
 
 ci::Vec3i GetVec3i(const ci::JsonTree& params);
 
+ci::Vec4f GetVec4f(const ci::JsonTree& params);
+
 ci::Color GetColor(const ci::JsonTree& params);
 
 ci::Color GetColorA(const ci::JsonTree& params);
