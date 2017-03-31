@@ -3,6 +3,7 @@
 #include "../Category/StageSelect/StageSelect.h"
 #include "../Category/GameMain/GameMain.h"
 #include "../../Utility/Manager/EasingManager/EasingManager.h"
+#include "../../SaveData/SaveData.h"
 
 SceneManager::SceneManager() :
 	now_scene(nullptr),
@@ -27,6 +28,7 @@ void SceneManager::Resize()
 
 void SceneManager::Setup()
 {
+	SaveData::Get().LoadSaveData();
 	SoundManager::Get().Setup();
 	TextureManager::Get().Setup();
 	ModelManager::Get().Setup();
@@ -92,4 +94,5 @@ void SceneManager::ChangeScene()
 
 	CreateScene[static_cast<int>(now_scene->GetNextSceneType())]();
 	now_scene->Setup();
+	EasingManager::Get().AllDelete();
 }

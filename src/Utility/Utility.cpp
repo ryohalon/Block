@@ -64,6 +64,17 @@ ci::Vec4f GetVec4f(const ci::JsonTree & params)
 	return vec;
 }
 
+ci::ColorAf GetColorAf(const ci::JsonTree & params)
+{
+	ci::ColorAf color;
+	ci::Vec4f vec;
+
+	vec = GetVec4f(params);
+	color = ci::ColorAf(vec.x, vec.y, vec.z, vec.w);
+
+	return color;
+}
+
 ci::Color GetColor(const ci::JsonTree& params) {
 	ci::Color color;
 

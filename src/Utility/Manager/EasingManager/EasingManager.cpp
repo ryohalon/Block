@@ -7,8 +7,7 @@ EasingManageOne& EasingManager::Register(float *p,
 	const float &delay_time,
 	const float &take_time,
 	const float &start_value,
-	const float &end_value,
-	const bool &is_auto_delete)
+	const float &end_value)
 {
 	std::function<float(float, float, float)> easing_func[] = {
 		Easing::Linear,
@@ -46,7 +45,6 @@ EasingManageOne& EasingManager::Register(float *p,
 
 	EasingOne easing;
 	easing.p = p;
-	easing.is_auto_delete = is_auto_delete;
 	easing.easing_manage = EasingManageOne(p,
 		easing_func[easing_type],
 		delay_time,
@@ -56,23 +54,18 @@ EasingManageOne& EasingManager::Register(float *p,
 
 	easings.emplace_back(easing);
 
-	return easing.easing_manage;
+	return easings[easings.size() - 1].easing_manage;
 }
 
 bool EasingManager::IsEaseEnd(const float * p)
 {
-	for (int i = 0; i < easings.size(); i++)
+	for (const auto &manage_one : easings)
 	{
-		if (easings[i].is_auto_delete)
-			continue;
-		if (easings[i].p != p)
-			continue;
-		if (!easings[i].easing_manage.GetIsEnd())
+		if (p == manage_one.p)
 			return false;
-
-		easings.erase(easings.begin() + i);
-		return true;
 	}
+
+	return true;
 }
 
 void EasingManager::AllDelete()
@@ -87,8 +80,7 @@ void EasingManager::Update()
 	{
 		easings[i].easing_manage.Update();
 
-		if (easings[i].is_auto_delete)
-			if (easings[i].easing_manage.GetIsEnd())
+		if (easings[i].easing_manage.GetIsEnd())
 				easings.erase(easings.begin() + i);
 	}
 

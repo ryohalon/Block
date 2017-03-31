@@ -19,7 +19,6 @@ void StageSelect::Resize(const float &window_ratio)
 
 void StageSelect::Setup()
 {
-	SaveData::Get().LoadSaveData();
 	next_scene = SceneType::GAMEMAIN;
 	camera_persp = ci::CameraPersp(ci::app::getWindowWidth(),
 		ci::app::getWindowHeight(),
@@ -29,22 +28,26 @@ void StageSelect::Setup()
 	camera_persp.setCenterOfInterestPoint(ci::Vec3f(0.0f, 0.0f, 0.0f));
 	sky_dome.Setup();
 
-	CreateStageButton();
+	ci::JsonTree params(ci::app::loadAsset("LoadFile/UIData/StageSelect.json"));
+	CreateStageButton(params["stage"]);
+
+	FontUI font;
+	font.Setup(params["select_stage"]);
+	fonts.push_back(font);
+
+	font.Setup(params["back_title.font"]);
+	fonts.push_back(font);
+
+	ButtonUI button;
+	button.Setup(params["back_title.button"]);
+	button.SetClickedFunc([this] { BackTitle(); });
+	buttons.push_back(button);
 }
 
 void StageSelect::Update()
 {
-	for(int i = 0; i < buttons.size(); i++)
-	{
-		buttons[i].Update();
-
-		if (!buttons[i].GetIsClicked())
-			continue;
-
-		int world = i / SaveData::Get().GetStageNum();
-		int stage = i - SaveData::Get().GetStageNum() * world;
-		GoStage(world, stage);
-	}
+	for (auto &button : buttons)
+		button.Update();
 }
 
 void StageSelect::Draw(const ci::CameraOrtho & camera_ortho)
@@ -60,20 +63,63 @@ void StageSelect::Draw(const ci::CameraOrtho & camera_ortho)
 	ci::gl::popModelView();
 }
 
-void StageSelect::CreateStageButton()
+void StageSelect::CreateStageButton(const ci::JsonTree &params)
 {
-	// ここも
+	ci::Vec3f first_pos = GetVec3f(params["stage_button.first_pos"]);
+	ci::Vec3f button_size = GetVec3f(params["stage_button.size"]);
+	ci::Vec2f distance = GetVec2f(params["stage_button.distance"]);
+	float flexible_value = params.getValueForKey<float>("stage_button.flexible_value");
+	float take_time = params.getValueForKey<float>("stage_button.take_time");
+	
 	std::vector<std::vector<int>> save_datas = SaveData::Get().GetSaveData();
-	for (auto &world : save_datas)
-		for (auto &stage : world)
-			ci::app::console() << stage << std::endl;
+	for (int i = 0; i < save_datas.size(); i++)
+	{
+		int stage_num = save_datas[i].size();
+		for (int k = 0; k < save_datas[i].size(); k++)
+		{
+			ci::Vec3f pos = ci::Vec3f(first_pos.x + (k % (stage_num / 2)) * (button_size.x + distance.x),
+				first_pos.y - (k / (stage_num / 2)) * (button_size.y + distance.y),
+					0.0f);
+			
+			ButtonUI button;
+			button.SetPos(pos);
+			button.SetScale(button_size);
+			button.SetOriginSize(button_size.xy());
+			button.SetFlexibleValue(flexible_value);
+			button.SetTextureName(params["stage_button.texture_name"].getValueAtIndex<std::string>(i));
+			button.SetTakeTime(take_time);
+			button.SetClickedFunc([this, i, k] {GoStage(i + 1, k + 1); });
+
+			buttons.push_back(button);
+
+			FontUI font;
+			font.SetStr(std::to_string(k + 1));
+			font.SetPos(pos);
+			std::string font_path = "Resource/Font/" + params.getValueForKey<std::string>("font.font_type");
+			font.SetFont(ci::Font(ci::app::loadAsset(font_path), params.getValueForKey<int>("font.size")));
+			font.SetColor(GetColorAf(params["font.color"]));
+
+			fonts.push_back(font);
+		}
+	}
+
 }
 
 void StageSelect::GoStage(const int &world, const int &stage)
 {
 	ci::JsonTree params(ci::app::loadAsset("LoadFile/StageData/SelectStage.json"));
-	// 明日選択されたステージの保存やる
-	params;
+	params["world"] = ci::JsonTree("world", world);
+	params["stage"] = ci::JsonTree("stage", stage);
+	params.write(ci::app::getAssetPath("LoadFile/StageData/SelectStage.json"));
+
+	next_scene = SceneType::GAMEMAIN;
+	is_end = true;
+}
+
+void StageSelect::BackTitle()
+{
+	next_scene = SceneType::TITLE;
+	is_end = true;
 }
 
 void StageSelect::DrawObject()
@@ -87,4 +133,8 @@ void StageSelect::DrawUI()
 
 	for (auto &button : buttons)
 		button.Draw();
+
+	ci::gl::translate(ci::Vec3f(0.0f, 0.0f, 1.0f));
+	for (auto &font : fonts)
+		font.Draw();
 }

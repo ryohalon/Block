@@ -42,6 +42,7 @@ private:
 	MapManager map_manager;
 	PlayerCube player_cube;
 
+	int world, stage;
 	bool is_failed, is_goal;
 	float failed_fall_pos_y;
 

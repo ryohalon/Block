@@ -24,8 +24,9 @@ public:
 
 private:
 
-	void CreateStageButton();
+	void CreateStageButton(const ci::JsonTree &params);
 	void GoStage(const int &world, const int &stage);
+	void BackTitle();
 
 	void DrawObject() override;
 	void DrawUI() override;
@@ -35,4 +36,5 @@ private:
 	ActionType action_type;
 
 	std::vector<ButtonUI> buttons;
+	std::vector<FontUI> fonts;
 };

@@ -47,7 +47,6 @@ public:
 	{
 		EasingManageOne easing_manage;
 		float *p;
-		bool is_auto_delete;
 	};
 
 	EasingManager() {};
@@ -65,8 +64,7 @@ public:
 		const float &delay_time,
 		const float &take_time,
 		const float &start_value,
-		const float &end_value,
-		const bool &is_auto_delete = true);
+		const float &end_value);
 	bool IsEaseEnd(const float *p);
 	void AllDelete();
 	void Update();

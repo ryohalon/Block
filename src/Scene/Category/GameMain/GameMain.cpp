@@ -1,4 +1,5 @@
 #include "GameMain.h"
+#include "../../../SaveData/SaveData.h"
 #include "../../../Object/GameObject/CubeBase/ShrinkCube/ShrinkCube.h"
 #include "../../../Object/GameObject/CubeBase/VanishCube/VanishCube.h"
 #include "../../../Object/GameObject/CubeBase/SpringCube/SpringCube.h"
@@ -7,6 +8,8 @@
 
 
 GameMain::GameMain() :
+	world(1),
+	stage(1),
 	is_failed(false),
 	is_goal(false),
 	failed_fall_pos_y(-10.0f)
@@ -28,14 +31,8 @@ void GameMain::Setup()
 {
 	// 選択したステージの情報を獲得
 	ci::JsonTree params(ci::app::loadAsset("LoadFile/StageData/SelectStage.json"));
-	int world = params.getValueForKey<int>("world");
-	int stage = params.getValueForKey<int>("stage");
-
-#ifdef _DEBUG
-	ci::app::console() << "world : " << world << std::endl;
-	ci::app::console() << "stage : " << stage << std::endl;
-
-	next_scene = SceneType::TITLE;
+	world = params.getValueForKey<int>("world");
+	stage = params.getValueForKey<int>("stage");
 
 	sky.Setup();
 	point_light = new ci::gl::Light(ci::gl::Light::POINT, 0);
@@ -47,7 +44,6 @@ void GameMain::Setup()
 	light->setAmbient(ci::Color(0.9f, 0.9f, 0.9f));
 	light->setDiffuse(ci::Color(0.95f, 0.95f, 0.95f));
 	light->setSpecular(ci::Color(0.99f, 0.99f, 0.99f));
-#endif
 
 	// マップの準備
 	map_manager.Setup(world, stage);
@@ -64,11 +60,6 @@ void GameMain::Setup()
 
 void GameMain::Update()
 {
-#ifdef _DEBUG
-	if (Key::Get().IsPushKey(ci::app::KeyEvent::KEY_1))
-		Setup();
-#endif
-
 	main_camera.Update();
 
 	player_cube.Update();
@@ -87,14 +78,11 @@ void GameMain::Draw(const ci::CameraOrtho &camera_ortho)
 
 	main_camera.Draw();
 
-#ifdef _DEBUG
-	
 	sky.Draw();
 	point_light->setPosition(map_manager.GetStageMatrix() * player_cube.GetTransform().pos);
 	point_light->enable();
 	light->setPosition(map_manager.GetStageMatrix() * (map_manager.GetMapCenterPos() + ci::Vec3f(0.0f, 1.0f, 0.0f)));
 	light->enable();
-#endif
 
 	ci::gl::enable(GL_LIGHTING);
 
@@ -127,7 +115,7 @@ void GameMain::ClickAction()
 
 	ray.setOrigin(map_manager.GetStageMatrix().inverted() * ray.getOrigin());
 	ray.setDirection(map_manager.GetStageMatrix().inverted().transformVec(ray.getDirection()));
-	
+
 	float min_ray_distance = std::numeric_limits<float>().max();
 	CubeBase *clicked_cube = nullptr;
 
@@ -284,7 +272,7 @@ void GameMain::SearchMoveDirectionCube(const ci::Vec3i &player_map_pos, const in
 		else
 			player_cube.Hit();
 	}
-		break;
+	break;
 
 	}
 }
@@ -365,12 +353,7 @@ void GameMain::Goal()
 	if (!is_goal)
 		return;
 
-#ifdef _DEBUG
-	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::RIGHT_DOWN))
-	{
-		is_goal = false;
-		is_end = true;
-		next_scene = SceneType::TITLE;
-	}
-#endif
+	SaveData::Get().ClearStage(world, stage);
+	is_end = true;
+	next_scene = SceneType::STAGESELECT;
 }

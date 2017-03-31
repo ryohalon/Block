@@ -1,0 +1,47 @@
+{
+  "stage": {
+    "stage_button": {
+      "first_pos": [ -400.0, -0.0, 0.0 ],
+      "size": [ 150.0, 150.0, 1.0 ],
+      "distance": [ 50.0, 50.0 ],
+      "flexible_value": 10.0,
+      "take_time": 0.2,
+      "texture_name": [
+        "World1"
+      ]
+    },
+
+    "font": {
+      "font_type": "meiryo.ttc",
+      "size": 75,
+      "color": [ 0.0, 0.0, 0.0, 1.0 ]
+    }
+  },
+
+  "select_stage": {
+    "pos": [ 0.0, 250.0, 0.0 ],
+    "str": "Select Stage",
+    "font_type": "meiryo.ttc",
+    "size": 125,
+    "color": [ 0.0, 0.0, 0.0, 1.0 ]
+  },
+
+  "back_title": {
+    "font": {
+      "pos": [ 520.0, 300.0, 0.0 ],
+      "str": "Title",
+      "font_type": "meiryo.ttc",
+      "size": 50,
+      "color": [ 0.0, 0.0, 0.0, 1.0 ]
+    },
+
+    "button": {
+      "pos": [ 520.0, 300.0, 0.0 ],
+      "size": [ 200.0, 75.0, 1.0 ],
+      "flexible_value": 10.0,
+      "take_time": 0.2,
+      "color": [ 1.0, 1.0, 1.0, 1.0 ],
+      "texture_name": "World1"
+    }
+  }
+}

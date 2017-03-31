@@ -130,6 +130,9 @@
     <Filter Include="Source Files\SaveData">
       <UniqueIdentifier>{85d154fb-1ac3-4277-8f79-48e3ab866f89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Object\GameObject\UIBase\FontUI">
+      <UniqueIdentifier>{35fe4272-7c6a-4815-9f68-3ea3ee5e8dcf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -239,6 +242,9 @@
     </ClInclude>
     <ClInclude Include="..\src\SaveData\SaveData.h">
       <Filter>Source Files\SaveData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Object\GameObject\UIBase\FontUI\FontUI.h">
+      <Filter>Source Files\Object\GameObject\UIBase\FontUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

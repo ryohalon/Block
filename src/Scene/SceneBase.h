@@ -7,6 +7,7 @@
 #include "../Utility/Manager/SoundManager/SoundManager.h"
 #include "../Utility/Manager/ModelManager/ModelManager.h"
 #include "../Object/GameObject/UIBase/TextureUI/ButtonUI/ButtonUI.h"
+#include "../Object/GameObject/UIBase/FontUI/FontUI.h"
 
 enum class SceneType
 {

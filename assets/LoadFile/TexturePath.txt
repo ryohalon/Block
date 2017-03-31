@@ -1,1 +1,0 @@
-SkyDome Resource/Texture/SkyDome.png

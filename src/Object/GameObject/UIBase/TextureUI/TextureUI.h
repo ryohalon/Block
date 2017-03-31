@@ -19,6 +19,8 @@ public:
 	{}
 	virtual ~TextureUI() {}
 
+	void SetTextureName(const std::string &texture_name_) { texture_name = texture_name_; }
+
 	virtual void Setup() {}
 	virtual void Setup(const ci::JsonTree &params)
 	{
@@ -45,9 +47,14 @@ public:
 
 	virtual bool IsCollisionMouse(const ci::Vec2i &mouse_pos)
 	{
-		if (mouse_pos.x < transform.pos.x || mouse_pos.x > transform.pos.x + transform.scale.x)
+		// ウィンドウ中心に０，０で合わせているため
+		// マウスの座標を修正
+		ci::Vec2i mouse_pos_ = ci::Vec2i(mouse_pos.x - ci::app::getWindowWidth() / 2,
+			ci::app::getWindowHeight() / 2 - mouse_pos.y);
+
+		if (mouse_pos_.x < transform.pos.x - transform.scale.x / 2.0f || mouse_pos_.x > transform.pos.x + transform.scale.x / 2.0f)
 			return false;
-		if (mouse_pos.y < transform.pos.y || mouse_pos.y > transform.pos.y + transform.scale.y)
+		if (mouse_pos_.y < transform.pos.y - transform.scale.y / 2.0f|| mouse_pos_.y > transform.pos.y + transform.scale.y / 2.0f)
 			return false;
 
 		return true;

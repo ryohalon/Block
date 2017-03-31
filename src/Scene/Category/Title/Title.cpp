@@ -21,11 +21,12 @@ void Title::Resize(const float &window_ratio)
 
 void Title::Setup()
 {
-	ci::JsonTree params(ci::app::loadAsset("LoadFile/TitleLogoData/TitleLogoData.json"));
-	titlelogo_trans.pos = GetVec3f(params["pos"]);
-	titlelogo_trans.angle = GetVec3f(params["angle"]);
-	titlelogo_trans.scale = GetVec3f(params["scale"]);
-	rotate_speed = params.getValueForKey<float>("rotate_speed");
+	ci::JsonTree params(ci::app::loadAsset("LoadFile/UIData/Title.json"));
+	titlelogo_trans.pos = GetVec3f(params["title_logo.pos"]);
+	titlelogo_trans.angle = GetVec3f(params["title_logo.angle"]);
+	titlelogo_trans.scale = GetVec3f(params["title_logo.scale"]);
+	rotate_speed = params["title_logo"].getValueForKey<float>("rotate_speed");
+	click_start.Setup(params["click_start"]);
 
 	next_scene = SceneType::STAGESELECT;
 	camera_persp = ci::CameraPersp(ci::app::getWindowWidth(),
@@ -36,9 +37,6 @@ void Title::Setup()
 	camera_persp.setCenterOfInterestPoint(ci::Vec3f(0.0f, 0.0f, 0.0f));
 
 	sky_dome.Setup();
-
-	params = ci::JsonTree(ci::app::loadAsset("LoadFile/UIData/Title.json"));
-	click_start.Setup(params["click_start"]);
 }
 
 void Title::Update()

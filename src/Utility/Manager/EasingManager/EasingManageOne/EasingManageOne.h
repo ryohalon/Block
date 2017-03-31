@@ -59,21 +59,23 @@ public:
 		time += TimeManager::Get().GetDeltaTime();
 		float time_ = std::fminf(1.0f, std::fmaxf(0.0f,
 			time - delay_time) / take_time);
-		if (time_ == 1.0f)
-		{
-			is_end = true;
-			end_func();
-		}
 
 		float ratio = easing_func(time_, 0.0f, 1.0f);
 		(*terget_value) = ci::lerp(start_value, end_value, ratio);
+
+		if (time_ == 1.0f)
+		{
+			is_end = true;
+			if (end_func != nullptr)
+				end_func();
+		}
 	}
 
 private:
 
 	void UpdateTime()
 	{
-		
+
 	}
 
 	std::function<const float&(float, float, float)> easing_func;

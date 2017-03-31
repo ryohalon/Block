@@ -150,6 +150,7 @@
     <ClInclude Include="..\src\Object\GameObject\GameObject.h" />
     <ClInclude Include="..\src\Object\GameObject\MainCamera\MainCamera.h" />
     <ClInclude Include="..\src\Object\GameObject\SkyDome\SkyDome.h" />
+    <ClInclude Include="..\src\Object\GameObject\UIBase\FontUI\FontUI.h" />
     <ClInclude Include="..\src\Object\GameObject\UIBase\TextureUI\ButtonUI\ButtonUI.h" />
     <ClInclude Include="..\src\Object\GameObject\UIBase\TextureUI\StageUI\StageUI.h" />
     <ClInclude Include="..\src\Object\GameObject\UIBase\TextureUI\TextureUI.h" />
