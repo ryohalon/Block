@@ -71,10 +71,20 @@ void StageSelect::Draw(const ci::CameraOrtho & camera_ortho)
 void StageSelect::CreateStageButton(const ci::JsonTree &params)
 {
 	ci::Vec3f first_pos = GetVec3f(params["stage_button.first_pos"]);
-	ci::Vec3f button_size = GetVec3f(params["stage_button.size"]);
+	ci::Vec3f button_size[] = {
+		GetVec3f(params["stage_button.size." + std::to_string(0)]),
+		GetVec3f(params["stage_button.size." + std::to_string(1)]),
+	};
 	ci::Vec2f distance = GetVec2f(params["stage_button.distance"]);
 	float flexible_value = params.getValueForKey<float>("stage_button.flexible_value");
 	float take_time = params.getValueForKey<float>("stage_button.take_time");
+	ci::ColorAf button_color[SaveData::StageStatus::MAXNUM];
+	ci::JsonTree color_params = params["stage_button.color"];
+	for (int i = 0; i < SaveData::StageStatus::MAXNUM; i++)
+	{
+		ci::Vec4f color_ = GetVec4f(color_params[i]);
+		button_color[i] = ci::ColorAf(color_.x, color_.y, color_.z, color_.w);
+	}
 	
 	std::vector<std::vector<int>> save_datas = SaveData::Get().GetSaveData();
 	for (int i = 0; i < save_datas.size(); i++)
@@ -82,26 +92,28 @@ void StageSelect::CreateStageButton(const ci::JsonTree &params)
 		int stage_num = save_datas[i].size();
 		for (int k = 0; k < save_datas[i].size(); k++)
 		{
-			ci::Vec3f pos = ci::Vec3f(first_pos.x + (k % (stage_num / 2)) * (button_size.x + distance.x),
-				first_pos.y - (k / (stage_num / 2)) * (button_size.y + distance.y),
+			ci::Vec3f pos = ci::Vec3f(first_pos.x + (k % (stage_num / 2)) * (button_size[0].x + distance.x),
+				first_pos.y - (k / (stage_num / 2)) * (button_size[0].y + distance.y),
 					0.0f);
 			
 			ButtonUI button;
 			button.SetPos(pos);
-			button.SetScale(button_size);
-			button.SetOriginSize(button_size.xy());
+			button.SetScale(button_size[save_datas[i][k] / SaveData::StageStatus::LOCK]);
+			button.SetOriginSize(button_size[save_datas[i][k] / SaveData::StageStatus::LOCK].xy());
 			button.SetFlexibleValue(flexible_value);
 			button.SetTextureName(params["stage_button.texture_name"].getValueAtIndex<std::string>(i));
 			button.SetTakeTime(take_time);
-			button.SetClickedFunc([this, i, k] {GoStage(i + 1, k + 1); });
-
+			if (save_datas[i][k] != SaveData::StageStatus::LOCK)
+				button.SetClickedFunc([this, i, k] {GoStage(i + 1, k + 1); });
+			button.SetColor(button_color[save_datas[i][k]]);
 			buttons.push_back(button);
 
 			FontUI font;
 			font.SetStr(std::to_string(k + 1));
 			font.SetPos(pos);
 			std::string font_path = "Resource/Font/" + params.getValueForKey<std::string>("font.font_type");
-			font.SetFont(ci::Font(ci::app::loadAsset(font_path), params.getValueForKey<int>("font.size")));
+			font.SetFont(ci::Font(ci::app::loadAsset(font_path),
+				params["font.size"].getValueAtIndex<int>(save_datas[i][k] / SaveData::StageStatus::LOCK)));
 			font.SetColor(GetColorAf(params["font.color"]));
 
 			fonts.push_back(font);

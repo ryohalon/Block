@@ -22,7 +22,7 @@ void SaveData::LoadSaveData()
 	while (std::getline(file, line))
 	{
 		std::vector<int> world_save_data;
-		for (int i = 0; i < static_cast<int>(line.size()); i += 2)
+		for (int i = 0; i < line.size(); i += 2)
 			world_save_data.push_back(boost::lexical_cast<int>(line[i]));
 
 		save_data.push_back(world_save_data);
@@ -32,7 +32,19 @@ void SaveData::LoadSaveData()
 
 void SaveData::WriteCsv()
 {
+	std::string file_path = "LoadFile/SaveData/SaveData.csv";
+	std::ofstream file(GetFilePath(file_path));
+	for (int i = 0; i < static_cast<int>(save_data.size()); i++)
+	{
+		for (int k = 0; k < STAGENUM; k++)
+		{
+			file << save_data[i][k];
+			if (k < STAGENUM - 1)
+				file << ',';
+		}
 
+		file << std::endl;
+	}
 }
 
 void SaveData::ClearStage(int world, int stage)
@@ -40,7 +52,7 @@ void SaveData::ClearStage(int world, int stage)
 	world--;
 	stage--;
 	save_data[world][stage] = StageStatus::CLEAR;
-	world += ((stage + 1) == 10) ? 1 : 0;
+	world += ((stage + 1) == STAGENUM) ? 1 : 0;
 	stage = (stage + 1) % save_data[0].size();
 	if (save_data[world][stage] == StageStatus::LOCK)
 		save_data[world][stage] = StageStatus::OPEN;
@@ -64,13 +76,15 @@ void SaveData::DeleteSaveData()
 	std::ofstream file(GetFilePath(file_path));
 	for (int i = 0; i < static_cast<int>(save_data.size()); i++)
 	{
-		for (int k = 0; k < static_cast<int>(save_data[i].size()); k++)
+		for (int k = 0; k < STAGENUM; k++)
 		{
 			file << save_data[i][k];
-			if (k < static_cast<int>(save_data[i].size()) - 1)
+			if (k < STAGENUM - 1)
 				file << ',';
-			if (k == static_cast<int>(save_data[i].size()) - 1)
-				file << std::endl;
 		}
+
+		file << std::endl;
 	}
+
+	WriteCsv();
 }

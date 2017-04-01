@@ -56,10 +56,10 @@ ci::Vec4f GetVec4f(const ci::JsonTree & params)
 {
 	ci::Vec4f vec;
 
-	vec.x = params.getValueAtIndex<int>(0);
-	vec.y = params.getValueAtIndex<int>(1);
-	vec.z = params.getValueAtIndex<int>(2);
-	vec.w = params.getValueAtIndex<int>(3);
+	vec.x = params.getValueAtIndex<float>(0);
+	vec.y = params.getValueAtIndex<float>(1);
+	vec.z = params.getValueAtIndex<float>(2);
+	vec.w = params.getValueAtIndex<float>(3);
 
 	return vec;
 }

@@ -10,7 +10,8 @@ public:
 	ButtonUI() :
 		origin_size(ci::Vec2f::zero()),
 		flexible_value(0.0f),
-		take_time(0.5f)
+		take_time(0.5f),
+		clicked_func(nullptr)
 	{}
 	virtual  ~ButtonUI() {}
 
@@ -33,7 +34,7 @@ public:
 			ci::Vec3f(pos.x, pos.y, 0.0f);
 		transform.scale =
 			ci::Vec3f(origin_size.x, origin_size.y, 1.0f);
-		
+
 	}
 	virtual void Update() override
 	{
@@ -54,14 +55,15 @@ public:
 		DrawtexCoord(transform.pos.xy(),
 			transform.scale.xy());
 		TextureManager::Get().GetTexture(texture_name).unbind();
-		
+
 	}
 
 protected:
 
 	void Clicked()
 	{
-		clicked_func();
+		if (clicked_func != nullptr)
+			clicked_func();
 
 		EasingManager::Get().Register(&(transform.scale.x),
 			EasingManager::EasingType::CUBICOUT,

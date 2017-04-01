@@ -363,6 +363,7 @@ void GameMain::Goal()
 		return;
 
 	SaveData::Get().ClearStage(world, stage);
+	SaveData::Get().WriteCsv();
 	is_end = true;
 	next_scene = SceneType::STAGESELECT;
 	SoundManager::Get().GetSound("MetallicWink").SetIsLoop(false);

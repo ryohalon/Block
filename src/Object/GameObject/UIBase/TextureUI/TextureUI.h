@@ -20,6 +20,7 @@ public:
 	virtual ~TextureUI() {}
 
 	void SetTextureName(const std::string &texture_name_) { texture_name = texture_name_; }
+	void SetColor(const ci::ColorAf &color_) { color = color_; }
 
 	virtual void Setup() {}
 	virtual void Setup(const ci::JsonTree &params)

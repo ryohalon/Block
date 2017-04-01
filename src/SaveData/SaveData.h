@@ -3,6 +3,7 @@
 #include <assert.h>
 
 
+#define STAGENUM (10)
 
 class SaveData
 {
@@ -12,7 +13,8 @@ public:
 	{
 		OPEN,
 		CLEAR,
-		LOCK
+		LOCK,
+		MAXNUM
 	};
 
 	SaveData();
