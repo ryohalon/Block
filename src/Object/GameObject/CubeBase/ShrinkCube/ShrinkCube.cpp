@@ -108,6 +108,9 @@ void ShrinkCube::ShrinkStart()
 	time = 0.0f;
 	is_shrink = !is_shrink;
 	is_shrinking = true;
+
+	std::string sound_name = (is_shrink) ? "Extend" : "Shrink";
+	SoundManager::Get().GetSound(sound_name).Play();
 }
 
 void ShrinkCube::Shrinking()

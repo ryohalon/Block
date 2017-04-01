@@ -37,12 +37,19 @@ void Title::Setup()
 	camera_persp.setCenterOfInterestPoint(ci::Vec3f(0.0f, 0.0f, 0.0f));
 
 	sky_dome.Setup();
+	SoundManager::Get().GetSound("LargeTriangleOfSummer").SetIsLoop(true);
+	SoundManager::Get().GetSound("LargeTriangleOfSummer").Loop();
 }
 
 void Title::Update()
 {
+	SoundManager::Get().GetSound("LargeTriangleOfSummer").Loop();
+
 	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::LEFT_DOWN))
+	{
+		SoundManager::Get().GetSound("Select").Play();
 		is_end = true;
+	}
 
 	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::RIGHT_DOWN))
 	{

@@ -48,4 +48,6 @@ void VanishCube::Draw()
 void VanishCube::Clicked()
 {
 	is_vanish = !is_vanish;
+	
+	SoundManager::Get().GetSound("Vanish").Play();
 }

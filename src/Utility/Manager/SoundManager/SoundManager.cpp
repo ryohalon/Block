@@ -21,6 +21,51 @@ void SoundManager::Setup()
 
 	LoadBGM(directory_path);
 	LoadSE(directory_path);
+
+	SetupGain();
+}
+
+void SoundManager::Delete(const std::string & name)
+{
+#ifdef _DEBUG
+	if (sounds.find(name) == sounds.cend())
+		assert(!"[name]‚Ì–¼‘O‚Ì•t‚¢‚½[sound]‚ª“o˜^‚³‚ê‚Ä‚Ü‚¹‚ñ");
+#endif
+
+	sounds.erase(sounds.find(name));
+}
+
+void SoundManager::AllDelete()
+{
+	sounds.clear();
+}
+
+Sound & SoundManager::GetSound(const std::string & name)
+{
+#ifdef _DEBUG
+	if (sounds.find(name) == sounds.cend())
+		assert(!"[name]‚Ì–¼‘O‚Ì•t‚¢‚½[sound]‚ª“o˜^‚³‚ê‚Ä‚Ü‚¹‚ñ");
+#endif
+
+	return sounds[name];
+}
+
+void SoundManager::AllStop()
+{
+	for (auto &sound : sounds)
+		sound.second.Stop();
+}
+
+void SoundManager::ChangeGain(const std::string &name, float gain)
+{
+	gain = (gain < 0.0f) ? 0.0f : (gain > 1.0f) ? 1.0f : gain;
+
+#ifdef _DEBUG
+	if (sounds.find(name) == sounds.cend())
+		assert(!"[name]‚Ì–¼‘O‚Ì•t‚¢‚½[sound]‚ª“o˜^‚³‚ê‚Ä‚Ü‚¹‚ñ");
+#endif
+
+	sounds[name].ChangeGain(gain, context);
 }
 
 void SoundManager::LoadBGM(std::string directory_path)
@@ -78,33 +123,16 @@ void SoundManager::Register(const std::string & file_path,
 	sounds.insert(std::make_pair(name, sound));
 }
 
-void SoundManager::Delete(const std::string & name)
+void SoundManager::SetupGain()
 {
+	ci::JsonTree params(ci::app::loadAsset("LoadFile/SoundData/Gain.json"));
+
+	for (auto gain : params)
+	{
 #ifdef _DEBUG
-	if (sounds.find(name) == sounds.cend())
-		assert(!"[name]‚Ì–¼‘O‚Ì•t‚¢‚½[sound]‚ª“o˜^‚³‚ê‚Ä‚Ü‚¹‚ñ");
+		if (sounds.find(gain.getKey()) == sounds.cend())
+			assert(!"[name]‚Ì–¼‘O‚Ì•t‚¢‚½[sound]‚ª“o˜^‚³‚ê‚Ä‚Ü‚¹‚ñ");
 #endif
-
-	sounds.erase(sounds.find(name));
-}
-
-void SoundManager::AllDelete()
-{
-	sounds.clear();
-}
-
-Sound & SoundManager::GetSound(const std::string & name)
-{
-#ifdef _DEBUG
-	if (sounds.find(name) == sounds.cend())
-		assert(!"[name]‚Ì–¼‘O‚Ì•t‚¢‚½[sound]‚ª“o˜^‚³‚ê‚Ä‚Ü‚¹‚ñ");
-#endif
-
-	return sounds[name];
-}
-
-void SoundManager::AllStop()
-{
-	for (auto &sound : sounds)
-		sound.second.Stop();
+		sounds[gain.getKey()].ChangeGain(gain.getValue<float>(), context);
+	}
 }

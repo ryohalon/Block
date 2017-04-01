@@ -42,10 +42,15 @@ void StageSelect::Setup()
 	button.Setup(params["back_title.button"]);
 	button.SetClickedFunc([this] { BackTitle(); });
 	buttons.push_back(button);
+
+	SoundManager::Get().GetSound("LargeTriangleOfSummer").SetIsLoop(true);
+	SoundManager::Get().GetSound("LargeTriangleOfSummer").Loop();
 }
 
 void StageSelect::Update()
 {
+	SoundManager::Get().GetSound("LargeTriangleOfSummer").Loop();
+
 	for (auto &button : buttons)
 		button.Update();
 }
@@ -114,12 +119,16 @@ void StageSelect::GoStage(const int &world, const int &stage)
 
 	next_scene = SceneType::GAMEMAIN;
 	is_end = true;
+	SoundManager::Get().GetSound("LargeTriangleOfSummer").SetIsLoop(false);
+	SoundManager::Get().GetSound("LargeTriangleOfSummer").Stop();
+	SoundManager::Get().GetSound("Select").Play();
 }
 
 void StageSelect::BackTitle()
 {
 	next_scene = SceneType::TITLE;
 	is_end = true;
+	SoundManager::Get().GetSound("Select").Play();
 }
 
 void StageSelect::DrawObject()

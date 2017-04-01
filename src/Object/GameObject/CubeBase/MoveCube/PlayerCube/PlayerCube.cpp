@@ -59,8 +59,7 @@ void PlayerCube::FallStart(const ci::Vec3f &fall_pos)
 	take_time = fall_take_time * (start_pos.y - end_pos.y);
 	is_falling = true;
 
-	// —‚¿‚é‰¹‚ÌÄ¶
-	// –¢À‘•
+	SoundManager::Get().GetSound("Fall").Play();
 }
 
 void PlayerCube::ChangeMoveDirection()
@@ -72,11 +71,9 @@ void PlayerCube::ChangeMoveDirection()
 
 void PlayerCube::Hit()
 {
-	// ƒ‚ƒm‚É‚Ô‚Â‚©‚Á‚½‚ÌÕ“Ë‰¹‚ÌÄ¶
-	// –¢À‘•
-
-	// ˆÚ“®•ûŒü•ÏX
 	ChangeMoveDirection();
+
+	SoundManager::Get().GetSound("Crash").Play();
 }
 
 void PlayerCube::UpdateAction()
@@ -105,4 +102,5 @@ void PlayerCube::Falling(const float & time_)
 
 	time = 0.0f;
 	is_falling = false;
+	SoundManager::Get().GetSound("Fall").Stop();
 }

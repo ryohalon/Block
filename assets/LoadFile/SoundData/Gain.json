@@ -1,0 +1,17 @@
+{
+  "LargeTriangleOfSummer": 0.05,
+  "MetallicWink": 0.05,
+  "Nostalgia": 0.05,
+  "Clear": 0.08,
+  "Crash": 0.15,
+  "Decision": 0.1,
+  "Fall": 0.05,
+  "Jump": 0.1,
+  "Move": 0.05,
+  "Select": 0.1,
+  "Spring": 0.1,
+  "Extend": 0.13,
+  "Shrink": 0.13,
+  "Vanish": 0.15,
+  "GameOver": 0.15
+}

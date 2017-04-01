@@ -56,6 +56,9 @@ void GameMain::Setup()
 	player_cube.SetScale(map_manager.GetCubeScale());
 	player_cube.Setup(ci::JsonTree(ci::app::loadAsset("LoadFile/StageData/World" + std::to_string(world)
 		+ "/Stage" + std::to_string(stage) + "/MainCube.json")));
+
+	SoundManager::Get().GetSound("MetallicWink").SetIsLoop(true);
+	SoundManager::Get().GetSound("MetallicWink").Loop();
 }
 
 void GameMain::Update()
@@ -75,9 +78,19 @@ void GameMain::Update()
 void GameMain::Draw(const ci::CameraOrtho &camera_ortho)
 {
 	ci::gl::pushModelView();
-
 	main_camera.Draw();
+	DrawObject();
+	ci::gl::disable(GL_LIGHTING);
+	ci::gl::popModelView();
 
+	ci::gl::pushModelView();
+	ci::gl::setMatrices(camera_ortho);
+	DrawUI();
+	ci::gl::popModelView();
+}
+
+void GameMain::DrawObject()
+{
 	sky.Draw();
 	point_light->setPosition(map_manager.GetStageMatrix() * player_cube.GetTransform().pos);
 	point_light->enable();
@@ -92,13 +105,6 @@ void GameMain::Draw(const ci::CameraOrtho &camera_ortho)
 	glMultMatrixf(map_manager.GetStageMatrix());
 	player_cube.Draw();
 	ci::gl::popModelView();
-
-	ci::gl::disable(GL_LIGHTING);
-	ci::gl::popModelView();
-}
-
-void GameMain::DrawObject()
-{
 }
 
 void GameMain::DrawUI()
@@ -346,6 +352,9 @@ void GameMain::Failed()
 	is_failed = false;
 	next_scene = SceneType::GAMEMAIN;
 	is_end = true;
+	SoundManager::Get().GetSound("MetallicWink").SetIsLoop(false);
+	SoundManager::Get().GetSound("MetallicWink").Stop();
+	SoundManager::Get().GetSound("GameOver").Play();
 }
 
 void GameMain::Goal()
@@ -356,4 +365,7 @@ void GameMain::Goal()
 	SaveData::Get().ClearStage(world, stage);
 	is_end = true;
 	next_scene = SceneType::STAGESELECT;
+	SoundManager::Get().GetSound("MetallicWink").SetIsLoop(false);
+	SoundManager::Get().GetSound("MetallicWink").Stop();
+	SoundManager::Get().GetSound("Clear").Play();
 }

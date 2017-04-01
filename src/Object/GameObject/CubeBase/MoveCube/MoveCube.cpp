@@ -158,9 +158,6 @@ void MoveCube::StartMotion()
 	// ˆÚ“®‚É‚©‚©‚éŠÔ‚Ìİ’è
 	take_time = move_take_time;
 	is_moving = true;
-
-	// ˆÚ“®‰¹‚ÌÄ¶
-	// –¢À‘•
 }
 
 void MoveCube::Moving(const float &time_)
@@ -180,4 +177,6 @@ void MoveCube::Moving(const float &time_)
 	// ‰ñ“]‚µI‚í‚Á‚½‚ÉˆÊ’u‚ğˆÚ“®‚³‚¹‚é
 	transform.pos = end_pos;
 	is_moving = false;
+
+	SoundManager::Get().GetSound("Move").Play();
 }
