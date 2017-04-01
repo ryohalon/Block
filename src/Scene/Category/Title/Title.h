@@ -28,5 +28,5 @@ private:
 	float rotate_angle;
 	float rotate_speed;
 
-	TextureUI click_start;
+	FontUI click_start;
 };

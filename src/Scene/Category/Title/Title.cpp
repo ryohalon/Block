@@ -51,13 +51,6 @@ void Title::Update()
 		is_end = true;
 	}
 
-	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::RIGHT_DOWN))
-	{
-		ci::JsonTree params(ci::app::loadAsset("LoadFile/TitleLogoData/TitleLogoData.json"));
-		titlelogo_trans.pos = GetVec3f(params["pos"]);
-		titlelogo_trans.angle = GetVec3f(params["angle"]);
-	}
-
 	rotate_angle += TimeManager::Get().GetDeltaTime() * rotate_speed;
 }
 
@@ -79,8 +72,8 @@ void Title::DrawObject()
 	sky_dome.Draw();
 
 	ci::gl::pushModelView();
+	ci::gl::translate(titlelogo_trans.pos);
 	ci::gl::rotate(ci::Vec3f::yAxis() * rotate_angle);
-	ci::gl::rotate(titlelogo_trans.angle);
 	ci::gl::scale(titlelogo_trans.scale);
 
 	const Model &model = ModelManager::Get().GetModel("TitleLogo");

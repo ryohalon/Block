@@ -10,7 +10,7 @@
       "flexible_value": 10.0,
       "take_time": 0.2,
       "texture_name": [
-        "World1"
+        "StageIcon"
       ],
 
       "color": [
@@ -50,7 +50,7 @@
       "flexible_value": 10.0,
       "take_time": 0.2,
       "color": [ 1.0, 1.0, 1.0, 1.0 ],
-      "texture_name": "World1"
+      "texture_name": "UIIcon"
     }
   }
 }
