@@ -25,13 +25,11 @@ public:
 	virtual void Setup() {}
 	virtual void Setup(const ci::JsonTree &params)
 	{
-		ci::Vec2f pos = GetVec2f(params["pos"]);
+		transform.pos = GetVec3f(params["pos"]);
 		ci::Vec2f size = GetVec2f(params["size"]);
 		texture_name = params.getValueForKey<std::string>("texture_name");
 		ci::Vec4f color_ = GetVec4f(params["color"]);
 
-		transform.pos =
-			ci::Vec3f(pos.x, pos.y, 0.0f);
 		transform.scale =
 			ci::Vec3f(size.x, size.y, 1.0f);
 		color = ci::ColorAf(color_.x, color_.y, color_.z, color_.w);
@@ -39,11 +37,17 @@ public:
 	virtual void Update() override {}
 	virtual void Draw() override
 	{
+		if (!is_active)
+			return;
+
+		ci::gl::pushModelView();
+		ci::gl::translate(ci::Vec3f::zAxis() * transform.pos);
 		ci::gl::color(color);
 		TextureManager::Get().GetTexture(texture_name).enableAndBind();
 		DrawtexCoord(transform.pos.xy(),
 			transform.scale.xy());
 		TextureManager::Get().GetTexture(texture_name).unbind();
+		ci::gl::popModelView();
 	}
 
 	virtual bool IsCollisionMouse(const ci::Vec2i &mouse_pos)

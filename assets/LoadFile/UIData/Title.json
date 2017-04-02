@@ -7,7 +7,7 @@
   },
 
   "click_start": {
-    "pos": [ 0.0, -200.0 ],
+    "pos": [ 0.0, -200.0, 0.0 ],
     "str": "Click Start",
     "font_type": "meiryo.ttc",
     "size": 100,

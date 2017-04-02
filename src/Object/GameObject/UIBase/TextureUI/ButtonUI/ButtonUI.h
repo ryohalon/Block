@@ -38,6 +38,9 @@ public:
 	}
 	virtual void Update() override
 	{
+		if (!is_active)
+			return;
+
 		if (!EasingManager::Get().IsEaseEnd(&(transform.scale.x)))
 			return;
 
@@ -50,12 +53,17 @@ public:
 
 	virtual void Draw() override
 	{
+		if (!is_active)
+			return;
+
+		ci::gl::pushModelView();
+		ci::gl::translate(ci::Vec3f::zAxis() * transform.pos);
 		ci::gl::color(color);
 		TextureManager::Get().GetTexture(texture_name).enableAndBind();
 		DrawtexCoord(transform.pos.xy(),
 			transform.scale.xy());
 		TextureManager::Get().GetTexture(texture_name).unbind();
-
+		ci::gl::popModelView();
 	}
 
 protected:
@@ -85,6 +93,8 @@ protected:
 				0.0f, take_time / 2.0f,
 				transform.scale.y, origin_size.y);
 		});
+
+		SoundManager::Get().GetSound("Select").Play();
 	}
 
 	ci::Vec2f origin_size;

@@ -1,5 +1,6 @@
 #include "StageSelect.h"
 #include "../../../SaveData/SaveData.h"
+#include "../../../Utility/Manager/FadeManager/FadeManager.h"
 
 StageSelect::StageSelect() :
 	action_type(ActionType::WORLDSELECT)
@@ -45,14 +46,24 @@ void StageSelect::Setup()
 
 	SoundManager::Get().GetSound("LargeTriangleOfSummer").SetIsLoop(true);
 	SoundManager::Get().GetSound("LargeTriangleOfSummer").Loop();
+
+	FadeManager::Get().FadeIn(EasingManager::EasingType::LINEAR,
+		ci::Colorf::black(),
+		0.0f, 1.0f);
 }
 
 void StageSelect::Update()
 {
 	SoundManager::Get().GetSound("LargeTriangleOfSummer").Loop();
 
-	for (auto &button : buttons)
-		button.Update();
+	if (!FadeManager::Get().GetisFading())
+	{
+		for (auto &button : buttons)
+			button.Update();
+	}
+
+	if (FadeManager::Get().IsFadeOutEnd())
+		is_end = true;
 }
 
 void StageSelect::Draw(const ci::CameraOrtho & camera_ortho)
@@ -71,9 +82,9 @@ void StageSelect::Draw(const ci::CameraOrtho & camera_ortho)
 void StageSelect::CreateStageButton(const ci::JsonTree &params)
 {
 	ci::Vec3f first_pos = GetVec3f(params["stage_button.first_pos"]);
-	ci::Vec3f button_size[] = {
-		GetVec3f(params["stage_button.size." + std::to_string(0)]),
-		GetVec3f(params["stage_button.size." + std::to_string(1)]),
+	ci::Vec2f button_size[] = {
+		GetVec2f(params["stage_button.size." + std::to_string(0)]),
+		GetVec2f(params["stage_button.size." + std::to_string(1)]),
 	};
 	ci::Vec2f distance = GetVec2f(params["stage_button.distance"]);
 	float flexible_value = params.getValueForKey<float>("stage_button.flexible_value");
@@ -96,9 +107,10 @@ void StageSelect::CreateStageButton(const ci::JsonTree &params)
 				first_pos.y - (k / (stage_num / 2)) * (button_size[0].y + distance.y),
 					0.0f);
 			
+			ci::Vec2f button_size_ = button_size[save_datas[i][k] / SaveData::StageStatus::LOCK];
 			ButtonUI button;
 			button.SetPos(pos);
-			button.SetScale(button_size[save_datas[i][k] / SaveData::StageStatus::LOCK]);
+			button.SetScale(ci::Vec3f(button_size_.x, button_size_.y, 1.0f));
 			button.SetOriginSize(button_size[save_datas[i][k] / SaveData::StageStatus::LOCK].xy());
 			button.SetFlexibleValue(flexible_value);
 			button.SetTextureName(params["stage_button.texture_name"].getValueAtIndex<std::string>(i));
@@ -130,17 +142,20 @@ void StageSelect::GoStage(const int &world, const int &stage)
 	params.write(ci::app::getAssetPath("LoadFile/StageData/SelectStage.json"));
 
 	next_scene = SceneType::GAMEMAIN;
-	is_end = true;
 	SoundManager::Get().GetSound("LargeTriangleOfSummer").SetIsLoop(false);
 	SoundManager::Get().GetSound("LargeTriangleOfSummer").Stop();
-	SoundManager::Get().GetSound("Select").Play();
+
+	FadeManager::Get().FadeOut(EasingManager::EasingType::LINEAR,
+		ci::Colorf::black(),
+		0.0f, 1.0f);
 }
 
 void StageSelect::BackTitle()
 {
 	next_scene = SceneType::TITLE;
-	is_end = true;
-	SoundManager::Get().GetSound("Select").Play();
+	FadeManager::Get().FadeOut(EasingManager::EasingType::LINEAR,
+		ci::Colorf::black(),
+		0.0f, 1.0f);
 }
 
 void StageSelect::DrawObject()

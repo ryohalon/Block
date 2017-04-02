@@ -1,6 +1,6 @@
 #include "Title.h"
 #include "../../../Utility/Utility.h"
-#include "../../../Utility/Manager/EasingManager/EasingManager.h"
+#include "../../../Utility/Manager/FadeManager/FadeManager.h"
 
 Title::Title() :
 	rotate_angle(0.0f),
@@ -39,16 +39,31 @@ void Title::Setup()
 	sky_dome.Setup();
 	SoundManager::Get().GetSound("LargeTriangleOfSummer").SetIsLoop(true);
 	SoundManager::Get().GetSound("LargeTriangleOfSummer").Loop();
+
+	FadeManager::Get().FadeIn(EasingManager::EasingType::LINEAR,
+		ci::Colorf::black(),
+		0.0f, 1.0f);
 }
 
 void Title::Update()
 {
 	SoundManager::Get().GetSound("LargeTriangleOfSummer").Loop();
 
-	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::LEFT_DOWN))
+	if (FadeManager::Get().IsFadeOutEnd())
 	{
-		SoundManager::Get().GetSound("Select").Play();
 		is_end = true;
+		return;
+	}
+
+	if (!FadeManager::Get().GetisFading())
+	{
+		if (Mouse::Get().IsPushButton(ci::app::MouseEvent::LEFT_DOWN))
+		{
+			SoundManager::Get().GetSound("Select").Play();
+			FadeManager::Get().FadeOut(EasingManager::EasingType::LINEAR,
+				ci::Colorf::black(),
+				0.0f, 1.0f);
+		}
 	}
 
 	rotate_angle += TimeManager::Get().GetDeltaTime() * rotate_speed;

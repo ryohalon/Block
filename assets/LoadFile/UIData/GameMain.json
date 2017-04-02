@@ -1,0 +1,67 @@
+{
+  "menu_bg": {
+    "pos": [ 0.0, 0.0, -10.0 ],
+    "size": [ 500.0, 300.0 ],
+    "texture_name": "UIIcon",
+    "color": [ 1.0, 1.0, 1.0, 1.0 ]
+  },
+  "clear": {
+    "pos": [ 0.0, 50.0, 1.0 ],
+    "size": [ 350.0, 80.0 ],
+    "texture_name": "Clear",
+    "color": [ 1.0, 1.0, 1.0, 1.0 ]
+  },
+  "failed": {
+    "pos": [ 0.0, 50.0, 1.0 ],
+    "size": [ 350.0, 80.0 ],
+    "texture_name": "Failed",
+    "color": [ 1.0, 1.0, 1.0, 1.0 ]
+  },
+  "menu_font": {
+    "pos": [ 560.0, 330.0, 1.0 ],
+    "str": "Menu",
+    "font_type": "meiryo.ttc",
+    "size": 50,
+    "color": [ 0.0, 0.0, 0.0, 1.0 ]
+  },
+  "retry": {
+    "pos": [ -100.0, -100.0, 1.0 ],
+    "size": [ 75.0, 75.0 ],
+    "flexible_value": 10.0,
+    "take_time": 0.2,
+    "color": [ 1.0, 1.0, 1.0, 1.0 ],
+    "texture_name": "Retry"
+  },
+  "back_stage_select": {
+    "pos": [ 0.0, -100.0, 1.0 ],
+    "size": [ 75.0, 75.0 ],
+    "flexible_value": 10.0,
+    "take_time": 0.2,
+    "color": [ 1.0, 1.0, 1.0, 1.0 ],
+    "texture_name": "BackStageSelect"
+  },
+  "next_stage": {
+    "pos": [ 100.0, -100.0, 1.0 ],
+    "size": [ 75.0, 75.0 ],
+    "flexible_value": 10.0,
+    "take_time": 0.2,
+    "color": [ 1.0, 1.0, 1.0, 1.0 ],
+    "texture_name": "NextStage"
+  },
+  "menu": {
+    "pos": [ 560.0, 330.0, 0.0 ],
+    "size": [ 150.0, 50.0 ],
+    "flexible_value": 10.0,
+    "take_time": 0.2,
+    "color": [ 1.0, 1.0, 1.0, 1.0 ],
+    "texture_name": "UIIcon"
+  },
+  "back_game": {
+    "pos": [ 220.0, 120.0, 1.0 ],
+    "size": [ 50.0, 50.0 ],
+    "flexible_value": 10.0,
+    "take_time": 0.2,
+    "color": [ 0.0, 1.0, 1.0, 1.0 ],
+    "texture_name": "Back"
+  }
+}

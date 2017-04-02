@@ -132,6 +132,7 @@
     <ClCompile Include="..\src\Utility\Input\Key\Key.cpp" />
     <ClCompile Include="..\src\Utility\Input\Mouse\Mouse.cpp" />
     <ClCompile Include="..\src\Utility\Manager\EasingManager\EasingManager.cpp" />
+    <ClCompile Include="..\src\Utility\Manager\FadeManager\FadeManager.cpp" />
     <ClCompile Include="..\src\Utility\Manager\ModelManager\ModelManager.cpp" />
     <ClCompile Include="..\src\Utility\Manager\SoundManager\SoundManager.cpp" />
     <ClCompile Include="..\src\Utility\Manager\SoundManager\Sound\Sound.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="..\src\Utility\Manager\EasingManager\EasingManageOne\EasingManageOne.h" />
     <ClInclude Include="..\src\Utility\Manager\EasingManager\EasingManager.h" />
     <ClInclude Include="..\src\Utility\Manager\EasingManager\Easing\Easing.h" />
+    <ClInclude Include="..\src\Utility\Manager\FadeManager\FadeManager.h" />
     <ClInclude Include="..\src\Utility\Manager\ModelManager\ModelManager.h" />
     <ClInclude Include="..\src\Utility\Manager\ModelManager\Model\Model.h" />
     <ClInclude Include="..\src\Utility\Manager\SoundManager\SoundManager.h" />

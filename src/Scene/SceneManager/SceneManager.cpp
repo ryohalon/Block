@@ -2,7 +2,7 @@
 #include "../Category/Title/Title.h"
 #include "../Category/StageSelect/StageSelect.h"
 #include "../Category/GameMain/GameMain.h"
-#include "../../Utility/Manager/EasingManager/EasingManager.h"
+#include "../../Utility/Manager/FadeManager/FadeManager.h"
 #include "../../SaveData/SaveData.h"
 
 SceneManager::SceneManager() :
@@ -33,6 +33,7 @@ void SceneManager::Setup()
 	TextureManager::Get().Setup();
 	ModelManager::Get().Setup();
 	EasingManager::Get();
+	FadeManager::Get();
 
 	now_scene = std::make_shared<Title>();
 	now_scene->Setup();
@@ -75,6 +76,9 @@ void SceneManager::Draw()
 	ci::gl::clear();
 
 	now_scene->Draw(camera_ortho);
+
+	ci::gl::setMatrices(camera_ortho);
+	FadeManager::Get().Draw();
 }
 
 void SceneManager::ChangeScene()
@@ -92,7 +96,7 @@ void SceneManager::ChangeScene()
 		}
 	};
 
-	CreateScene[static_cast<int>(now_scene->GetNextSceneType())]();
-	now_scene->Setup();
 	EasingManager::Get().AllDelete();
+	CreateScene[static_cast<int>(now_scene->GetNextSceneType())]();
+	now_scene->Setup();	
 }

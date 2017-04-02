@@ -5,6 +5,7 @@
 #include "../../../Object/GameObject/CubeBase/SpringCube/SpringCube.h"
 #include "../../../Utility/Utility.h"
 #include "../../../Utility/Input/Mouse/Mouse.h"
+#include "../../../Utility/Manager/FadeManager/FadeManager.h"
 
 
 GameMain::GameMain() :
@@ -12,6 +13,7 @@ GameMain::GameMain() :
 	stage(1),
 	is_failed(false),
 	is_goal(false),
+	pause(false),
 	failed_fall_pos_y(-10.0f)
 {
 
@@ -59,20 +61,125 @@ void GameMain::Setup()
 
 	SoundManager::Get().GetSound("MetallicWink").SetIsLoop(true);
 	SoundManager::Get().GetSound("MetallicWink").Loop();
+
+	ci::JsonTree ui_params(ci::app::loadAsset("LoadFile/UIData/GameMain.json"));
+	menu_bg.Setup(ui_params["menu_bg"]);
+	clear.Setup(ui_params["clear"]);
+	failed.Setup(ui_params["failed"]);
+	menu_font.Setup(ui_params["menu_font"]);
+	retry.Setup(ui_params["retry"]);
+	back_stage_select.Setup(ui_params["back_stage_select"]);
+	next_stage.Setup(ui_params["next_stage"]);
+	menu.Setup(ui_params["menu"]);
+	back_game.Setup(ui_params["back_game"]);
+	retry.SetClickedFunc([this]
+	{
+		SoundManager::Get().GetSound("Clear").Stop();
+		SoundManager::Get().GetSound("GameOver").Stop();
+		next_scene = SceneType::GAMEMAIN;
+		FadeManager::Get().FadeOut(EasingManager::EasingType::LINEAR,
+			ci::Colorf::black(),
+			0.0f, 1.0f);
+	});
+	back_stage_select.SetClickedFunc([this]
+	{
+		SoundManager::Get().GetSound("Clear").Stop();
+		SoundManager::Get().GetSound("GameOver").Stop();
+		next_scene = SceneType::STAGESELECT;
+		FadeManager::Get().FadeOut(EasingManager::EasingType::LINEAR,
+			ci::Colorf::black(),
+			0.0f, 1.0f);
+		SoundManager::Get().GetSound("MetallicWink").SetIsLoop(false);
+		SoundManager::Get().GetSound("MetallicWink").Stop();
+	});
+	if (world == SaveData::Get().GetSaveData().size() &&
+		stage == STAGENUM) {
+		next_stage.SetColor(ci::ColorAf(0.5f, 0.5f, 0.5f));
+	}
+	else
+	{
+		next_stage.SetClickedFunc([this]
+		{
+			stage = stage % STAGENUM + 1;
+			world += (stage == 1) ? 1 : 0;
+			ci::JsonTree params(ci::app::loadAsset("LoadFile/StageData/SelectStage.json"));
+			params["world"] = ci::JsonTree("world", world);
+			params["stage"] = ci::JsonTree("stage", stage);
+			params.write(ci::app::getAssetPath("LoadFile/StageData/SelectStage.json"));
+
+			SoundManager::Get().GetSound("Clear").Stop();
+			SoundManager::Get().GetSound("GameOver").Stop();
+			next_scene = SceneType::GAMEMAIN;
+			FadeManager::Get().FadeOut(EasingManager::EasingType::LINEAR,
+				ci::Colorf::black(),
+				0.0f, 1.0f);
+		});
+	}
+	menu.SetClickedFunc([this]
+	{
+		retry.SetActive(true);
+		back_stage_select.SetActive(true);
+		back_game.SetActive(true);
+		menu_bg.SetActive(true);
+		pause = true;
+	});
+	back_game.SetClickedFunc([this]
+	{
+		retry.SetActive(false);
+		back_stage_select.SetActive(false);
+		back_game.SetActive(false);
+		menu_bg.SetActive(false);
+		pause = false;
+	});
+
+	menu_bg.SetActive(false);
+	clear.SetActive(false);
+	failed.SetActive(false);
+	retry.SetActive(false);
+	back_stage_select.SetActive(false);
+	next_stage.SetActive(false);
+	back_game.SetActive(false);
+
+	FadeManager::Get().FadeIn(EasingManager::EasingType::LINEAR,
+		ci::Colorf::black(),
+		0.0f, 1.0f);
 }
 
 void GameMain::Update()
 {
-	main_camera.Update();
+	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::MIDDLE_DOWN)) {
+		is_end = true;
+		next_scene = SceneType::GAMEMAIN;
+	}
 
-	player_cube.Update();
-	map_manager.Update();
+	SoundManager::Get().GetSound("MetallicWink").Loop();
 
-	CollisionPlayerToMap();
+	if (FadeManager::Get().IsFadeOutEnd())
+	{
+		is_end = true;
+		return;
+	}
 
-	ClickAction();
-	Failed();
-	Goal();
+	if (!FadeManager::Get().GetisFading())
+	{
+		retry.Update();
+		back_stage_select.Update();
+		next_stage.Update();
+		back_game.Update();
+		menu.Update();
+
+		if (!pause)
+		{
+			main_camera.Update();
+
+			player_cube.Update();
+			map_manager.Update();
+
+			CollisionPlayerToMap();
+
+			ClickAction();
+		}
+	}
 }
 
 void GameMain::Draw(const ci::CameraOrtho &camera_ortho)
@@ -109,10 +216,22 @@ void GameMain::DrawObject()
 
 void GameMain::DrawUI()
 {
+	ci::gl::translate(ci::Vec3f(0.0f, 0.0f, -10.0f));
+	menu_bg.Draw();
+	clear.Draw();
+	failed.Draw();
+	retry.Draw();
+	back_stage_select.Draw();
+	next_stage.Draw();
+	menu.Draw();
+	back_game.Draw();
+	menu_font.Draw();
 }
 
 void GameMain::ClickAction()
 {
+	if (is_failed || is_goal)
+		return;
 	// 左クリックしていないときははじく
 	if (!Mouse::Get().IsPushButton(ci::app::MouseEvent::LEFT_DOWN))
 		return;
@@ -175,7 +294,7 @@ void GameMain::ClickAction()
 
 void GameMain::CollisionPlayerToMap()
 {
-	if (is_failed)
+	if (is_failed || is_goal)
 		return;
 	// メインキューブがアクション中は次の行動の判定を見る必要がないためはじく
 	if (!player_cube.GetIsStop())
@@ -207,7 +326,29 @@ void GameMain::SearchUnderCube(const ci::Vec3i & player_map_pos)
 
 	case CubeType::GOAL:
 
+		SaveData::Get().ClearStage(world, stage);
+		SaveData::Get().WriteCsv();
+		SoundManager::Get().GetSound("MetallicWink").SetIsLoop(false);
+		SoundManager::Get().GetSound("MetallicWink").Stop();
+		SoundManager::Get().GetSound("Clear").Play();
 		is_goal = true;
+
+		menu.SetActive(false);
+		menu_font.SetActive(false);
+		clear.SetActive(true);
+		EasingManager::Get().Register(
+			&(clear.GetTransformP()->scale.x),
+			EasingManager::EasingType::QUARTIN,
+			0.0f, 2.0f,
+			0.0f, clear.GetTransform().scale.x);
+		EasingManager::Get().Register(
+			&(clear.GetTransformP()->scale.y),
+			EasingManager::EasingType::QUARTIN,
+			0.0f, 2.0f,
+			0.0f, clear.GetTransform().scale.y).SetEndFunc([this] {
+			Goal();
+		});
+		clear.SetScale(ci::Vec3f::zero());
 		break;
 
 	case CubeType::NORMAL:
@@ -340,33 +481,38 @@ void GameMain::SetFallPos(const ci::Vec3i &player_map_pos)
 		static_cast<float>(player_map_pos.x),
 		failed_fall_pos_y,
 		static_cast<float>(player_map_pos.z)));
+	SoundManager::Get().GetSound("MetallicWink").SetIsLoop(false);
+	SoundManager::Get().GetSound("MetallicWink").Stop();
+	SoundManager::Get().GetSound("GameOver").Play();
+
+	menu.SetActive(false);
+	menu_font.SetActive(false);
+	failed.SetActive(true);
+	EasingManager::Get().Register(
+		&(failed.GetTransformP()->pos.y),
+		EasingManager::EasingType::BOUNCEOUT,
+		0.0f, 3.5f,
+		600.0f, failed.GetTransform().pos.y).SetEndFunc([this] {
+		Failed();
+	});
+	failed.SetPos(clear.GetTransform().pos + ci::Vec3f::yAxis() * 600.0f);
 }
 
 void GameMain::Failed()
 {
-	if (!is_failed)
-		return;
-	if (player_cube.GetIsFalling())
-		return;
-
-	is_failed = false;
-	next_scene = SceneType::GAMEMAIN;
-	is_end = true;
-	SoundManager::Get().GetSound("MetallicWink").SetIsLoop(false);
-	SoundManager::Get().GetSound("MetallicWink").Stop();
-	SoundManager::Get().GetSound("GameOver").Play();
+	retry.SetActive(true);
+	back_stage_select.SetActive(true);
+	menu_bg.SetActive(true);
+	menu.SetActive(false);
+	menu_font.SetActive(false);
 }
 
 void GameMain::Goal()
 {
-	if (!is_goal)
-		return;
-
-	SaveData::Get().ClearStage(world, stage);
-	SaveData::Get().WriteCsv();
-	is_end = true;
-	next_scene = SceneType::STAGESELECT;
-	SoundManager::Get().GetSound("MetallicWink").SetIsLoop(false);
-	SoundManager::Get().GetSound("MetallicWink").Stop();
-	SoundManager::Get().GetSound("Clear").Play();
+	retry.SetActive(true);
+	back_stage_select.SetActive(true);
+	menu_bg.SetActive(true);
+	menu.SetActive(false);
+	menu_font.SetActive(false);
+	next_stage.SetActive(true);
 }

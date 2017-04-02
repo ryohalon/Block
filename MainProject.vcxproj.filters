@@ -133,6 +133,9 @@
     <Filter Include="Source Files\Object\GameObject\UIBase\FontUI">
       <UniqueIdentifier>{35fe4272-7c6a-4815-9f68-3ea3ee5e8dcf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Utility\Manager\FadeManager">
+      <UniqueIdentifier>{1735fb41-5dac-4aeb-8495-c041a27d24c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -246,6 +249,9 @@
     <ClInclude Include="..\src\Object\GameObject\UIBase\FontUI\FontUI.h">
       <Filter>Source Files\Object\GameObject\UIBase\FontUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Utility\Manager\FadeManager\FadeManager.h">
+      <Filter>Source Files\Utility\Manager\FadeManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -326,6 +332,9 @@
     </ClCompile>
     <ClCompile Include="..\src\SaveData\SaveData.cpp">
       <Filter>Source Files\SaveData</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Utility\Manager\FadeManager\FadeManager.cpp">
+      <Filter>Source Files\Utility\Manager\FadeManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

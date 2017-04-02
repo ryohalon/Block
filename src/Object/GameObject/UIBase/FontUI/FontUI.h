@@ -21,10 +21,8 @@ public:
 	void Setup() override {}
 	void Setup(const ci::JsonTree &params) override
 	{
-		ci::Vec2f pos = GetVec2f(params["pos"]);
+		transform.pos = GetVec3f(params["pos"]);
 
-		transform.pos =
-			ci::Vec3f(pos.x, pos.y, 0.0f);
 		str = params.getValueForKey < std::string>("str");
 		color = GetColorAf(params["color"]);
 		std::string font_path = "Resource/Font/" + params.getValueForKey<std::string>("font_type");
@@ -32,8 +30,11 @@ public:
 	}
 	void Draw() override
 	{
+		if (!is_active)
+			return;
+
 		ci::gl::pushModelView();
-		ci::gl::translate(transform.pos.xy());
+		ci::gl::translate(transform.pos);
 		ci::gl::translate(ci::Vec3f(0.0f, -font.getSize() / 4, 0.0f));
 		ci::gl::translate(ci::Vec3f(0.0f, font.getSize() / 2, 0.0f));
 		ci::gl::rotate(ci::Vec3f(180.0f, 0.0f, 0.0f));

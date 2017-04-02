@@ -27,6 +27,8 @@ public:
 	}
 	virtual ~GameObject() {}
 
+	// EasingManager‚ğg‚¤‚½‚ßd•û‚È‚­ì¬
+	Transform* GetTransformP() { return &transform; }
 	Transform GetTransform() const { return transform; }
 	ci::Matrix44f GetMatrix() const { return matrix; }
 	bool GetIsStop() const { return is_stop; }

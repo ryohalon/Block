@@ -3,10 +3,8 @@
 #include "../../../Object/MapManager/MapManager.h"
 #include "../../../Object/GameObject/CubeBase/MoveCube/PlayerCube/PlayerCube.h"
 #include "../../../Object/GameObject/MainCamera/MainCamera.h"
-#ifdef _DEBUG
 #include "../../../Object/GameObject/SkyDome/SkyDome.h"
 #include <cinder/gl/Light.h>
-#endif
 
 
 
@@ -43,12 +41,21 @@ private:
 	PlayerCube player_cube;
 
 	int world, stage;
-	bool is_failed, is_goal;
+	bool is_failed, is_goal, pause;
 	float failed_fall_pos_y;
 
-#ifdef _DEBUG
 	SkyDome sky;
 	ci::gl::Light *point_light;
 	ci::gl::Light *light;
-#endif
+
+	TextureUI menu_bg;
+	TextureUI clear;
+	TextureUI failed;
+	FontUI menu_font;
+	ButtonUI retry;
+	ButtonUI back_stage_select;
+	ButtonUI next_stage;
+	ButtonUI menu;
+	ButtonUI back_game;
+	
 };
