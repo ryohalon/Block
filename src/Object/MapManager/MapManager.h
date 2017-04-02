@@ -38,7 +38,7 @@ public:
 	ci::Vec3i GetPlayerStartPos() const { return player_start_pos; }
 	ci::Vec3f GetCubeScale() const { return cube_scale; }
 	ci::Vec3f GetMapCenterPos() const { return map_center_pos; }
-	ci::Vec3f GetStageRotateAngle() const { return stage_rotate_angle; }
+	float GetStageRotateAngle() const { return stage_rotate_angle; }
 	ci::Matrix44f GetStageMatrix() const { return stage_matrix; }
 
 	void Setup(const int &world, const int &stage);
@@ -61,7 +61,7 @@ private:
 	ci::Vec3i player_start_pos;
 	ci::Vec3f cube_scale;
 	ci::Vec3f map_center_pos;
-	ci::Vec3f stage_rotate_angle;
+	float stage_rotate_angle;
 	float time, rotate_take_time;
 	float start_rotate_angle,
 		end_rotate_angle;

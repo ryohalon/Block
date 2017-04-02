@@ -32,7 +32,7 @@ void MapManager::Setup(const int &world, const int &stage)
 	ci::JsonTree params = ci::JsonTree(ci::app::loadAsset(file_path + "Stage.json"));
 	cube_scale = ci::Vec3f::one() * params.getValueForKey<float>("cube_scale");
 	rotate_take_time = params.getValueForKey<float>("rotate_take_time");
-	stage_rotate_angle = GetVec3f(params["stage_rotate_angle"]);
+	stage_rotate_angle = M_PI * 2.0f / params.getValueForKey<float>("stage_rotate_angle");
 
 	CreateMap(params, std::fstream(GetFilePath(file_path) + "Stage.csv"));
 
@@ -41,7 +41,7 @@ void MapManager::Setup(const int &world, const int &stage)
 		static_cast<float>(cube_types.size() - 1) * cube_scale.y / 2.0f,
 		static_cast<float>(cube_types[0].size() - 1) * cube_scale.z / 2.0f);
 	ci::Matrix44f mtranslate = ci::Matrix44f::createTranslation(map_center_pos);
-	ci::Matrix44f mrotate = ci::Matrix44f::createRotation(stage_rotate_angle);
+	ci::Matrix44f mrotate = ci::Matrix44f::createRotation(ci::Vec3f::yAxis() * stage_rotate_angle);
 	stage_matrix = mtranslate * mrotate * mtranslate.inverted();
 
 	CubeSetup();
@@ -267,12 +267,12 @@ void MapManager::RotateStart()
 	if (is_rotating)
 		return;
 
-	start_rotate_angle = stage_rotate_angle.y;
+	start_rotate_angle = stage_rotate_angle;
 
 	if (Key::Get().IsPushKey(ci::app::KeyEvent::KEY_e))
-		end_rotate_angle = stage_rotate_angle.y - max_rotate_angle;
+		end_rotate_angle = stage_rotate_angle - max_rotate_angle;
 	else if (Key::Get().IsPushKey(ci::app::KeyEvent::KEY_q))
-		end_rotate_angle = stage_rotate_angle.y + max_rotate_angle;
+		end_rotate_angle = stage_rotate_angle + max_rotate_angle;
 
 	time = 0.0f;
 	is_rotating = true;
@@ -284,9 +284,9 @@ void MapManager::Rotating()
 		return;
 
 	time = std::min(1.0f, TimeManager::Get().GetDeltaTime() / rotate_take_time + time);
-	stage_rotate_angle.y = Easing::Linear(time, start_rotate_angle, end_rotate_angle);
+	stage_rotate_angle = Easing::Linear(time, start_rotate_angle, end_rotate_angle);
 	ci::Matrix44f mtranslate = ci::Matrix44f::createTranslation(map_center_pos);
-	ci::Matrix44f mrotate = ci::Matrix44f::createRotation(stage_rotate_angle);
+	ci::Matrix44f mrotate = ci::Matrix44f::createRotation(ci::Vec3f::yAxis() * stage_rotate_angle);
 	stage_matrix = mtranslate * mrotate * mtranslate.inverted();
 
 	if (time < 1.0f)

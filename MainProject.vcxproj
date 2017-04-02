@@ -120,6 +120,7 @@
     <ClCompile Include="..\src\Object\GameObject\CubeBase\ShrinkCube\ShrinkCube.cpp" />
     <ClCompile Include="..\src\Object\GameObject\CubeBase\SpringCube\SpringCube.cpp" />
     <ClCompile Include="..\src\Object\GameObject\CubeBase\VanishCube\VanishCube.cpp" />
+    <ClCompile Include="..\src\Object\GameObject\CubeCursor\CubeCurosr.cpp" />
     <ClCompile Include="..\src\Object\GameObject\MainCamera\MainCamera.cpp" />
     <ClCompile Include="..\src\Object\GameObject\SkyDome\SkyDome.cpp" />
     <ClCompile Include="..\src\Object\MapManager\MapManager.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="..\src\Object\GameObject\CubeBase\ShrinkCube\ShrinkCube.h" />
     <ClInclude Include="..\src\Object\GameObject\CubeBase\SpringCube\SpringCube.h" />
     <ClInclude Include="..\src\Object\GameObject\CubeBase\VanishCube\VanishCube.h" />
+    <ClInclude Include="..\src\Object\GameObject\CubeCursor\CubeCurosr.h" />
     <ClInclude Include="..\src\Object\GameObject\GameObject.h" />
     <ClInclude Include="..\src\Object\GameObject\MainCamera\MainCamera.h" />
     <ClInclude Include="..\src\Object\GameObject\SkyDome\SkyDome.h" />

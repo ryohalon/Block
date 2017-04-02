@@ -17,6 +17,12 @@
     "texture_name": "Failed",
     "color": [ 1.0, 1.0, 1.0, 1.0 ]
   },
+  "start": {
+    "pos": [ -800.0, 0.0, 1.0 ],
+    "size": [ 350.0, 80.0 ],
+    "texture_name": "Start",
+    "color": [ 1.0, 1.0, 1.0, 1.0 ]
+  },
   "menu_font": {
     "pos": [ 560.0, 330.0, 1.0 ],
     "str": "Menu",

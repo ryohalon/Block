@@ -47,6 +47,12 @@ void GameMain::Setup()
 	light->setDiffuse(ci::Color(0.95f, 0.95f, 0.95f));
 	light->setSpecular(ci::Color(0.99f, 0.99f, 0.99f));
 
+	directional_light = new ci::gl::Light(ci::gl::Light::DIRECTIONAL, 2);
+	directional_light->setAmbient(ci::Color(0.2f, 0.2f, 0.2f));
+	directional_light->setDiffuse(ci::Color(0.3f, 0.3f, 0.3f));
+	directional_light->setSpecular(ci::Color(0.5f, 0.5f, 0.5f));
+	directional_light->setDirection(ci::Vec3f(0.0f, -0.5f, 0.5f));
+
 	// マップの準備
 	map_manager.Setup(world, stage);
 	// カメラの準備
@@ -59,6 +65,8 @@ void GameMain::Setup()
 	player_cube.Setup(ci::JsonTree(ci::app::loadAsset("LoadFile/StageData/World" + std::to_string(world)
 		+ "/Stage" + std::to_string(stage) + "/MainCube.json")));
 
+	cube_cursor.Setup();
+
 	SoundManager::Get().GetSound("MetallicWink").SetIsLoop(true);
 	SoundManager::Get().GetSound("MetallicWink").Loop();
 
@@ -66,6 +74,7 @@ void GameMain::Setup()
 	menu_bg.Setup(ui_params["menu_bg"]);
 	clear.Setup(ui_params["clear"]);
 	failed.Setup(ui_params["failed"]);
+	start.Setup(ui_params["start"]);
 	menu_font.Setup(ui_params["menu_font"]);
 	retry.Setup(ui_params["retry"]);
 	back_stage_select.Setup(ui_params["back_stage_select"]);
@@ -143,16 +152,41 @@ void GameMain::Setup()
 	FadeManager::Get().FadeIn(EasingManager::EasingType::LINEAR,
 		ci::Colorf::black(),
 		0.0f, 1.0f);
+
+	ci::Vec3f target_pos = map_manager.GetStageMatrix() * player_cube.GetTransform().pos;
+	
+	start_delay_time = 5.0f;
+	main_camera.StartMoving(target_pos,
+		-5.0f, 2.0f, start_delay_time - 2.0f);
+
+	EasingManager::Get().Register(
+		&(start.GetTransformP()->pos.x),
+		EasingManager::EasingType::LINEAR,
+		1.0f, 0.5f,
+		start.GetTransform().pos.x, -200.0f).SetEndFunc([this]
+	{
+		EasingManager::Get().Register(&(start.GetTransformP()->pos.x),
+			EasingManager::EasingType::LINEAR,
+			0.0f, 3.0f,
+			start.GetTransform().pos.x, 200.0f).SetEndFunc([this]
+		{
+			EasingManager::Get().Register(&(start.GetTransformP()->pos.x),
+				EasingManager::EasingType::LINEAR,
+				0.0f, 0.5f,
+				start.GetTransform().pos.x, 800.0f).SetEndFunc([this] {
+				start.SetActive(false);
+			});
+		});
+	});
 }
 
 void GameMain::Update()
 {
-	if (Mouse::Get().IsPushButton(ci::app::MouseEvent::MIDDLE_DOWN)) {
-		is_end = true;
-		next_scene = SceneType::GAMEMAIN;
-	}
-
 	SoundManager::Get().GetSound("MetallicWink").Loop();
+
+	start_delay_time = std::max(0.0f, start_delay_time - TimeManager::Get().GetDeltaTime());
+	if (start_delay_time != 0.0f)
+		return;
 
 	if (FadeManager::Get().IsFadeOutEnd())
 	{
@@ -187,7 +221,6 @@ void GameMain::Draw(const ci::CameraOrtho &camera_ortho)
 	ci::gl::pushModelView();
 	main_camera.Draw();
 	DrawObject();
-	ci::gl::disable(GL_LIGHTING);
 	ci::gl::popModelView();
 
 	ci::gl::pushModelView();
@@ -203,6 +236,7 @@ void GameMain::DrawObject()
 	point_light->enable();
 	light->setPosition(map_manager.GetStageMatrix() * (map_manager.GetMapCenterPos() + ci::Vec3f(0.0f, 1.0f, 0.0f)));
 	light->enable();
+	directional_light->enable();
 
 	ci::gl::enable(GL_LIGHTING);
 
@@ -212,6 +246,10 @@ void GameMain::DrawObject()
 	glMultMatrixf(map_manager.GetStageMatrix());
 	player_cube.Draw();
 	ci::gl::popModelView();
+
+	ci::gl::disable(GL_LIGHTING);
+	if (!is_failed && !is_goal)
+		cube_cursor.Draw();
 }
 
 void GameMain::DrawUI()
@@ -220,6 +258,7 @@ void GameMain::DrawUI()
 	menu_bg.Draw();
 	clear.Draw();
 	failed.Draw();
+	start.Draw();
 	retry.Draw();
 	back_stage_select.Draw();
 	next_stage.Draw();
@@ -232,9 +271,6 @@ void GameMain::ClickAction()
 {
 	if (is_failed || is_goal)
 		return;
-	// 左クリックしていないときははじく
-	if (!Mouse::Get().IsPushButton(ci::app::MouseEvent::LEFT_DOWN))
-		return;
 
 	ci::Ray ray = main_camera.CreateRayCameraToMouse();
 
@@ -246,8 +282,8 @@ void GameMain::ClickAction()
 
 	for (auto &cube : map_manager.GetCubes())
 	{
-		if (cube->GetType() == CubeType::NORMAL)
-			continue;
+		/*if (cube->GetType() == CubeType::NORMAL)
+			continue;*/
 
 		ci::AxisAlignedBox3f aabb = ci::AxisAlignedBox3f(
 			cube->GetTransform().pos - cube->GetTransform().scale / 2.0f,
@@ -263,7 +299,17 @@ void GameMain::ClickAction()
 		clicked_cube = cube;
 	}
 
+
+	cube_cursor.SetStageMatrix(map_manager.GetStageMatrix());
+
 	if (clicked_cube == nullptr)
+		return;
+
+	cube_cursor.SetPos(clicked_cube->GetTransform().pos);
+	cube_cursor.SetScale(clicked_cube->GetTransform().scale);
+
+	// 左クリックしていないときははじく
+	if (!Mouse::Get().IsPushButton(ci::app::MouseEvent::LEFT_DOWN))
 		return;
 
 	// ShrinkCubeが上方向に収縮する場合
@@ -332,6 +378,12 @@ void GameMain::SearchUnderCube(const ci::Vec3i & player_map_pos)
 		SoundManager::Get().GetSound("MetallicWink").Stop();
 		SoundManager::Get().GetSound("Clear").Play();
 		is_goal = true;
+
+		{
+			ci::Vec3f target_pos = map_manager.GetStageMatrix() * player_cube.GetTransform().pos;
+			main_camera.EndMoving(target_pos,
+				-5.0f, 0.0f, 2.0f);
+		}
 
 		menu.SetActive(false);
 		menu_font.SetActive(false);
@@ -484,6 +536,10 @@ void GameMain::SetFallPos(const ci::Vec3i &player_map_pos)
 	SoundManager::Get().GetSound("MetallicWink").SetIsLoop(false);
 	SoundManager::Get().GetSound("MetallicWink").Stop();
 	SoundManager::Get().GetSound("GameOver").Play();
+
+	ci::Vec3f target_pos = map_manager.GetStageMatrix() * player_cube.GetTransform().pos;
+	main_camera.EndMoving(target_pos,
+	-5.0f, 0.0f, 3.5f);
 
 	menu.SetActive(false);
 	menu_font.SetActive(false);

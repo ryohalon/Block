@@ -136,6 +136,9 @@
     <Filter Include="Source Files\Utility\Manager\FadeManager">
       <UniqueIdentifier>{1735fb41-5dac-4aeb-8495-c041a27d24c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Object\GameObject\CubeCursor">
+      <UniqueIdentifier>{5781b1d4-8fb1-455c-a571-fe122c13c427}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -252,6 +255,9 @@
     <ClInclude Include="..\src\Utility\Manager\FadeManager\FadeManager.h">
       <Filter>Source Files\Utility\Manager\FadeManager</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Object\GameObject\CubeCursor\CubeCurosr.h">
+      <Filter>Source Files\Object\GameObject\CubeCursor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -335,6 +341,9 @@
     </ClCompile>
     <ClCompile Include="..\src\Utility\Manager\FadeManager\FadeManager.cpp">
       <Filter>Source Files\Utility\Manager\FadeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Object\GameObject\CubeCursor\CubeCurosr.cpp">
+      <Filter>Source Files\Object\GameObject\CubeCursor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

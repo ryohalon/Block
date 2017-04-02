@@ -2,7 +2,7 @@
 #include "../../../Utility/Input/Key/Key.h"
 #include "../../../Utility/Input/Mouse/Mouse.h"
 #include "../../../Utility/Manager/TimeManager/TimeManager.h"
-#include "../../../Utility/Manager/EasingManager/Easing/Easing.h"
+#include "../../../Utility/Manager/EasingManager/EasingManager.h"
 #include "../../../Utility/Utility.h"
 #include <cinder/Ray.h>
 #include <cinder/app/App.h>
@@ -20,8 +20,7 @@ MainCamera::MainCamera() :
 	start_rotate_angle(0.0f),
 	end_rotate_angle(0.0f),
 	max_rotate_angle(static_cast<float>(M_PI) / 2.0f),
-	is_rotating(false),
-	camera_distance(10.0f)
+	is_rotating(false)
 {
 
 }
@@ -38,11 +37,11 @@ void MainCamera::Setup()
 
 void MainCamera::Setup(const ci::JsonTree & params)
 {
-	transform.angle = GetVec3f(params["start_angle"]);
+	transform.pos = GetVec3f(params["start_pos"]);
+	transform.angle = GetVec3f(params["angle"]);
 	rotate_take_time = params.getValueForKey<float>("rotate_take_time");
 	max_rotate_angle = static_cast<float>(M_PI) * (params.getValueForKey<float>("max_rotate_angle") / 180.0f);
 	move_speed = params.getValueForKey<float>("move_speed");
-	camera_distance = params.getValueForKey<float>("camera_distance");
 
 	camera_persp = ci::CameraPersp(ci::app::getWindowWidth(),
 		ci::app::getWindowHeight(),
@@ -50,13 +49,13 @@ void MainCamera::Setup(const ci::JsonTree & params)
 		params.getValueForKey<float>("near_plane"),
 		params.getValueForKey<float>("far_plane"));
 
-	transform.pos = camera_distance * ci::Vec3f(
+	interest_point = 1.0f * ci::Vec3f(
 		sin(transform.angle.y) * cos(transform.angle.x),
 		sin(transform.angle.x),
 		cos(transform.angle.y) * cos(transform.angle.x));
 
-	camera_persp.setEyePoint(interest_point + transform.pos);
-	camera_persp.setCenterOfInterestPoint(interest_point);
+	camera_persp.setEyePoint(transform.pos);
+	camera_persp.setCenterOfInterestPoint(transform.pos + interest_point);
 }
 
 void MainCamera::Update()
@@ -66,6 +65,8 @@ void MainCamera::Update()
 
 void MainCamera::Draw()
 {
+	camera_persp.setEyePoint(transform.pos);
+	camera_persp.setCenterOfInterestPoint(transform.pos + interest_point);
 	ci::gl::setMatrices(camera_persp);
 }
 
@@ -87,17 +88,62 @@ ci::Ray MainCamera::CreateRayCameraToMouse()
 	return ray;
 }
 
+void MainCamera::StartMoving(const ci::Vec3f & target_pos, const float & end_distance, const float & delay_time, const float & take_time)
+{
+	ci::Vec3f move_start_pos = target_pos + interest_point * end_distance;
+
+	EasingManager::Get().Register(
+		&(transform.pos.x),
+		EasingManager::EasingType::BACKOUT,
+		delay_time, take_time,
+		move_start_pos.x, transform.pos.x);
+	EasingManager::Get().Register(
+		&(transform.pos.y),
+		EasingManager::EasingType::BACKOUT,
+		delay_time, take_time,
+		move_start_pos.y, transform.pos.y);
+	EasingManager::Get().Register(
+		&(transform.pos.z),
+		EasingManager::EasingType::BACKOUT,
+		delay_time, take_time,
+		move_start_pos.z, transform.pos.z);	
+}
+
+void MainCamera::EndMoving(const ci::Vec3f & target_pos,
+	const float &end_distance,
+	const float & delay_time,
+	const float & take_time)
+{
+	ci::Vec3f move_end_pos = target_pos + interest_point * end_distance;
+
+	EasingManager::Get().Register(
+		&(transform.pos.x),
+		EasingManager::EasingType::BACKOUT,
+		delay_time, take_time,
+		transform.pos.x, move_end_pos.x);
+	EasingManager::Get().Register(
+		&(transform.pos.y),
+		EasingManager::EasingType::BACKOUT,
+		delay_time, take_time,
+		transform.pos.y, move_end_pos.y);
+	EasingManager::Get().Register(
+		&(transform.pos.z),
+		EasingManager::EasingType::BACKOUT,
+		delay_time, take_time,
+		transform.pos.z, move_end_pos.z);
+}
+
 void MainCamera::Move()
 {
 	ci::Vec3f move_vec;
-	if (Key::Get().IsPressKey(ci::app::KeyEvent::KEY_a))
+	if (Key::Get().IsPressKey(ci::app::KeyEvent::KEY_d))
 	{
 		move_vec -= move_speed * ci::Vec3f(
 			cos(transform.angle.y) * cos(transform.angle.x),
 			0.0f,
 			-sin(transform.angle.y) * cos(transform.angle.x));
 	}
-	if (Key::Get().IsPressKey(ci::app::KeyEvent::KEY_d))
+	if (Key::Get().IsPressKey(ci::app::KeyEvent::KEY_a))
 	{
 		move_vec += move_speed * ci::Vec3f(
 			cos(transform.angle.y) * cos(transform.angle.x),
@@ -113,7 +159,7 @@ void MainCamera::Move()
 	}
 	else
 	{
-		if (Key::Get().IsPressKey(ci::app::KeyEvent::KEY_w))
+		if (Key::Get().IsPressKey(ci::app::KeyEvent::KEY_s))
 		{
 			move_vec -= move_speed * ci::Vec3f(
 				sin(transform.angle.y) * cos(transform.angle.x),
@@ -121,7 +167,7 @@ void MainCamera::Move()
 				cos(transform.angle.y) * cos(transform.angle.x)
 			);
 		}
-		if (Key::Get().IsPressKey(ci::app::KeyEvent::KEY_s))
+		if (Key::Get().IsPressKey(ci::app::KeyEvent::KEY_w))
 		{
 			move_vec += move_speed *ci::Vec3f(
 				sin(transform.angle.y) * cos(transform.angle.x),
@@ -131,9 +177,9 @@ void MainCamera::Move()
 		}
 	}
 
-	interest_point += move_vec;
-	camera_persp.setEyePoint(interest_point + transform.pos);
-	camera_persp.setCenterOfInterestPoint(interest_point);
+	transform.pos += move_vec;
+	camera_persp.setEyePoint(transform.pos);
+	camera_persp.setCenterOfInterestPoint(transform.pos + interest_point);
 }
 
 void MainCamera::RotateStart()
@@ -147,26 +193,4 @@ void MainCamera::RotateStart()
 
 	time = 0.0f;
 	is_rotating = true;
-}
-
-void MainCamera::Rotating()
-{
-	if (!is_rotating)
-		return;
-
-	time = std::min(1.0f, TimeManager::Get().GetDeltaTime() / rotate_take_time + time);
-	transform.angle.y = Easing::Linear(time, start_rotate_angle, end_rotate_angle);
-
-	transform.pos = camera_distance * ci::Vec3f(
-		sin(transform.angle.y) * cos(transform.angle.x),
-		sin(transform.angle.x),
-		cos(transform.angle.y) * cos(transform.angle.x));
-
-	camera_persp.setEyePoint(interest_point + transform.pos);
-
-	if (time < 1.0f)
-		return;
-
-	time = 0.0f;
-	is_rotating = false;
 }

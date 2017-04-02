@@ -1,7 +1,7 @@
 {
   "cube_scale": 1.0,
   "rotate_take_time": 0.2,
-  "stage_rotate_angle": [ 0.0, 45.0, 0.0 ],
+  "stage_rotate_angle": 8.0,
   "material": {
     "normal": {
       "ambient": [ 1.0, 1.0, 1.0, 1.0 ],

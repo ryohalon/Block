@@ -23,13 +23,20 @@ public:
 	void Draw() override;
 
 	ci::Ray CreateRayCameraToMouse();
+	void StartMoving(const ci::Vec3f &target_pos,
+		const float &end_distance,
+		const float &delay_time,
+		const float &take_time);
+	void EndMoving(const ci::Vec3f &target_pos,
+		const float &end_distance,
+		const float &delay_time,
+		const float &take_time);
 
 private:
 
 	void Move();
 	void RotateStart();
-	void Rotating();
-
+	
 	ci::CameraPersp camera_persp;
 	ci::Vec3f interest_point;
 	float move_speed;

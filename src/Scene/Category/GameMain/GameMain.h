@@ -4,6 +4,7 @@
 #include "../../../Object/GameObject/CubeBase/MoveCube/PlayerCube/PlayerCube.h"
 #include "../../../Object/GameObject/MainCamera/MainCamera.h"
 #include "../../../Object/GameObject/SkyDome/SkyDome.h"
+#include "../../../Object/GameObject/CubeCursor/CubeCurosr.h"
 #include <cinder/gl/Light.h>
 
 
@@ -39,18 +40,22 @@ private:
 	MainCamera main_camera;
 	MapManager map_manager;
 	PlayerCube player_cube;
+	CubeCursor cube_cursor;
 
 	int world, stage;
 	bool is_failed, is_goal, pause;
 	float failed_fall_pos_y;
+	float start_delay_time;
 
 	SkyDome sky;
 	ci::gl::Light *point_light;
 	ci::gl::Light *light;
+	ci::gl::Light *directional_light;
 
 	TextureUI menu_bg;
 	TextureUI clear;
 	TextureUI failed;
+	TextureUI start;
 	FontUI menu_font;
 	ButtonUI retry;
 	ButtonUI back_stage_select;
