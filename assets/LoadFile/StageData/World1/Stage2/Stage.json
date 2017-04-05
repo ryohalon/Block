@@ -37,8 +37,32 @@
     "_2": {
       "_9": {
         "shrink_value": [ 0.0, 1.0, 0.0 ],
-        "is_shrink": false,
+        "is_shrink": true,
         "take_time": 1.0
+      }
+    }
+  },
+
+  "_1": {
+    "_6": {
+      "_5": {
+        "shrink_value": [ 2.0, 0.0, 0.0 ],
+        "is_shrink": true,
+        "take_time": 1.5
+      }
+    },
+    "_7": {
+      "_5": {
+        "shrink_value": [ 0.0, 0.0, 2.0 ],
+        "is_shrink": false,
+        "take_time": 2.0
+      }
+    },
+    "_8": {
+      "_8": {
+        "shrink_value": [ 1.0, 0.0, 0.0 ],
+        "is_shrink": false,
+        "take_time": 0.5
       }
     }
   }

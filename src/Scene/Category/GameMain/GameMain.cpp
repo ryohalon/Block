@@ -202,7 +202,7 @@ void GameMain::Update()
 		back_game.Update();
 		menu.Update();
 
-		if (!pause)
+		if (!pause || is_failed || is_goal)
 		{
 			main_camera.Update();
 
@@ -269,9 +269,6 @@ void GameMain::DrawUI()
 
 void GameMain::ClickAction()
 {
-	if (is_failed || is_goal)
-		return;
-
 	ci::Ray ray = main_camera.CreateRayCameraToMouse();
 
 	ray.setOrigin(map_manager.GetStageMatrix().inverted() * ray.getOrigin());

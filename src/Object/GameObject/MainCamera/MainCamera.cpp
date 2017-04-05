@@ -61,6 +61,8 @@ void MainCamera::Setup(const ci::JsonTree & params)
 void MainCamera::Update()
 {
 	Move();
+
+	ci::app::console() << camera_persp.getEyePoint() << std::endl;
 }
 
 void MainCamera::Draw()
