@@ -19,11 +19,15 @@ SceneManager::~SceneManager()
 
 void SceneManager::Resize()
 {
-	float window_ratio = static_cast<float>(ci::app::getWindowWidth()) / default_window_size.x;
+	ci::JsonTree params(ci::app::loadAsset("LoadFile/WindowSize/WindowSize.json"));
+
+	ci::app::setWindowSize(params.getValueForKey<int>("width"),
+		params.getValueForKey<int>("height"));
+	/*float window_ratio = static_cast<float>(ci::app::getWindowWidth()) / default_window_size.x;
 	ci::app::setWindowSize(ci::app::getWindowWidth(),
 		static_cast<int>(static_cast<float>(default_window_size.y) * window_ratio));
 	camera_ortho.setAspectRatio(ci::app::getWindowAspectRatio());
-	now_scene->Resize(window_ratio);
+	now_scene->Resize(window_ratio);*/
 }
 
 void SceneManager::Setup()

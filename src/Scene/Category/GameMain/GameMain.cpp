@@ -14,6 +14,7 @@ GameMain::GameMain() :
 	is_failed(false),
 	is_goal(false),
 	pause(false),
+	is_start(false),
 	failed_fall_pos_y(-10.0f)
 {
 
@@ -59,6 +60,8 @@ void GameMain::Setup()
 	main_camera.SetInterestPoint(map_manager.GetMapCenterPos());
 	main_camera.Setup(ci::JsonTree(ci::app::loadAsset("LoadFile/StageData/World" + std::to_string(world)
 		+ "/Stage" + std::to_string(stage) + "/MainCamera.json")));
+	main_camera.SetMapCenterPos(map_manager.GetMapCenterPos());
+	main_camera.SetMoveRange(map_manager.GetMapSize() * map_manager.GetCubeScale() + ci::Vec3f(30.0f, 30.0f, 30.0f));
 	// メインキューブの準備
 	player_cube.SetMapPos(map_manager.GetPlayerStartPos());
 	player_cube.SetScale(map_manager.GetCubeScale());
@@ -175,6 +178,7 @@ void GameMain::Setup()
 				0.0f, 0.5f,
 				start.GetTransform().pos.x, 800.0f).SetEndFunc([this] {
 				start.SetActive(false);
+				is_start = true;
 			});
 		});
 	});
@@ -194,7 +198,7 @@ void GameMain::Update()
 		return;
 	}
 
-	if (!FadeManager::Get().GetisFading())
+	if (!FadeManager::Get().GetisFading() && is_start)
 	{
 		retry.Update();
 		back_stage_select.Update();

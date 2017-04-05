@@ -8,6 +8,7 @@
 #include <cinder/app/App.h>
 
 MainCamera::MainCamera() :
+	move_range(ci::Vec3f::zero()),
 	camera_persp(ci::CameraPersp(ci::app::getWindowWidth(),
 		ci::app::getWindowHeight(),
 		60.0f,
@@ -180,6 +181,20 @@ void MainCamera::Move()
 	}
 
 	transform.pos += move_vec;
+
+	if (transform.pos.x < map_cneter_pos.x + -move_range.x / 2.0f)
+		transform.pos.x = map_cneter_pos.x + -move_range.x / 2.0f;
+	if (transform.pos.x > map_cneter_pos.x + move_range.x / 2.0f)
+		transform.pos.x = map_cneter_pos.x + move_range.x / 2.0f;
+	if (transform.pos.y < map_cneter_pos.y + -move_range.y / 2.0f)
+		transform.pos.y = map_cneter_pos.y + -move_range.y / 2.0f;
+	if (transform.pos.y > map_cneter_pos.y + move_range.y / 2.0f)
+		transform.pos.y = map_cneter_pos.y + move_range.y / 2.0f;
+	if (transform.pos.z < map_cneter_pos.z + -move_range.z / 2.0f)
+		transform.pos.z = map_cneter_pos.z + -move_range.z / 2.0f;
+	if (transform.pos.z > map_cneter_pos.z + move_range.z / 2.0f)
+		transform.pos.z = map_cneter_pos.z + move_range.z / 2.0f;
+
 	camera_persp.setEyePoint(transform.pos);
 	camera_persp.setCenterOfInterestPoint(transform.pos + interest_point);
 }

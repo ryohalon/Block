@@ -40,6 +40,12 @@ public:
 	ci::Vec3f GetMapCenterPos() const { return map_center_pos; }
 	float GetStageRotateAngle() const { return stage_rotate_angle; }
 	ci::Matrix44f GetStageMatrix() const { return stage_matrix; }
+	ci::Vec3f GetMapSize() {
+		return ci::Vec3f(
+			cube_types[0][0].size(),
+			cube_types.size(),
+			cube_types[0].size());
+	}
 
 	void Setup(const int &world, const int &stage);
 	void CreateMap(const ci::JsonTree &params, std::fstream &file);

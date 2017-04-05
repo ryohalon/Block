@@ -80,14 +80,14 @@ void PlayerCube::UpdateAction()
 {
 	if (!is_stop)
 		return;
+	if (!is_moving && !is_falling)
+		return;
 
 	time = std::min(1.0f, TimeManager::Get().GetDeltaTime() / take_time + time);
 	float time_ = Easing::CubicIn(time, 0.0f, 1.0f);
 
-	if (is_moving)
-		Moving(time_);
-	if (is_falling)
-		Falling(time_);
+	Moving(time_);
+	Falling(time_);
 }
 
 void PlayerCube::Falling(const float & time_)

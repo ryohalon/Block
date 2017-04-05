@@ -43,7 +43,7 @@ private:
 	CubeCursor cube_cursor;
 
 	int world, stage;
-	bool is_failed, is_goal, pause;
+	bool is_failed, is_goal, pause, is_start;
 	float failed_fall_pos_y;
 	float start_delay_time;
 
