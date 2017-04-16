@@ -30,6 +30,7 @@ void MainProject::prepareSettings(Settings * settings)
 	settings->setWindowSize(params.getValueForKey<int>("width"),
 		params.getValueForKey<int>("height"));
 	settings->setFullScreen(false);
+	settings->setFrameRate(60);
 }
 
 void MainProject::setup()

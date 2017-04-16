@@ -20,6 +20,7 @@ public:
 	void Setup() override;
 	void Update() override;
 	void Draw(const ci::CameraOrtho &camera_ortho) override;
+	void Delete() override;
 
 private:
 
@@ -52,15 +53,6 @@ private:
 	ci::gl::Light *light;
 	ci::gl::Light *directional_light;
 
-	TextureUI menu_bg;
-	TextureUI clear;
-	TextureUI failed;
-	TextureUI start;
-	FontUI menu_font;
-	ButtonUI retry;
-	ButtonUI back_stage_select;
-	ButtonUI next_stage;
-	ButtonUI menu;
-	ButtonUI back_game;
+	UIManager ui_manager;
 	
 };

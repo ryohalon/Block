@@ -15,6 +15,7 @@ public:
 	void Setup() override;
 	void Update() override;
 	void Draw(const ci::CameraOrtho &camera_ortho) override;
+	void Delete() override;
 
 private:
 
@@ -28,5 +29,5 @@ private:
 	float rotate_angle;
 	float rotate_speed;
 
-	FontUI click_start;
+	UIManager ui_namager;
 };

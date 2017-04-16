@@ -1,6 +1,7 @@
 #pragma once
 #include "../Easing/Easing.h"
 #include "../../TimeManager/TimeManager.h"
+#include <cinder/app/App.h>
 
 
 
@@ -60,9 +61,8 @@ public:
 		float time_ = std::fminf(1.0f, std::fmaxf(0.0f,
 			time - delay_time) / take_time);
 
-		float ratio = easing_func(time_, 0.0f, 1.0f);
-		(*terget_value) = ci::lerp(start_value, end_value, ratio);
-
+		(*terget_value) = easing_func(time_, start_value, end_value);
+		
 		if (time_ == 1.0f)
 		{
 			is_end = true;
@@ -78,7 +78,7 @@ private:
 
 	}
 
-	std::function<const float&(float, float, float)> easing_func;
+	std::function<float(float, float, float)> easing_func;
 	float time;
 	float delay_time;
 	float take_time;

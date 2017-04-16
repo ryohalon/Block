@@ -262,6 +262,14 @@ void MapManager::ClickCube(CubeBase *cube)
 	} while (shrink_direction_ != shrink_value);
 }
 
+void MapManager::AllDelete()
+{
+	for (auto &cube : cubes)
+		delete cube;
+
+	cubes.clear();
+}
+
 void MapManager::RotateStart()
 {
 	if (is_rotating)

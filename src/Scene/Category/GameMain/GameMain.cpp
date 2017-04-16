@@ -6,6 +6,9 @@
 #include "../../../Utility/Utility.h"
 #include "../../../Utility/Input/Mouse/Mouse.h"
 #include "../../../Utility/Manager/FadeManager/FadeManager.h"
+#include "../../../Object/GameObject/UIBase/TextureUI/ButtonUI/ButtonUI.h"
+#include "../../../Object/GameObject/UIBase/FontUI/FontUI.h"
+
 
 
 GameMain::GameMain() :
@@ -15,7 +18,7 @@ GameMain::GameMain() :
 	is_goal(false),
 	pause(false),
 	is_start(false),
-	failed_fall_pos_y(-10.0f)
+	failed_fall_pos_y(-100.0f)
 {
 
 }
@@ -74,17 +77,8 @@ void GameMain::Setup()
 	SoundManager::Get().GetSound("MetallicWink").Loop();
 
 	ci::JsonTree ui_params(ci::app::loadAsset("LoadFile/UIData/GameMain.json"));
-	menu_bg.Setup(ui_params["menu_bg"]);
-	clear.Setup(ui_params["clear"]);
-	failed.Setup(ui_params["failed"]);
-	start.Setup(ui_params["start"]);
-	menu_font.Setup(ui_params["menu_font"]);
-	retry.Setup(ui_params["retry"]);
-	back_stage_select.Setup(ui_params["back_stage_select"]);
-	next_stage.Setup(ui_params["next_stage"]);
-	menu.Setup(ui_params["menu"]);
-	back_game.Setup(ui_params["back_game"]);
-	retry.SetClickedFunc([this]
+	ui_manager.Setup(ui_params);
+	ui_manager.SetFuncButtonUI("retry", [this]
 	{
 		SoundManager::Get().GetSound("Clear").Stop();
 		SoundManager::Get().GetSound("GameOver").Stop();
@@ -93,7 +87,7 @@ void GameMain::Setup()
 			ci::Colorf::black(),
 			0.0f, 1.0f);
 	});
-	back_stage_select.SetClickedFunc([this]
+	ui_manager.SetFuncButtonUI("back_stage_select", [this]
 	{
 		SoundManager::Get().GetSound("Clear").Stop();
 		SoundManager::Get().GetSound("GameOver").Stop();
@@ -104,53 +98,63 @@ void GameMain::Setup()
 		SoundManager::Get().GetSound("MetallicWink").SetIsLoop(false);
 		SoundManager::Get().GetSound("MetallicWink").Stop();
 	});
+
 	if (world == SaveData::Get().GetSaveData().size() &&
 		stage == STAGENUM) {
-		next_stage.SetColor(ci::ColorAf(0.5f, 0.5f, 0.5f));
+		ui_manager.FindUI<ButtonUI>("next_stage")->SetColor(ci::ColorAf(0.5f, 0.5f, 0.5f));
 	}
 	else
 	{
-		next_stage.SetClickedFunc([this]
+		if (SaveData::Get().GetSaveData()[world - 1][stage - 1] == SaveData::StageStatus::CLEAR)
 		{
-			stage = stage % STAGENUM + 1;
-			world += (stage == 1) ? 1 : 0;
-			ci::JsonTree params(ci::app::loadAsset("LoadFile/StageData/SelectStage.json"));
-			params["world"] = ci::JsonTree("world", world);
-			params["stage"] = ci::JsonTree("stage", stage);
-			params.write(ci::app::getAssetPath("LoadFile/StageData/SelectStage.json"));
+			ui_manager.SetFuncButtonUI("next_stage", [this]
+			{
+				stage = stage % STAGENUM + 1;
+				world += (stage == 1) ? 1 : 0;
+				ci::JsonTree params(ci::app::loadAsset("LoadFile/StageData/SelectStage.json"));
+				params["world"] = ci::JsonTree("world", world);
+				params["stage"] = ci::JsonTree("stage", stage);
+				params.write(ci::app::getAssetPath("LoadFile/StageData/SelectStage.json"));
 
-			SoundManager::Get().GetSound("Clear").Stop();
-			SoundManager::Get().GetSound("GameOver").Stop();
-			next_scene = SceneType::GAMEMAIN;
-			FadeManager::Get().FadeOut(EasingManager::EasingType::LINEAR,
-				ci::Colorf::black(),
-				0.0f, 1.0f);
-		});
+				SoundManager::Get().GetSound("Clear").Stop();
+				SoundManager::Get().GetSound("GameOver").Stop();
+				next_scene = SceneType::GAMEMAIN;
+				FadeManager::Get().FadeOut(EasingManager::EasingType::LINEAR,
+					ci::Colorf::black(),
+					0.0f, 1.0f);
+			});
+		}
+		else
+		{
+			ui_manager.FindUI<ButtonUI>("next_stage")->SetColor(ci::ColorAf(0.5f, 0.5f, 0.5f));
+		}
 	}
-	menu.SetClickedFunc([this]
+	ui_manager.SetFuncButtonUI("menu", [this]
 	{
-		retry.SetActive(true);
-		back_stage_select.SetActive(true);
-		back_game.SetActive(true);
-		menu_bg.SetActive(true);
+		ui_manager.SetActive("retry", true);
+		ui_manager.SetActive("back_stage_select", true);
+		ui_manager.SetActive("back_game", true);
+		ui_manager.SetActive("menu_bg", true);
+		ui_manager.SetActive("next_stage", true);
 		pause = true;
 	});
-	back_game.SetClickedFunc([this]
+	ui_manager.SetFuncButtonUI("back_game", [this]
 	{
-		retry.SetActive(false);
-		back_stage_select.SetActive(false);
-		back_game.SetActive(false);
-		menu_bg.SetActive(false);
+		ui_manager.SetActive("retry", false);
+		ui_manager.SetActive("back_stage_select", false);
+		ui_manager.SetActive("back_game", false);
+		ui_manager.SetActive("menu_bg", false);
+		ui_manager.SetActive("next_stage", false);
 		pause = false;
 	});
 
-	menu_bg.SetActive(false);
-	clear.SetActive(false);
-	failed.SetActive(false);
-	retry.SetActive(false);
-	back_stage_select.SetActive(false);
-	next_stage.SetActive(false);
-	back_game.SetActive(false);
+	ui_manager.SetActive("menu_bg", false);
+	ui_manager.SetActive("retry", false);
+	ui_manager.SetActive("back_stage_select", false);
+	ui_manager.SetActive("back_game", false);
+	ui_manager.SetActive("next_stage", false);
+	ui_manager.SetActive("clear", false);
+	ui_manager.SetActive("failed", false);
 
 	FadeManager::Get().FadeIn(EasingManager::EasingType::LINEAR,
 		ci::Colorf::black(),
@@ -163,21 +167,21 @@ void GameMain::Setup()
 		-5.0f, 2.0f, start_delay_time - 2.0f);
 
 	EasingManager::Get().Register(
-		&(start.GetTransformP()->pos.x),
+		&(ui_manager.FindUI<FontUI>("start")->GetTransformP()->pos.x),
 		EasingManager::EasingType::LINEAR,
 		1.0f, 0.5f,
-		start.GetTransform().pos.x, -200.0f).SetEndFunc([this]
+		ui_manager.FindUI<FontUI>("start")->GetTransform().pos.x, -200.0f).SetEndFunc([this]
 	{
-		EasingManager::Get().Register(&(start.GetTransformP()->pos.x),
+		EasingManager::Get().Register(&(ui_manager.FindUI<FontUI>("start")->GetTransformP()->pos.x),
 			EasingManager::EasingType::LINEAR,
 			0.0f, 3.0f,
-			start.GetTransform().pos.x, 200.0f).SetEndFunc([this]
+			ui_manager.FindUI<FontUI>("start")->GetTransform().pos.x, 200.0f).SetEndFunc([this]
 		{
-			EasingManager::Get().Register(&(start.GetTransformP()->pos.x),
+			EasingManager::Get().Register(&(ui_manager.FindUI<FontUI>("start")->GetTransformP()->pos.x),
 				EasingManager::EasingType::LINEAR,
 				0.0f, 0.5f,
-				start.GetTransform().pos.x, 800.0f).SetEndFunc([this] {
-				start.SetActive(false);
+				ui_manager.FindUI<FontUI>("start")->GetTransform().pos.x, 800.0f).SetEndFunc([this] {
+				ui_manager.SetActive("start", false);
 				is_start = true;
 			});
 		});
@@ -200,18 +204,15 @@ void GameMain::Update()
 
 	if (!FadeManager::Get().GetisFading() && is_start)
 	{
-		retry.Update();
-		back_stage_select.Update();
-		next_stage.Update();
-		back_game.Update();
-		menu.Update();
+		ui_manager.Update();
 
-		if (!pause || is_failed || is_goal)
+		if (!pause && !is_failed && !is_goal)
 		{
 			main_camera.Update();
 
 			player_cube.Update();
 			map_manager.Update();
+			cube_cursor.Update();
 
 			CollisionPlayerToMap();
 
@@ -231,6 +232,12 @@ void GameMain::Draw(const ci::CameraOrtho &camera_ortho)
 	ci::gl::setMatrices(camera_ortho);
 	DrawUI();
 	ci::gl::popModelView();
+}
+
+void GameMain::Delete()
+{
+	ui_manager.AllDelete();
+	map_manager.AllDelete();
 }
 
 void GameMain::DrawObject()
@@ -259,16 +266,7 @@ void GameMain::DrawObject()
 void GameMain::DrawUI()
 {
 	ci::gl::translate(ci::Vec3f(0.0f, 0.0f, -10.0f));
-	menu_bg.Draw();
-	clear.Draw();
-	failed.Draw();
-	start.Draw();
-	retry.Draw();
-	back_stage_select.Draw();
-	next_stage.Draw();
-	menu.Draw();
-	back_game.Draw();
-	menu_font.Draw();
+	ui_manager.Draw();
 }
 
 void GameMain::ClickAction()
@@ -386,22 +384,22 @@ void GameMain::SearchUnderCube(const ci::Vec3i & player_map_pos)
 				-5.0f, 0.0f, 2.0f);
 		}
 
-		menu.SetActive(false);
-		menu_font.SetActive(false);
-		clear.SetActive(true);
+		ui_manager.SetActive("menu", false);
+		ui_manager.SetActive("menu_font", false);
+		ui_manager.SetActive("clear", true);
 		EasingManager::Get().Register(
-			&(clear.GetTransformP()->scale.x),
+			&(ui_manager.FindUI<FontUI>("clear")->GetTransformP()->scale.x),
 			EasingManager::EasingType::QUARTIN,
 			0.0f, 2.0f,
-			0.0f, clear.GetTransform().scale.x);
+			0.0f, ui_manager.FindUI<FontUI>("clear")->GetTransform().scale.x);
 		EasingManager::Get().Register(
-			&(clear.GetTransformP()->scale.y),
+			&(ui_manager.FindUI<FontUI>("clear")->GetTransformP()->scale.y),
 			EasingManager::EasingType::QUARTIN,
 			0.0f, 2.0f,
-			0.0f, clear.GetTransform().scale.y).SetEndFunc([this] {
+			0.0f, ui_manager.FindUI<FontUI>("clear")->GetTransform().scale.y).SetEndFunc([this] {
 			Goal();
 		});
-		clear.SetScale(ci::Vec3f::zero());
+		ui_manager.FindUI<FontUI>("clear")->SetScale(ci::Vec3f::zero());
 		break;
 
 	case CubeType::NORMAL:
@@ -542,34 +540,34 @@ void GameMain::SetFallPos(const ci::Vec3i &player_map_pos)
 	main_camera.EndMoving(target_pos,
 	-5.0f, 0.0f, 3.5f);
 
-	menu.SetActive(false);
-	menu_font.SetActive(false);
-	failed.SetActive(true);
+	ui_manager.SetActive("menu", false);
+	ui_manager.SetActive("menu_font", false);
+	ui_manager.SetActive("failed", true);
 	EasingManager::Get().Register(
-		&(failed.GetTransformP()->pos.y),
+		&(ui_manager.FindUI<FontUI>("failed")->GetTransformP()->pos.y),
 		EasingManager::EasingType::BOUNCEOUT,
 		0.0f, 3.5f,
-		600.0f, failed.GetTransform().pos.y).SetEndFunc([this] {
+		600.0f, ui_manager.FindUI<FontUI>("failed")->GetTransform().pos.y).SetEndFunc([this] {
 		Failed();
 	});
-	failed.SetPos(clear.GetTransform().pos + ci::Vec3f::yAxis() * 600.0f);
+	ui_manager.FindUI<FontUI>("failed")->SetPos(ui_manager.FindUI<FontUI>("failed")->GetTransform().pos + ci::Vec3f::yAxis() * 600.0f);
 }
 
 void GameMain::Failed()
 {
-	retry.SetActive(true);
-	back_stage_select.SetActive(true);
-	menu_bg.SetActive(true);
-	menu.SetActive(false);
-	menu_font.SetActive(false);
+	ui_manager.SetActive("retry", true);
+	ui_manager.SetActive("back_stage_select", true);
+	ui_manager.SetActive("menu_bg", true);
+	ui_manager.SetActive("menu", false);
+	ui_manager.SetActive("menu_font", false);
 }
 
 void GameMain::Goal()
 {
-	retry.SetActive(true);
-	back_stage_select.SetActive(true);
-	menu_bg.SetActive(true);
-	menu.SetActive(false);
-	menu_font.SetActive(false);
-	next_stage.SetActive(true);
+	ui_manager.SetActive("retry", true);
+	ui_manager.SetActive("back_stage_select", true);
+	ui_manager.SetActive("menu_bg", true);
+	ui_manager.SetActive("menu", false);
+	ui_manager.SetActive("menu_font", false);
+	ui_manager.SetActive("next_stage", true);
 }

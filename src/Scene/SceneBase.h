@@ -6,8 +6,7 @@
 #include "../Utility/Manager/TextureManager/TextureManager.h"
 #include "../Utility/Manager/SoundManager/SoundManager.h"
 #include "../Utility/Manager/ModelManager/ModelManager.h"
-#include "../Object/GameObject/UIBase/TextureUI/ButtonUI/ButtonUI.h"
-#include "../Object/GameObject/UIBase/FontUI/FontUI.h"
+#include "../Object/UIManager/UIManager.h"
 
 enum class SceneType
 {
@@ -34,6 +33,7 @@ public:
 	virtual void Setup() = 0;
 	virtual void Update() = 0;
 	virtual void Draw(const ci::CameraOrtho &camera_ortho) = 0;
+	virtual void Delete() = 0;
 
 protected:
 

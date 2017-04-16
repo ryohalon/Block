@@ -21,6 +21,7 @@ public:
 	void Setup() override;
 	void Update() override;
 	void Draw(const ci::CameraOrtho &camera_ortho) override;
+	void Delete() override;
 
 private:
 
@@ -35,6 +36,5 @@ private:
 	SkyDome sky_dome;
 	ActionType action_type;
 
-	std::vector<ButtonUI> buttons;
-	std::vector<FontUI> fonts;
+	UIManager ui_manager;
 };

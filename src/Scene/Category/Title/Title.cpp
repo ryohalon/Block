@@ -21,12 +21,14 @@ void Title::Resize(const float &window_ratio)
 
 void Title::Setup()
 {
-	ci::JsonTree params(ci::app::loadAsset("LoadFile/UIData/Title.json"));
+	ci::JsonTree params(ci::app::loadAsset("LoadFile/UIData/TitleLogo.json"));
 	titlelogo_trans.pos = GetVec3f(params["title_logo.pos"]);
 	titlelogo_trans.angle = GetVec3f(params["title_logo.angle"]);
 	titlelogo_trans.scale = GetVec3f(params["title_logo.scale"]);
 	rotate_speed = params["title_logo"].getValueForKey<float>("rotate_speed");
-	click_start.Setup(params["click_start"]);
+
+	params = ci::JsonTree(ci::app::loadAsset("LoadFile/UIData/Title.json"));
+	ui_namager.Setup(params);
 
 	next_scene = SceneType::STAGESELECT;
 	camera_persp = ci::CameraPersp(ci::app::getWindowWidth(),
@@ -57,6 +59,8 @@ void Title::Update()
 
 	if (!FadeManager::Get().GetisFading())
 	{
+		ui_namager.Update();
+
 		if (Mouse::Get().IsPushButton(ci::app::MouseEvent::LEFT_DOWN))
 		{
 			SoundManager::Get().GetSound("Select").Play();
@@ -82,6 +86,11 @@ void Title::Draw(const ci::CameraOrtho &camera_ortho)
 	ci::gl::popModelView();
 }
 
+void Title::Delete()
+{
+	ui_namager.AllDelete();
+}
+
 void Title::DrawObject()
 {
 	sky_dome.Draw();
@@ -101,5 +110,5 @@ void Title::DrawObject()
 void Title::DrawUI()
 {
 	ci::gl::translate(0.0f, 0.0f, -10.0f);
-	click_start.Draw();
+	ui_namager.Draw();
 }

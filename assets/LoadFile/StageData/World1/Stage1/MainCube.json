@@ -1,5 +1,5 @@
 {
-  "move_take_time": 1.0,
+  "move_take_time": 0.05,
   "fall_take_time": 1.0,
   "start_move_direction": 0
 }

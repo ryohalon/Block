@@ -1,36 +1,48 @@
-{
-  "menu_bg": {
+[
+  {
+    "type": "texture",
+    "name": "menu_bg",
     "pos": [ 0.0, 0.0, -10.0 ],
     "size": [ 500.0, 300.0 ],
     "texture_name": "UIIcon",
     "color": [ 1.0, 1.0, 1.0, 1.0 ]
   },
-  "clear": {
+  {
+    "type": "texture",
+    "name": "clear",
     "pos": [ 0.0, 50.0, 1.0 ],
     "size": [ 350.0, 80.0 ],
     "texture_name": "Clear",
     "color": [ 1.0, 1.0, 1.0, 1.0 ]
   },
-  "failed": {
+  {
+    "type": "texture",
+    "name": "failed",
     "pos": [ 0.0, 50.0, 1.0 ],
     "size": [ 350.0, 80.0 ],
     "texture_name": "Failed",
     "color": [ 1.0, 1.0, 1.0, 1.0 ]
   },
-  "start": {
+  {
+    "type": "texture",
+    "name": "start",
     "pos": [ -800.0, 0.0, 1.0 ],
     "size": [ 350.0, 80.0 ],
     "texture_name": "Start",
     "color": [ 1.0, 1.0, 1.0, 1.0 ]
   },
-  "menu_font": {
+  {
+    "type": "font",
+    "name": "menu_font",
     "pos": [ 560.0, 330.0, 1.0 ],
     "str": "Menu",
     "font_type": "meiryo.ttc",
     "size": 50,
     "color": [ 0.0, 0.0, 0.0, 1.0 ]
   },
-  "retry": {
+  {
+    "type": "button",
+    "name": "retry",
     "pos": [ -100.0, -100.0, 1.0 ],
     "size": [ 75.0, 75.0 ],
     "flexible_value": 10.0,
@@ -38,7 +50,9 @@
     "color": [ 1.0, 1.0, 1.0, 1.0 ],
     "texture_name": "Retry"
   },
-  "back_stage_select": {
+  {
+    "type": "button",
+    "name": "back_stage_select",
     "pos": [ 0.0, -100.0, 1.0 ],
     "size": [ 75.0, 75.0 ],
     "flexible_value": 10.0,
@@ -46,7 +60,9 @@
     "color": [ 1.0, 1.0, 1.0, 1.0 ],
     "texture_name": "BackStageSelect"
   },
-  "next_stage": {
+  {
+    "type": "button",
+    "name": "next_stage",
     "pos": [ 100.0, -100.0, 1.0 ],
     "size": [ 75.0, 75.0 ],
     "flexible_value": 10.0,
@@ -54,7 +70,9 @@
     "color": [ 1.0, 1.0, 1.0, 1.0 ],
     "texture_name": "NextStage"
   },
-  "menu": {
+  {
+    "type": "button",
+    "name": "menu",
     "pos": [ 560.0, 330.0, 0.0 ],
     "size": [ 150.0, 50.0 ],
     "flexible_value": 10.0,
@@ -62,7 +80,9 @@
     "color": [ 1.0, 1.0, 1.0, 1.0 ],
     "texture_name": "UIIcon"
   },
-  "back_game": {
+  {
+    "type": "button",
+    "name": "back_game",
     "pos": [ 220.0, 120.0, 1.0 ],
     "size": [ 50.0, 50.0 ],
     "flexible_value": 10.0,
@@ -70,4 +90,4 @@
     "color": [ 0.0, 1.0, 1.0, 1.0 ],
     "texture_name": "Back"
   }
-}
+]

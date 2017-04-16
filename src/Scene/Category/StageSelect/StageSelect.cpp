@@ -1,6 +1,8 @@
 #include "StageSelect.h"
 #include "../../../SaveData/SaveData.h"
 #include "../../../Utility/Manager/FadeManager/FadeManager.h"
+#include "../../../Object/GameObject/UIBase/TextureUI/ButtonUI/ButtonUI.h"
+#include "../../../Object/GameObject/UIBase/FontUI/FontUI.h"
 
 StageSelect::StageSelect() :
 	action_type(ActionType::WORLDSELECT)
@@ -31,18 +33,8 @@ void StageSelect::Setup()
 
 	ci::JsonTree params(ci::app::loadAsset("LoadFile/UIData/StageSelect.json"));
 	CreateStageButton(params["stage"]);
-
-	FontUI font;
-	font.Setup(params["select_stage"]);
-	fonts.push_back(font);
-
-	font.Setup(params["back_title.font"]);
-	fonts.push_back(font);
-
-	ButtonUI button;
-	button.Setup(params["back_title.button"]);
-	button.SetClickedFunc([this] { BackTitle(); });
-	buttons.push_back(button);
+	ui_manager.Setup(params["UI"]);
+	ui_manager.SetFuncButtonUI("back_title_button", [this] { BackTitle(); });
 
 	SoundManager::Get().GetSound("LargeTriangleOfSummer").SetIsLoop(true);
 	SoundManager::Get().GetSound("LargeTriangleOfSummer").Loop();
@@ -57,10 +49,7 @@ void StageSelect::Update()
 	SoundManager::Get().GetSound("LargeTriangleOfSummer").Loop();
 
 	if (!FadeManager::Get().GetisFading())
-	{
-		for (auto &button : buttons)
-			button.Update();
-	}
+		ui_manager.Update();
 
 	if (FadeManager::Get().IsFadeOutEnd())
 		is_end = true;
@@ -77,6 +66,11 @@ void StageSelect::Draw(const ci::CameraOrtho & camera_ortho)
 	ci::gl::setMatrices(camera_ortho);
 	DrawUI();
 	ci::gl::popModelView();
+}
+
+void StageSelect::Delete()
+{
+	ui_manager.AllDelete();
 }
 
 void StageSelect::CreateStageButton(const ci::JsonTree &params)
@@ -98,6 +92,8 @@ void StageSelect::CreateStageButton(const ci::JsonTree &params)
 	}
 	
 	std::vector<std::vector<int>> save_datas = SaveData::Get().GetSaveData();
+	std::vector<ButtonUI*> buttons;
+	std::vector<FontUI*> fonts;
 	for (int i = 0; i < save_datas.size(); i++)
 	{
 		int stage_num = save_datas[i].size();
@@ -108,30 +104,34 @@ void StageSelect::CreateStageButton(const ci::JsonTree &params)
 					0.0f);
 			
 			ci::Vec2f button_size_ = button_size[save_datas[i][k] / SaveData::StageStatus::LOCK];
-			ButtonUI button;
-			button.SetPos(pos);
-			button.SetScale(ci::Vec3f(button_size_.x, button_size_.y, 1.0f));
-			button.SetOriginSize(button_size[save_datas[i][k] / SaveData::StageStatus::LOCK].xy());
-			button.SetFlexibleValue(flexible_value);
-			button.SetTextureName(params["stage_button.texture_name"].getValueAtIndex<std::string>(i));
-			button.SetTakeTime(take_time);
+			ButtonUI *button = new ButtonUI();
+			button->SetPos(pos);
+			button->SetScale(ci::Vec3f(button_size_.x, button_size_.y, 1.0f));
+			button->SetOriginSize(button_size[save_datas[i][k] / SaveData::StageStatus::LOCK].xy());
+			button->SetFlexibleValue(flexible_value);
+			button->SetTextureName(params["stage_button"].getValueForKey<std::string>("texture_name"));
+			button->SetTakeTime(take_time);
 			if (save_datas[i][k] != SaveData::StageStatus::LOCK)
-				button.SetClickedFunc([this, i, k] {GoStage(i + 1, k + 1); });
-			button.SetColor(button_color[save_datas[i][k]]);
+				button->SetClickedFunc([this, i, k] {GoStage(i + 1, k + 1); });
+			button->SetColor(button_color[save_datas[i][k]]);
 			buttons.push_back(button);
 
-			FontUI font;
-			font.SetStr(std::to_string(k + 1));
-			font.SetPos(pos);
+			FontUI *font = new FontUI();
+			font->SetStr(std::to_string(k + 1));
+			font->SetPos(pos + ci::Vec3f(0, 0, 1));
 			std::string font_path = "Resource/Font/" + params.getValueForKey<std::string>("font.font_type");
-			font.SetFont(ci::Font(ci::app::loadAsset(font_path),
+			font->SetFont(ci::Font(ci::app::loadAsset(font_path),
 				params["font.size"].getValueAtIndex<int>(save_datas[i][k] / SaveData::StageStatus::LOCK)));
-			font.SetColor(GetColorAf(params["font.color"]));
+			font->SetColor(GetColorAf(params["font.color"]));
 
 			fonts.push_back(font);
 		}
 	}
 
+	for (int i = 0; i < buttons.size(); i++)
+		ui_manager.AddUI("stage" + std::to_string(i + 1) + "button", buttons[i]);
+	for (int i = 0; i < fonts.size(); i++)
+		ui_manager.AddUI("stage" + std::to_string(i + 1) + "font", fonts[i]);
 }
 
 void StageSelect::GoStage(const int &world, const int &stage)
@@ -167,10 +167,5 @@ void StageSelect::DrawUI()
 {
 	ci::gl::translate(ci::Vec3f(0.0f, 0.0f, -10.0f));
 
-	for (auto &button : buttons)
-		button.Draw();
-
-	ci::gl::translate(ci::Vec3f(0.0f, 0.0f, 1.0f));
-	for (auto &font : fonts)
-		font.Draw();
+	ui_manager.Draw();
 }

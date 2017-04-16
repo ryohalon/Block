@@ -139,6 +139,9 @@
     <Filter Include="Source Files\Object\GameObject\CubeCursor">
       <UniqueIdentifier>{5781b1d4-8fb1-455c-a571-fe122c13c427}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Object\UIManager">
+      <UniqueIdentifier>{61bdea4e-fd92-4a9b-90fe-5f9e554914d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -258,6 +261,9 @@
     <ClInclude Include="..\src\Object\GameObject\CubeCursor\CubeCurosr.h">
       <Filter>Source Files\Object\GameObject\CubeCursor</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Object\UIManager\UIManager.h">
+      <Filter>Source Files\Object\UIManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -344,6 +350,9 @@
     </ClCompile>
     <ClCompile Include="..\src\Object\GameObject\CubeCursor\CubeCurosr.cpp">
       <Filter>Source Files\Object\GameObject\CubeCursor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Object\UIManager\UIManager.cpp">
+      <Filter>Source Files\Object\UIManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

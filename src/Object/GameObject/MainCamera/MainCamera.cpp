@@ -97,17 +97,17 @@ void MainCamera::StartMoving(const ci::Vec3f & target_pos, const float & end_dis
 
 	EasingManager::Get().Register(
 		&(transform.pos.x),
-		EasingManager::EasingType::BACKOUT,
+		EasingManager::EasingType::QUARTOUT,
 		delay_time, take_time,
 		move_start_pos.x, transform.pos.x);
 	EasingManager::Get().Register(
 		&(transform.pos.y),
-		EasingManager::EasingType::BACKOUT,
+		EasingManager::EasingType::QUARTOUT,
 		delay_time, take_time,
 		move_start_pos.y, transform.pos.y);
 	EasingManager::Get().Register(
 		&(transform.pos.z),
-		EasingManager::EasingType::BACKOUT,
+		EasingManager::EasingType::QUARTOUT,
 		delay_time, take_time,
 		move_start_pos.z, transform.pos.z);	
 }
@@ -121,17 +121,17 @@ void MainCamera::EndMoving(const ci::Vec3f & target_pos,
 
 	EasingManager::Get().Register(
 		&(transform.pos.x),
-		EasingManager::EasingType::BACKOUT,
+		EasingManager::EasingType::QUARTOUT,
 		delay_time, take_time,
 		transform.pos.x, move_end_pos.x);
 	EasingManager::Get().Register(
 		&(transform.pos.y),
-		EasingManager::EasingType::BACKOUT,
+		EasingManager::EasingType::QUARTOUT,
 		delay_time, take_time,
 		transform.pos.y, move_end_pos.y);
 	EasingManager::Get().Register(
 		&(transform.pos.z),
-		EasingManager::EasingType::BACKOUT,
+		EasingManager::EasingType::QUARTOUT,
 		delay_time, take_time,
 		transform.pos.z, move_end_pos.z);
 }

@@ -55,6 +55,7 @@ public:
 
 	void Reset();
 	void ClickCube(CubeBase *cube);
+	void AllDelete();
 
 private:
 

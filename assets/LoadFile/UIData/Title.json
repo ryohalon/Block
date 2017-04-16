@@ -1,16 +1,11 @@
-{
-  "title_logo": {
-    "pos": [ 0.0, 1.0, 0.0 ],
-    "angle": [ 0.0, 0.0, 0.0 ],
-    "scale": [ 2.5, 2.5, 2.5 ],
-    "rotate_speed": -20.0
-  },
-
-  "click_start": {
+[
+  {
+    "type": "font",
+    "name": "click_start",
     "pos": [ 0.0, -200.0, 0.0 ],
     "str": "Click Start",
     "font_type": "meiryo.ttc",
     "size": 100,
     "color": [ 0.0, 0.0, 0.0, 1.0 ]
   }
-}
+]

@@ -4,6 +4,7 @@
 #include "../../../Utility/Manager/EasingManager/EasingManager.h"
 
 
+
 class UIBase : public GameObject
 {
 public:
@@ -39,19 +40,4 @@ public:
 	}
 	virtual void Update() override {}
 	virtual void Draw() override {}
-
-	virtual bool IsCollisionMouse(const ci::Vec2i &mouse_pos)
-	{
-		// ウィンドウ中心に０，０で合わせているため
-		// マウスの座標を修正
-		ci::Vec2i mouse_pos_ = ci::Vec2i(mouse_pos.x - ci::app::getWindowWidth() / 2,
-			ci::app::getWindowHeight() / 2 - mouse_pos.y);
-
-		if (mouse_pos_.x < transform.pos.x - transform.scale.x / 2.0f || mouse_pos_.x > transform.pos.x + transform.scale.x / 2.0f)
-			return false;
-		if (mouse_pos_.y < transform.pos.y - transform.scale.y / 2.0f || mouse_pos_.y > transform.pos.y + transform.scale.y / 2.0f)
-			return false;
-
-		return true;
-	}
 };

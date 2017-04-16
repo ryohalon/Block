@@ -19,8 +19,10 @@ public:
 private:
 
 	float time;
+	float take_time;
 	ci::Vec3f cursor_pos;
 	float default_cursor_pos_y;
 	ci::Matrix44f stage_matrix;
 	ci::gl::Material material;
+	float move_range;
 };
